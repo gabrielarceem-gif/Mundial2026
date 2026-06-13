@@ -162,6 +162,27 @@ td.pts{font-family:'Orbitron';font-weight:700;font-size:15px;color:var(--cian)}
 .pick b{color:var(--ink)}
 .pick.fuego{border-left-color:var(--magenta)}
 .pick.fuego .n{color:var(--magenta);text-shadow:var(--glow-m)}
+.favtitle{font-family:'Orbitron';font-weight:700;text-transform:uppercase;letter-spacing:2px;font-size:17px;margin:6px 0 2px;display:flex;align-items:center;gap:8px;
+  background:linear-gradient(92deg,var(--amar),var(--magenta));-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 10px rgba(255,210,60,.4))}
+.favgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;margin-top:10px}
+.fav{background:linear-gradient(160deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:9px;padding:12px 14px;position:relative;overflow:hidden;transition:.2s}
+.fav::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--cian)}
+.fav:hover{transform:translateY(-2px);border-color:var(--cian);box-shadow:0 0 20px rgba(0,240,255,.2)}
+.fav.oro::before{background:linear-gradient(180deg,#FFD23C,#FF8A00)}.fav.oro{border-color:rgba(255,210,60,.5)}
+.fav.plata::before{background:linear-gradient(180deg,#D8E0FF,#8A93C7)}
+.fav.bronce::before{background:linear-gradient(180deg,#FFB37A,#C77B3C)}
+.fav .rk{font-family:'Orbitron';font-weight:900;font-size:26px;line-height:1;color:var(--cian);float:right;opacity:.55}
+.fav.oro .rk{color:var(--amar);opacity:.9;text-shadow:0 0 14px rgba(255,210,60,.6)}
+.fav .medalla{font-size:20px;float:right;margin-left:6px}
+.fav h4{font-family:'Rajdhani';font-weight:700;font-size:20px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px}
+.fav .grp{font-size:11px;color:var(--ink-dim);font-family:'Rajdhani';letter-spacing:1px;text-transform:uppercase}
+.fav .prob{font-family:'Orbitron';font-weight:700;font-size:22px;margin-top:8px;color:var(--lima)}
+.fav.oro .prob{color:var(--amar)}
+.fav .problbl{font-size:10px;color:var(--ink-dim);font-family:'Rajdhani';letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:2px}
+.fav .meterbg{height:7px;background:rgba(120,130,220,.16);border-radius:4px;margin-top:8px;overflow:hidden}
+.fav .meter{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--cian),var(--magenta))}
+.fav.oro .meter{background:linear-gradient(90deg,var(--amar),var(--magenta))}
+.fav .src{font-size:10.5px;color:var(--ink-dim);margin-top:7px;font-style:italic}
 .emptynote{color:var(--ink-dim);font-size:13px;margin-top:12px;font-style:italic}
 .box{background:linear-gradient(160deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:8px;padding:16px;margin-top:14px}
 .box ol{margin:8px 0 0 18px;font-size:13px;color:var(--ink-dim);line-height:1.7}
@@ -284,7 +305,8 @@ footer{margin-top:50px;border-top:1px solid var(--line);padding-top:14px;font-si
   <div class="h2row"><h2><span class="gl">//</span> Picks</h2>
     <button class="help" data-help="picks" aria-label="Ayuda">?</button></div>
   <div class="helpbox" id="help-picks" hidden></div>
-  <p class="note">Cuando haya partidos jugados, este ranking se recalcula con lo que pasa en el Mundial. Mientras tanto, la previa del 12/06.</p>
+  <div id="favoritos"></div>
+  <p class="note" style="margin-top:20px">Cuando haya partidos jugados, este ranking se recalcula con lo que pasa en el Mundial. Mientras tanto, la previa del 12/06.</p>
   <div id="picksLive"></div>
   <h3 class="tt">Previa · Los 5 en mejor forma (12/06)</h3>
   <div class="pick"><span class="n">1</span><p><b>Argentina</b> — 8 de 9 ganados, 14-1. Gana sin recibir gol.</p></div>
@@ -416,7 +438,7 @@ const STAGE_ES={GROUP_STAGE:"Fase de grupos",LAST_32:"16avos",LAST_16:"Octavos",
 
 /* ============ AYUDAS ============ */
 const HELP={
- hoy:'<h5>¿Cómo se arma cada predicción? (3 capas)</h5>Cada barra combina tres fuentes: <b style="color:var(--lima)">Capa A</b> = tu modelo de forma (previa + torneo). <b style="color:var(--cian)">Capa B</b> = cuotas reales de OddsPapi (con Pinnacle de referencia). <b style="color:var(--violeta)">Capa C</b> = cuotas de SportsGameOdds (requiere su plan pago; si tu cuenta es free, esta capa queda en 0% y se usa OddsPapi). Se fusionan con los pesos que vos elegís en Ajustes (por defecto 20/50/30, el mercado pesa más porque es más fiable). El color sigue al resultado: <b style="color:var(--lima)">verde</b>=más probable, <b style="color:var(--amar)">amarillo</b>=empate, <b style="color:var(--rojo)">rojo</b>=menos probable. El "≈ 2-1" es un marcador estimado por promedios de goles. Tocá el <b>?</b> de cada partido para ver las 3 capas por separado y cómo se fusionan. Si no cargaste cuotas todavía, la predicción usa solo la Capa A.',
+ hoy:'<h5>¿Cómo se arma cada predicción? (3 capas)</h5>Cada barra combina tres fuentes: <b style="color:var(--lima)">Capa A</b> = tu modelo de forma (previa + torneo). <b style="color:var(--cian)">Capa B</b> = cuotas reales de OddsPapi (con Pinnacle de referencia). <b style="color:var(--violeta)">Capa C</b> = cuotas de SportsGameOdds (requiere su plan pago; si tu cuenta es free, esta capa queda en 0% y se usa OddsPapi). Se fusionan con los pesos que vos elegís en Ajustes (por defecto 20/50/30, el mercado pesa más porque es más fiable). El color sigue al resultado: <b style="color:var(--lima)">verde</b>=más probable, <b style="color:var(--amar)">amarillo</b>=empate, <b style="color:var(--rojo)">rojo</b>=menos probable. El "≈ 2-1" es un marcador estimado por promedios de goles. Tocá el <b>?</b> de cada partido para ver las 3 capas por separado y cómo se fusionan. Si no cargaste cuotas todavía, la predicción usa solo la Capa A.<br><br><b>¿Qué son los números de las cuotas?</b> Cada partido muestra cuánto paga cada resultado: <b>🏠 local</b>, <b>🤝 empate (la "X")</b> y <b>✈️ visitante</b>. El número es la cuota decimal: por cada $1, te devuelve eso si acertás. Cuota baja = favorito (ej. 1.74 = muy probable); cuota alta = poco probable (ej. 5.29 = batacazo). También verás <b>⚽ línea de goles</b> (más/menos de X goles) y <b>🥅 ambos marcan</b> cuando OddsPapi los trae. Todo son cuotas reales de Pinnacle, mostradas solo como referencia — <b>no es una invitación a apostar</b>.',
  grupos:'<h5>¿Cómo se ordena la tabla? (reglamento FIFA)</h5>La app ordena por: <b>1)</b> puntos (3 victoria, 1 empate), <b>2)</b> diferencia de goles general, <b>3)</b> goles a favor general. Avanzan <b>los 2 primeros de cada grupo + los 8 mejores terceros</b> (32 a 16avos).<br><br>El reglamento FIFA, si sigue el empate tras esos 3, continúa con enfrentamiento directo (puntos, diferencia y goles entre los igualados), luego fair-play (menos tarjetas) y por último sorteo. <b>Aviso honesto:</b> la app automatiza solo los 3 criterios principales; los desempates finos (head-to-head, fair-play) no están calculados porque el plan gratuito de Football-Data no trae tarjetas por partido de forma fiable. La franja verde marca la zona de clasificación directa (top 2).',
  resultados:'<h5>¿Qué es una sorpresa 🔥?</h5>Al cargar un resultado, lo comparo con lo que el modelo había estimado para ese cruce (usando solo partidos previos, sin "ver el futuro"). Si gana el equipo al que el modelo daba <b>menos del 35%</b>, lo marco con 🔥 y resalto la tarjeta en magenta. Es la forma de cazar batacazos.',
  equipos:'<h5>¿Qué significa cada métrica?</h5><b>En el Mundial</b> = lo hecho en el torneo (se actualiza con cada sync). <b>O2.5</b> = % de partidos con +2.5 goles. <b>BTTS</b> = % en que ambos marcaron. <b>Previa</b> = lo mismo de los meses ANTES del Mundial, para comparar expectativa vs realidad. <b>Borde:</b> <b style="color:var(--lima)">verde</b>=gran forma, <b style="color:var(--amar)">amarillo</b>=neutro, <b style="color:var(--rojo)">rojo</b>=alerta. El recuadro 🔥 es el dato más llamativo.',
@@ -513,14 +535,27 @@ function fusion(L,V,st){
   return{G,E,P,A,B,C,od,pesos:{wA:Math.round(100*wA/tot),wB:Math.round(100*wB/tot),wC:Math.round(100*wC/tot)},hayMercado:!!(B||C)};
 }
 /* marcador aproximado por promedios de goles (previa + torneo) */
-function marcadorAprox(L,V,st){
+function marcadorAprox(L,V,st,prob){
   const sL=st[L],sV=st[V];
   const gfL=sL.pj?(TEAMS[L].gf+sL.gf/sL.pj)/2:TEAMS[L].gf;
   const gcL=sL.pj?(TEAMS[L].gc+sL.gc/sL.pj)/2:TEAMS[L].gc;
   const gfV=sV.pj?(TEAMS[V].gf+sV.gf/sV.pj)/2:TEAMS[V].gf;
   const gcV=sV.pj?(TEAMS[V].gc+sV.gc/sV.pj)/2:TEAMS[V].gc;
-  const eL=(gfL+gcV)/2,eV=(gfV+gcL)/2;
-  return Math.round(eL)+"-"+Math.round(eV);
+  let eL=(gfL+gcV)/2,eV=(gfV+gcL)/2;
+  /* si tengo la prob de la fusión, inclino los goles esperados hacia el favorito
+     para que el marcador NO contradiga la barra (ej: favorito claro no debe dar empate) */
+  if(prob){
+    const dif=(prob.G-prob.P)/100;        /* + favorece local, - favorece visita */
+    eL+=dif*0.9; eV-=dif*0.9;
+  }
+  eL=Math.max(0,eL); eV=Math.max(0,eV);
+  let gL=Math.round(eL),gV=Math.round(eV);
+  /* coherencia final: el claramente favorito (>=12 puntos de ventaja) no puede quedar empatado o por debajo */
+  if(prob){
+    if(prob.G-prob.P>=12 && gL<=gV) gL=gV+1;
+    if(prob.P-prob.G>=12 && gV<=gL) gV=gL+1;
+  }
+  return gL+"-"+gV;
 }
 function lineasSugeridas(L,V){
   const o1=pctPrev(TEAMS[L].ou,true),o2=pctPrev(TEAMS[V].ou,true);
@@ -554,7 +589,7 @@ function whyHTML(L,V,f,st){
     '<div class="capa cc"><h5>🟣 Capa C · SportsGameOdds <span class="badge '+(f.C?"on":"off")+'">'+(f.C?"activa":"sin datos")+'</span></h5><div class="pp">'+capaLinea(L,V,f.C)+'</div>'+
       '<div class="det">'+(od&&od.sgo?'Cuotas: '+cuotaTxt(od.sgo)+' — segunda fuente para contrastar.':'Segunda casa de verificación; se llena al actualizar cuotas.')+'</div></div>'+
     '<div class="capa fusion"><h5>⚡ Fusión final ('+f.pesos.wA+'/'+f.pesos.wB+'/'+f.pesos.wC+')</h5><div class="pp">'+capaLinea(L,V,{G:f.G,E:f.E,P:f.P})+'</div>'+
-      '<div class="det">Promedio ponderado de las capas disponibles. '+(f.hayMercado?'El mercado pesa más por ser la señal más fiable.':'Solo Capa A: cargá cuotas para sumar el mercado.')+' Marcador aprox: ≈ '+marcadorAprox(L,V,st)+'. Modelo casero, no cuota oficial.</div></div>'+
+      '<div class="det">Promedio ponderado de las capas disponibles. '+(f.hayMercado?'El mercado pesa más por ser la señal más fiable.':'Solo Capa A: cargá cuotas para sumar el mercado.')+' Marcador aprox: ≈ '+marcadorAprox(L,V,st,{G:f.G,E:f.E,P:f.P})+'. Modelo casero, no cuota oficial.</div></div>'+
     '</div>';
 }
 
@@ -599,14 +634,25 @@ function renderHoy(){
     let cuerpo="",aprox="",qbtn="";
     if(conPred&&!jugado){
       const ff=fusion(f.L,f.V,st);
-      aprox='<span class="aprox">≈ '+marcadorAprox(f.L,f.V,st)+'</span>';
+      aprox='<span class="aprox">≈ '+marcadorAprox(f.L,f.V,st,{G:ff.G,E:ff.E,P:ff.P})+'</span>';
       const sugs=lineasSugeridas(f.L,f.V);
       const od=ff.od;
+      const odKey=oddsKey(f.L,f.V),mktExtra=(state.odds[odKey]||{}).mkt;
       let mkt="";
       if(od&&(od.op||od.sgo)){const src=od.op||od.sgo;const menor=f.L<f.V?f.L:f.V;const oL=menor===f.L?src.H:src.A,oA=menor===f.L?src.A:src.H;
-        mkt='<div class="mkt"><span>📊 '+esc(nL)+' '+oL.toFixed(2)+'</span><span>X '+src.D.toFixed(2)+'</span><span>'+esc(nV)+' '+oA.toFixed(2)+'</span></div>';}
+        /* etiquetas claras: cuánto paga cada resultado (cuota decimal). 1=local, X=empate, 2=visita */
+        mkt='<div class="mkt"><span title="Si gana '+esc(nL)+', cada $1 paga esto">🏠 '+esc(nL)+' paga '+oL.toFixed(2)+'</span>'+
+          '<span title="Si empatan">🤝 Empate paga '+src.D.toFixed(2)+'</span>'+
+          '<span title="Si gana '+esc(nV)+'">✈️ '+esc(nV)+' paga '+oA.toFixed(2)+'</span></div>';}
       else mkt='<div class="mkt"><span class="nodata">Cuotas no cargadas — usando solo tu modelo</span></div>';
-      cuerpo=barraHTML(f.L,f.V,ff)+mkt+'<div class="sug">'+sugs.map(s=>'<span class="'+(s[1]?"v":"")+'">'+esc(s[0])+'</span>').join("")+'</div>'+whyHTML(f.L,f.V,ff,st);
+      /* fila de mercados reales extra (ambos marcan + over/under con su linea) si OddsPapi los trajo */
+      let mktx="";
+      if(mktExtra){const partes=[];
+        if(mktExtra.ou)partes.push('<span title="Total de goles del partido">⚽ Más de '+esc(mktExtra.ou.linea)+' goles paga '+(+mktExtra.ou.over).toFixed(2)+' · Menos paga '+(+mktExtra.ou.under).toFixed(2)+'</span>');
+        if(mktExtra.btts)partes.push('<span title="¿Marcan los dos equipos?">🥅 Ambos marcan: Sí '+(+mktExtra.btts.si).toFixed(2)+' · No '+(+mktExtra.btts.no).toFixed(2)+'</span>');
+        if(partes.length)mktx='<div class="mkt" style="margin-top:6px">'+partes.join("")+'</div>';
+      }
+      cuerpo=barraHTML(f.L,f.V,ff)+mkt+mktx+'<div class="sug">'+sugs.map(s=>'<span class="'+(s[1]?"v":"")+'">'+esc(s[0])+'</span>').join("")+'</div>'+whyHTML(f.L,f.V,ff,st);
       qbtn='<button class="qbtn" data-why="'+i+'" aria-label="Por qué">?</button>';
     }
     if(conPred&&jugado)cuerpo='<div class="sug"><span>Final: '+esc(nL)+' '+f.gl+'–'+f.gv+' '+esc(nV)+'</span></div>';
@@ -631,6 +677,53 @@ function renderEquipos(){
      '<div class="dato">🔥 '+t.dato+'</div></div>');
    });
 }
+function favoritosTitulo(st){
+  /* fuerza para ganar el Mundial por equipo:
+     - base por rating (tier + forma en el torneo) elevado para acentuar a los fuertes
+     - señal de mercado: si OddsPapi dejó cuotas de algún partido del equipo, uso su prob de ganar (de-vig) como ajuste
+     Luego normalizo todas las fuerzas a 100% para leerlo como "chance relativa de salir campeón". */
+  const arr=Object.keys(TEAMS).map(id=>{
+    const r=rating(id,st).total;                 /* ~58 a ~90 */
+    /* bonus por forma de la previa: G=+2, E=+0.5, P=-1 (separa a los top entre sí) */
+    let fb=0;for(const c of (TEAMS[id].forma||"")){if(c==="G")fb+=2;else if(c==="E")fb+=0.5;else if(c==="P")fb-=1;}
+    let fuerza=Math.pow(Math.max(1,r+fb-45),2.4);  /* exponencial: premia a los top */
+    /* señal de mercado: promedio de su prob de ganar en los partidos con cuotas */
+    let mq=0,nq=0;
+    for(const[key,od]of Object.entries(state.odds)){
+      if(!key.includes(id))continue;
+      const src=od.op||od.sgo;if(!src)continue;
+      const dv=devig(src);if(!dv)continue;
+      const menor=key.split("_")[0];
+      const probGana=(menor===id)?dv.G:dv.P;     /* G = equipo "menor" del par */
+      mq+=probGana;nq++;
+    }
+    if(nq){const factorMercado=0.6+(mq/nq)/50;fuerza*=factorMercado;} /* cuotas ajustan +/- */
+    return {id,fuerza,hayMercado:nq>0};
+  });
+  const tot=arr.reduce((a,x)=>a+x.fuerza,0)||1;
+  arr.forEach(x=>x.prob=100*x.fuerza/tot);
+  arr.sort((a,b)=>b.prob-a.prob);
+  return arr;
+}
+function renderFavoritos(){
+  const cont=$("#favoritos");if(!cont)return;
+  const st=statsTorneo(),favs=favoritosTitulo(st).slice(0,8);
+  const algoMercado=favs.some(f=>f.hayMercado);
+  const medalla=["🥇","🥈","🥉"];
+  const cards=favs.map((f,i)=>{
+    const t=TEAMS[f.id],cls=i===0?"oro":i===1?"plata":i===2?"bronce":"";
+    const ancho=Math.min(100,Math.round(f.prob/favs[0].prob*100));
+    return '<div class="fav '+cls+'">'+
+      (i<3?'<span class="medalla">'+medalla[i]+'</span>':'<span class="rk">'+(i+1)+'</span>')+
+      '<h4>'+t.n+'</h4><span class="grp">Grupo '+t.g+(t.tier==="top"?' · en forma':'')+'</span>'+
+      '<div class="prob"><span class="problbl">Chance de ser campeón (estimada)</span>'+f.prob.toFixed(1)+'%</div>'+
+      '<div class="meterbg"><div class="meter" style="width:'+ancho+'%"></div></div>'+
+      '<div class="src">'+(f.hayMercado?'Modelo + cuotas reales':'Modelo de forma (sin cuotas aún)')+'</div></div>';
+  }).join("");
+  cont.innerHTML='<div class="favtitle">🏆 Favoritos al título</div>'+
+    '<p class="note" style="margin-top:4px">Ranking estimado de quién tiene más chances de ganar el Mundial, combinando forma y '+(algoMercado?'cuotas reales de OddsPapi':'tu modelo (cargá cuotas para afinarlo)')+'. Es una estimación para picarse entre amigos, <b>no asesoramiento de apuestas</b>.</p>'+
+    '<div class="favgrid">'+cards+'</div>';
+}
 function renderPicksLive(){
   const cont=$("#picksLive"),st=statsTorneo(),jugados=Object.keys(TEAMS).filter(id=>st[id].pj>0);
   if(jugados.length<2){cont.innerHTML="";return;}
@@ -646,7 +739,7 @@ function renderPicksLive(){
     btts.forEach(id=>{const s=st[id];html+='<div class="pick"><span class="n">●</span><p><b>'+TEAMS[id].n+'</b> — ambos marcaron en '+s.btts+' de '+s.pj+' '+(s.pj===1?"partido":"partidos")+'.</p></div>';});}
   cont.innerHTML=html;
 }
-function renderTodo(){renderGrupos();renderPartidos();renderEquipos();renderHoy();renderPicksLive();
+function renderTodo(){renderGrupos();renderPartidos();renderEquipos();renderHoy();renderFavoritos();renderPicksLive();
   const od=state.lastOdds?", cuotas "+new Date(state.lastOdds).toLocaleTimeString("es"):"";
   $("#statusline").innerHTML='Sync: <b>'+(state.lastSync?new Date(state.lastSync).toLocaleString("es"):"nunca")+'</b> · '+state.results.length+' resultados'+od;}
 
@@ -705,6 +798,14 @@ function guardarOdds(L,V,fuente,H,D,A){
   state.odds[key]=state.odds[key]||{};
   state.odds[key][fuente]=o;state.odds[key].ts=Date.now();
 }
+/* mercados extra (no dependen de orden local/visita): ambos marcan + over/under con su linea */
+function guardarMercados(L,V,m){
+  if(!L||!V||!m)return;
+  const key=oddsKey(L,V);
+  state.odds[key]=state.odds[key]||{};
+  state.odds[key].mkt=Object.assign(state.odds[key].mkt||{},m);
+  state.odds[key].ts=Date.now();
+}
 async function actualizarCuotas(btn){
   const msg=$("#msgApi");msg.className="msg";if(btn){btn.disabled=true;btn.dataset.t=btn.textContent;btn.textContent="Trayendo cuotas…";}
   let nOP=0,nSGO=0,errs=[];
@@ -732,6 +833,22 @@ async function actualizarCuotas(btn){
       if(m&&m.outcomes){const o=m.outcomes;
         const H=o["101"]?.players?.["0"]?.price,D=o["102"]?.players?.["0"]?.price,A=o["103"]?.players?.["0"]?.price;
         if(H&&D&&A){guardarOdds(L,V,"op",+H,+D,+A);nOP++;}}
+      /* mercados extra de la MISMA casa: 104=Ambos marcan (104 Si/105 No), 106=Over/Under con linea (handicap) */
+      if(src&&src.markets){const mk={};
+        const btts=src.markets["104"];
+        if(btts&&btts.outcomes){const si=btts.outcomes["104"]?.players?.["0"]?.price,no=btts.outcomes["105"]?.players?.["0"]?.price;
+          if(si&&no)mk.btts={si:+si,no:+no};}
+        const ou=src.markets["106"]||src.markets["1010"];
+        if(ou&&ou.outcomes){const ids=Object.keys(ou.outcomes);
+          /* la linea (handicap) suele venir en bookmakerOutcomeId tipo "2.5/over" */
+          let over=null,under=null,linea=ou.handicap??null;
+          for(const oid of ids){const pl=ou.outcomes[oid]?.players?.["0"];if(!pl)continue;
+            const lbl=(pl.bookmakerOutcomeId||"").toLowerCase();
+            if(lbl.includes("over")){over=+pl.price;const mm=lbl.match(/([\d.]+)/);if(mm)linea=mm[1];}
+            else if(lbl.includes("under"))under=+pl.price;}
+          if(over&&under)mk.ou={over,under,linea:linea!=null?(""+linea):"2.5"};}
+        if(Object.keys(mk).length)guardarMercados(L,V,mk);
+      }
     }
     if(!nOP&&conOdds.length)errs.push("OddsPapi: "+conOdds.length+" partidos con cuotas pero no pude matchear equipos/1X2");
     if(!conOdds.length)errs.push("OddsPapi: el Mundial (id 16) aún no tiene cuotas cargadas para Pinnacle");
