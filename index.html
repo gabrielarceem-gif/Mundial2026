@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mundial 2026 · Tracker de la banda</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cesped:#0C1F14;--cesped2:#102A1B;--cal:#F2EFE6;--cal-dim:#B9C2B3;--dorado:#D9A441;
+  --verde:#7FB94C;--verde-bg:rgba(127,185,76,.16);--ambar:#E8B23C;--ambar-bg:rgba(232,178,60,.15);
+  --rojo:#E06A5A;--rojo-bg:rgba(224,106,90,.16);--panel:#12281A;--linea:rgba(242,239,230,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{font-family:'IBM Plex Sans',system-ui,sans-serif;color:var(--cal);
+  background:repeating-linear-gradient(90deg,var(--cesped) 0 120px,var(--cesped2) 120px 240px);
+  min-height:100vh;font-size:15px;line-height:1.5}
+.wrap{max-width:1100px;margin:0 auto;padding:0 16px 80px}
+header{border-bottom:3px double var(--cal);padding:26px 0 14px;margin-bottom:6px;
+  display:flex;flex-wrap:wrap;align-items:flex-end;gap:8px 20px;justify-content:space-between}
+h1{font-family:'Saira Condensed',sans-serif;font-weight:800;font-size:clamp(34px,6vw,56px);
+  line-height:.9;text-transform:uppercase;letter-spacing:.5px}
+h1 .a{color:var(--dorado)}
+.sub{color:var(--cal-dim);font-size:13px;max-width:430px}
+.statusline{font-family:'Saira Condensed';font-weight:700;text-transform:uppercase;letter-spacing:1px;font-size:14px;color:var(--cal-dim)}
+.statusline b{color:var(--dorado)}
+nav{display:flex;gap:6px;flex-wrap:wrap;position:sticky;top:0;z-index:50;
+  background:linear-gradient(var(--cesped) 85%,transparent);padding:12px 0}
+nav button{font-family:'Saira Condensed';font-weight:700;text-transform:uppercase;letter-spacing:1.5px;
+  font-size:15px;color:var(--cal-dim);background:transparent;border:1px solid var(--linea);
+  padding:8px 16px;cursor:pointer;border-radius:3px}
+nav button:hover{color:var(--cal)}
+nav button[aria-selected="true"]{color:var(--cesped);background:var(--cal);border-color:var(--cal)}
+nav button:focus-visible{outline:2px solid var(--dorado);outline-offset:2px}
+section[hidden]{display:none}
+h2{font-family:'Saira Condensed';font-weight:800;text-transform:uppercase;font-size:26px;letter-spacing:1px;margin:26px 0 4px}
+h2::after{content:"";display:block;width:64px;height:3px;background:var(--dorado);margin-top:4px}
+h3.tt{font-family:'Saira Condensed';text-transform:uppercase;letter-spacing:1px;margin-top:18px;color:var(--dorado)}
+.note{color:var(--cal-dim);font-size:13px;margin:6px 0 14px}
+.note code{background:#08130C;border:1px solid var(--linea);border-radius:3px;padding:1px 5px;font-size:12px;color:#F4D9A2}
+.leyenda{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--cal-dim);margin:10px 0 4px}
+.leyenda span{display:flex;align-items:center;gap:6px}
+.dot{width:11px;height:11px;border-radius:2px;display:inline-block}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px;margin-top:14px}
+.gcard{background:var(--panel);border:1px solid var(--linea);border-radius:6px;overflow:hidden}
+.gcard h3{font-family:'Saira Condensed';font-weight:800;font-size:18px;letter-spacing:1.5px;text-transform:uppercase;
+  padding:9px 14px;border-bottom:1px solid var(--linea);display:flex;justify-content:space-between;align-items:center}
+.gcard h3 small{font-family:'IBM Plex Sans';font-weight:400;font-size:11px;color:var(--cal-dim);letter-spacing:0;text-transform:none}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th{font-weight:500;color:var(--cal-dim);font-size:11px;text-transform:uppercase;letter-spacing:.8px;text-align:right;padding:7px 6px}
+th:first-child,td:first-child{text-align:left;padding-left:14px}
+td{padding:7px 6px;text-align:right;border-top:1px solid rgba(242,239,230,.07);font-variant-numeric:tabular-nums}
+td.eq{font-weight:600;white-space:nowrap}
+td .pos{display:inline-block;width:16px;color:var(--cal-dim);font-weight:400}
+tr.clasif td:first-child{box-shadow:inset 3px 0 0 var(--verde)}
+td.pts{font-family:'Saira Condensed';font-weight:800;font-size:16px;color:var(--dorado)}
+.match{background:var(--panel);border:1px solid var(--linea);border-radius:6px;
+  display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;padding:12px 16px;margin-top:10px}
+.match .t{font-weight:600}
+.match .t.local{text-align:right}
+.match .meta{grid-column:1/-1;display:flex;justify-content:space-between;font-size:12px;color:var(--cal-dim);margin-top:2px}
+.score{font-family:'Saira Condensed';font-weight:800;font-size:30px;letter-spacing:2px;
+  background:#08130C;border:1px solid var(--linea);border-radius:4px;padding:2px 14px;font-variant-numeric:tabular-nums}
+.live{color:var(--rojo);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:1px;animation:par 1.4s infinite}
+@keyframes par{50%{opacity:.4}}
+.match .acciones{grid-column:1/-1;text-align:right}
+.match .acciones button{background:none;border:none;color:var(--cal-dim);cursor:pointer;font-size:12px;text-decoration:underline}
+.match .acciones button:hover{color:var(--rojo)}
+.daynav{display:flex;gap:8px;align-items:center;margin-top:14px;flex-wrap:wrap}
+.daynav button{font-family:'Saira Condensed';font-weight:700;font-size:18px;background:var(--panel);
+  border:1px solid var(--linea);color:var(--cal);width:42px;height:42px;border-radius:4px;cursor:pointer}
+.daynav input{background:#08130C;border:1px solid var(--linea);color:var(--cal);padding:9px 10px;border-radius:4px;font-family:inherit}
+.daynav .hoybtn{width:auto;padding:0 14px;font-size:14px;letter-spacing:1px;text-transform:uppercase}
+.pred{background:var(--panel);border:1px solid var(--linea);border-radius:6px;padding:14px 16px;margin-top:12px}
+.pred .vs{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px}
+.pred .vs .t{font-family:'Saira Condensed';font-weight:800;font-size:20px;text-transform:uppercase}
+.pred .vs .t.l{text-align:right}
+.pred .vs .mid{font-family:'Saira Condensed';font-weight:800;font-size:22px;color:var(--cal-dim);
+  background:#08130C;border:1px solid var(--linea);border-radius:4px;padding:2px 12px;font-variant-numeric:tabular-nums}
+.pred .info{font-size:12px;color:var(--cal-dim);text-align:center;margin-top:2px}
+.barra{display:flex;height:22px;border-radius:4px;overflow:hidden;margin-top:10px;font-size:11.5px;font-weight:600}
+.barra span{display:flex;align-items:center;justify-content:center;color:#10210B;min-width:34px}
+.barra .bg{background:var(--verde)}
+.barra .be{background:var(--ambar)}
+.barra .bp{background:var(--rojo);color:#3A0F0A}
+.sug{margin-top:10px;font-size:12.5px;display:flex;gap:8px;flex-wrap:wrap}
+.sug span{background:var(--ambar-bg);border:1px solid rgba(217,164,65,.5);color:#F4D9A2;border-radius:4px;padding:3px 8px}
+.sug span.v{background:var(--verde-bg);border-color:rgba(127,185,76,.5);color:var(--verde)}
+.tlist{margin-top:14px;display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:12px}
+.tcard{background:var(--panel);border:1px solid var(--linea);border-radius:6px;padding:12px 14px}
+.tcard.top{border-left:4px solid var(--verde)}
+.tcard.alerta{border-left:4px solid var(--rojo)}
+.tcard.neutro{border-left:4px solid var(--ambar)}
+.tcard h4{font-family:'Saira Condensed';font-size:19px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;display:flex;justify-content:space-between}
+.tcard h4 small{font-size:12px;color:var(--cal-dim);font-family:'IBM Plex Sans';font-weight:400;text-transform:none;letter-spacing:0}
+.fila{display:flex;justify-content:space-between;font-size:13px;margin-top:6px;color:var(--cal-dim)}
+.fila b{color:var(--cal);font-variant-numeric:tabular-nums}
+.forma{letter-spacing:3px;font-weight:700;font-family:'Saira Condensed';font-size:15px}
+.fG{color:var(--verde)}.fE{color:var(--ambar)}.fP{color:var(--rojo)}.fX{color:var(--cal-dim)}
+.dato{margin-top:8px;font-size:12.5px;background:var(--ambar-bg);border:1px solid rgba(217,164,65,.5);
+  color:#F4D9A2;border-radius:4px;padding:5px 8px}
+.chip{display:inline-block;font-size:11px;border-radius:3px;padding:1px 7px;font-weight:600}
+.chip.v{background:var(--verde-bg);color:var(--verde)}
+.chip.a{background:var(--ambar-bg);color:var(--ambar)}
+.chip.r{background:var(--rojo-bg);color:var(--rojo)}
+.pick{background:var(--panel);border:1px solid var(--linea);border-left:4px solid var(--dorado);
+  border-radius:6px;padding:12px 16px;margin-top:10px;display:flex;gap:14px;align-items:baseline}
+.pick .n{font-family:'Saira Condensed';font-weight:800;font-size:26px;color:var(--dorado);min-width:28px}
+.pick p{font-size:13.5px;color:var(--cal-dim)}
+.pick b{color:var(--cal)}
+.box{background:var(--panel);border:1px solid var(--linea);border-radius:6px;padding:16px;margin-top:14px}
+.box ol{margin:8px 0 0 18px;font-size:13px;color:var(--cal-dim);line-height:1.7}
+.box ol b{color:var(--cal)}
+label{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.8px;color:var(--cal-dim);margin:10px 0 4px}
+input,select{width:100%;max-width:460px;background:#08130C;border:1px solid var(--linea);color:var(--cal);
+  padding:9px 10px;border-radius:4px;font-family:inherit;font-size:14px}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--dorado);outline-offset:1px}
+pre{background:#08130C;border:1px solid var(--linea);border-radius:4px;padding:12px;overflow-x:auto;
+  font-size:11.5px;color:#CFE6B8;margin-top:8px;line-height:1.5;white-space:pre-wrap;word-break:break-word}
+.btn{font-family:'Saira Condensed';font-weight:700;text-transform:uppercase;letter-spacing:1.5px;font-size:15px;
+  background:var(--dorado);color:#1C1404;border:none;border-radius:4px;padding:10px 20px;cursor:pointer;margin-top:14px}
+.btn:hover{filter:brightness(1.08)}
+.btn.sec{background:transparent;color:var(--cal);border:1px solid var(--linea)}
+.btn:disabled{opacity:.5;cursor:wait}
+.msg{margin-top:10px;font-size:13px;padding:8px 10px;border-radius:4px;display:none}
+.msg.ok{display:block;background:var(--verde-bg);color:var(--verde)}
+.msg.err{display:block;background:var(--rojo-bg);color:var(--rojo)}
+.inline{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
+.inline>div{flex:1;min-width:130px}
+.scorein{display:flex;gap:8px;align-items:center}
+.scorein input{width:64px;text-align:center;font-family:'Saira Condensed';font-weight:800;font-size:20px}
+footer{margin-top:50px;border-top:1px solid var(--linea);padding-top:14px;font-size:12px;color:var(--cal-dim)}
+@media(max-width:560px){.match{padding:10px}.score{font-size:24px;padding:2px 8px}.pred .vs .t{font-size:16px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div>
+    <h1>Mundial <span class="a">2026</span><br>Tracker de la banda</h1>
+    <p class="sub">Resultados, tablas, forma, predicciones del día y picks de los 48. Datos vía Football-Data.org. Solo entretenimiento, no es asesoramiento de apuestas.</p>
+  </div>
+  <div class="statusline" id="statusline">Última sincronización: <b>nunca</b></div>
+</header>
+
+<nav role="tablist" aria-label="Secciones">
+  <button role="tab" aria-selected="true" data-tab="hoy">Hoy</button>
+  <button role="tab" aria-selected="false" data-tab="grupos">Grupos</button>
+  <button role="tab" aria-selected="false" data-tab="partidos">Partidos</button>
+  <button role="tab" aria-selected="false" data-tab="equipos">Equipos</button>
+  <button role="tab" aria-selected="false" data-tab="picks">Picks</button>
+  <button role="tab" aria-selected="false" data-tab="ajustes">Ajustes</button>
+</nav>
+
+<!-- ============ HOY ============ -->
+<section id="tab-hoy">
+  <h2>Predicciones del día</h2>
+  <p class="note">Los cruces de la fecha elegida con mi estimación G/E/P y línea sugerida, calculadas al vuelo con la previa del informe + lo que cada equipo va mostrando en el torneo. <b>Son estimaciones del modelo de la app, NO datos oficiales ni consejo de apuestas.</b></p>
+  <div class="daynav">
+    <button id="dPrev" aria-label="Día anterior">‹</button>
+    <input type="date" id="dFecha" aria-label="Elegir fecha">
+    <button id="dNext" aria-label="Día siguiente">›</button>
+    <button id="dHoy" class="hoybtn">Hoy</button>
+    <button id="dSync" class="hoybtn" style="border-color:var(--dorado);color:var(--dorado)">↻ Refrescar fixture</button>
+  </div>
+  <div class="msg" id="msgHoy"></div>
+  <div id="listaHoy"></div>
+</section>
+
+<!-- ============ GRUPOS ============ -->
+<section id="tab-grupos" hidden>
+  <h2>Fase de grupos</h2>
+  <div class="leyenda">
+    <span><span class="dot" style="background:var(--verde)"></span>Verde = favorable / victoria / clasificación</span>
+    <span><span class="dot" style="background:var(--ambar)"></span>Amarillo = neutro / empate</span>
+    <span><span class="dot" style="background:var(--rojo)"></span>Rojo = en contra / derrota</span>
+  </div>
+  <p class="note">Avanzan los 2 primeros de cada grupo + los 8 mejores terceros. Las tablas se recalculan solas con cada resultado.</p>
+  <div class="grid" id="grupos"></div>
+</section>
+
+<!-- ============ PARTIDOS ============ -->
+<section id="tab-partidos" hidden>
+  <h2>Partidos</h2>
+  <p class="note">Resultados finales (API o manuales). Los partidos en vivo se muestran pero no cuentan para las tablas hasta terminar.</p>
+  <div class="inline">
+    <button class="btn" id="btnSync2">Sincronizar con la API</button>
+    <button class="btn sec" id="btnManual">+ Cargar resultado manual</button>
+  </div>
+  <div class="box" id="formManual" hidden>
+    <div class="inline">
+      <div><label for="mLocal">Local</label><select id="mLocal"></select></div>
+      <div><label for="mVis">Visitante</label><select id="mVis"></select></div>
+      <div><label>Marcador</label>
+        <div class="scorein"><input id="mGL" type="number" min="0" value="0" aria-label="Goles local"> – <input id="mGV" type="number" min="0" value="0" aria-label="Goles visitante"></div></div>
+      <div><label for="mFase">Fase</label>
+        <select id="mFase"><option>Fase de grupos</option><option>16avos</option><option>Octavos</option><option>Cuartos</option><option>Semifinal</option><option>3er puesto</option><option>Final</option></select></div>
+      <div><label for="mFecha">Fecha</label><input id="mFecha" type="date"></div>
+    </div>
+    <button class="btn" id="btnGuardarManual">Guardar resultado</button>
+    <div class="msg" id="msgManual"></div>
+  </div>
+  <div id="listaPartidos"></div>
+</section>
+
+<!-- ============ EQUIPOS ============ -->
+<section id="tab-equipos" hidden>
+  <h2>Los 48, equipo por equipo</h2>
+  <p class="note">Arriba: lo que el equipo hace EN el Mundial (se actualiza solo). Abajo: la previa del informe (12/06/2026). Borde verde = llegaba en gran forma; amarillo = neutro; rojo = alerta.</p>
+  <div class="inline">
+    <div><label for="filtroGrupo">Filtrar por grupo</label>
+      <select id="filtroGrupo"><option value="">Todos</option></select></div>
+    <div><label for="buscaEq">Buscar</label><input id="buscaEq" placeholder="Ej.: Argentina"></div>
+  </div>
+  <div class="tlist" id="equipos"></div>
+</section>
+
+<!-- ============ PICKS ============ -->
+<section id="tab-picks" hidden>
+  <h2>Top picks de la previa</h2>
+  <p class="note">El ranking de antes del torneo (12/06/2026). Estimaciones propias — para reírse en el grupo, no para apostar la quincena.</p>
+  <h3 class="tt">Los 5 en mejor forma</h3>
+  <div class="pick"><span class="n">1</span><p><b>Argentina</b> — 8 de 9 ganados, 5 victorias seguidas con 14-1. Dato jugable: gana sin recibir gol.</p></div>
+  <div class="pick"><span class="n">2</span><p><b>Alemania</b> — 9 victorias consecutivas. Dato jugable: gana por 2 o más ante Curazao.</p></div>
+  <div class="pick"><span class="n">3</span><p><b>España</b> — invicta desde marzo de 2024; 31 oficiales sin perder. Dato jugable: over 2.5 (6 de 8).</p></div>
+  <div class="pick"><span class="n">4</span><p><b>México</b> — invicto en 2026 (7V-2E) y 12-1 en sus últimos 5. Dato jugable: pega primero.</p></div>
+  <div class="pick"><span class="n">5</span><p><b>Noruega</b> — eliminatoria 8/8 y 4+ goles por partido. Dato jugable: over 2.5 + Haaland anota.</p></div>
+  <h3 class="tt">Patrones fuertes (cualquier resultado)</h3>
+  <div class="pick"><span class="n">●</span><p><b>Canadá under 2.5</b> — 10 de sus últimos 11, contando el debut.</p></div>
+  <div class="pick"><span class="n">●</span><p><b>Bosnia: ambos marcan / 1-1</b> — BTTS en 6 de 6.</p></div>
+  <div class="pick"><span class="n">●</span><p><b>Brasil: ambos marcan</b> — 6 seguidos.</p></div>
+  <div class="pick"><span class="n">●</span><p><b>Colombia anota</b> — marcó en 9 de 10.</p></div>
+  <div class="pick"><span class="n">●</span><p><b>Francia over 2.5</b> — 9 de 10.</p></div>
+  <h3 class="tt" style="color:var(--rojo)">Alertas rojas</h3>
+  <div class="pick" style="border-left-color:var(--rojo)"><span class="n">⚠</span><p><b>Túnez</b> (1 gol en 4), <b>Ghana</b> (sin ganar en 2026), <b>Nueva Zelanda</b> (3 derrotas al hilo), <b>Curazao</b> (11 GC en 3) y <b>EE. UU.</b> (11 GC en sus últimos 4 amistosos).</p></div>
+</section>
+
+<!-- ============ AJUSTES ============ -->
+<section id="tab-ajustes" hidden>
+  <h2>Ajustes y datos</h2>
+
+  <div class="box">
+    <h3 class="tt" style="margin-top:0">Conexión a Football-Data.org</h3>
+    <p class="note">Tu token ya viene precargado. El plan free da <b>10 consultas por minuto</b> y cubre el Mundial (competición <code>WC</code>). Cada sincronización gasta 1 consulta.</p>
+    <p class="note" style="color:#F4D9A2"><b>Importante:</b> Football-Data.org no se puede llamar directo desde el navegador (bloquea por CORS y expondría tu token). Necesitás un mini-proxy gratis. Elegí abajo cómo conectarte.</p>
+    <label for="modo">Modo de conexión</label>
+    <select id="modo">
+      <option value="proxy">Vía mi proxy (recomendado) — pegá la URL de tu Worker</option>
+      <option value="directo">Directo (solo funciona abriendo el archivo localmente, no en GitHub Pages)</option>
+    </select>
+    <div id="campoProxy">
+      <label for="proxyurl">URL de tu proxy</label>
+      <input id="proxyurl" placeholder="https://mundial.TU-USUARIO.workers.dev">
+    </div>
+    <div id="campoToken">
+      <label for="apikey">Token de Football-Data.org</label>
+      <input id="apikey" type="password" autocomplete="off">
+      <p class="note" id="tokenNota">Con el proxy recomendado, el token vive en el Worker y podés dejar este campo vacío.</p>
+    </div>
+    <div class="inline">
+      <button class="btn" id="btnSync">Sincronizar resultados y fixture</button>
+      <button class="btn sec" id="btnTest">Probar conexión</button>
+    </div>
+    <div class="msg" id="msgApi"></div>
+    <p class="note" id="quotaInfo"></p>
+  </div>
+
+  <div class="box">
+    <h3 class="tt" style="margin-top:0">Cómo montar el proxy gratis (5 min, una sola vez)</h3>
+    <p class="note">Cloudflare Workers tiene plan gratuito de sobra para esto. Pasos:</p>
+    <ol>
+      <li>Entrá a <b>dash.cloudflare.com</b> → creá cuenta gratis → <b>Workers &amp; Pages</b> → <b>Create Worker</b>.</li>
+      <li>Borrá el código de ejemplo y pegá el de abajo (ya trae tu token). Poné <b>Deploy</b>.</li>
+      <li>Copiá la URL que te da (algo como <code>https://mundial.tu-usuario.workers.dev</code>) y pegala arriba en "URL de tu proxy".</li>
+      <li>Listo: el token queda escondido en Cloudflare y el navegador ya no se queja del CORS.</li>
+    </ol>
+    <pre id="workerCode"></pre>
+    <button class="btn sec" id="btnCopiar">Copiar código del Worker</button>
+    <div class="msg" id="msgCopia"></div>
+  </div>
+
+  <div class="box">
+    <h3 class="tt" style="margin-top:0">Hosting: GitHub Pages</h3>
+    <p class="note">Para que la vean entre amigos: creá un repo en GitHub, subí este archivo como <code>index.html</code>, andá a Settings → Pages → Branch <code>main</code> → Save. En un minuto tenés una URL pública. Como el token vive en el Worker (no en este HTML), publicarlo es seguro. Si igual preferís no exponer nada, dejá el repo privado y abran el archivo localmente.</p>
+  </div>
+
+  <div class="box">
+    <h3 class="tt" style="margin-top:0">Respaldo</h3>
+    <p class="note">Tus datos viven en este navegador (localStorage). Exportá un JSON para no perderlos o pasarlos a otro dispositivo.</p>
+    <div class="inline">
+      <button class="btn sec" id="btnExport">Exportar datos</button>
+      <button class="btn sec" id="btnImport">Importar datos</button>
+      <input type="file" id="fileImport" accept=".json" hidden>
+      <button class="btn sec" id="btnReset" style="border-color:var(--rojo);color:var(--rojo)">Borrar todo</button>
+    </div>
+    <div class="msg" id="msgBackup"></div>
+  </div>
+
+  <div class="box">
+    <p class="note" style="margin:0">Notas: grupos A–F y H–L verificados con prensa el 12/06/2026; el Grupo G se completó por descarte. Las predicciones del día son un modelo simple (previa + rendimiento en el torneo), no cuotas reales. App para entretenimiento entre amigos.</p>
+  </div>
+</section>
+
+<footer>Mundial 2026 Tracker · hecho con Claude · datos vía Football-Data.org · previa verificada el 12/06/2026 · no es asesoramiento de apuestas</footer>
+</div>
+
+<script>
+"use strict";
+/* ============ 48 EQUIPOS (al = alias en inglés para matchear Football-Data) ============ */
+const TEAMS = {
+ MEX:{n:"México",g:"A",tier:"top",forma:"GGGG·",ou:"O 50%",btts:"25%",dato:"Invicto en 2026 (7V-2E); 12-1 en sus últimos 5",al:["mexico"]},
+ RSA:{n:"Sudáfrica",g:"A",tier:"alerta",forma:"PEEE·",ou:"U 67%",btts:"67%",dato:"Terminó el debut con 9; sin ganar en sus últimos 4",al:["south africa"]},
+ KOR:{n:"Corea del Sur",g:"A",tier:"neutro",forma:"G·GGP",ou:"U 71%",btts:"14%",dato:"4 de sus últimas 5 victorias con el arco en cero",al:["south korea","korea republic","korea"]},
+ CZE:{n:"Chequia",g:"A",tier:"alerta",forma:"PGEEG",ou:"O 67%",btts:"67%",dato:"Perdió 3-1 con Guatemala a una semana del debut",al:["czech republic","czechia"]},
+ CAN:{n:"Canadá",g:"B",tier:"top",forma:"EEGEE",ou:"U 91%",btts:"27%",dato:"Under 2.5 en 10 de sus últimos 11",al:["canada"]},
+ BIH:{n:"Bosnia",g:"B",tier:"neutro",forma:"EEGEE",ou:"U 80%",btts:"100%",dato:"BTTS en 6 de 6; eliminó a Italia en Zenica",al:["bosnia","bosnia and herzegovina","bosnia-herzegovina"]},
+ QAT:{n:"Catar",g:"B",tier:"neutro",forma:"E····",ou:"s/d",btts:"s/d",dato:"Primera clasificación por mérito deportivo",al:["qatar"]},
+ SUI:{n:"Suiza",g:"B",tier:"top",forma:"G··EG",ou:"O 57%",btts:"29%",dato:"Invicta en la eliminatoria con 1 gol en contra",al:["switzerland"]},
+ BRA:{n:"Brasil",g:"C",tier:"top",forma:"GGGPE",ou:"O 70%",btts:"60%",dato:"Ambos marcan en sus últimos 6 partidos",al:["brazil"]},
+ MAR:{n:"Marruecos",g:"C",tier:"neutro",forma:"EGGEP",ou:"U 60%",btts:"60%",dato:"Campeón africano por fallo de la CAF tras perder la final en cancha",al:["morocco"]},
+ HAI:{n:"Haití",g:"C",tier:"neutro",forma:"PGEPG",ou:"U 67%",btts:"33%",dato:"Ganó su grupo eliminatorio sin poder jugar en su país",al:["haiti"]},
+ SCO:{n:"Escocia",g:"C",tier:"neutro",forma:"GG··G",ou:"O 75%",btts:"63%",dato:"8 goles en sus 2 últimos amistosos (4-1 y 4-0)",al:["scotland"]},
+ USA:{n:"Estados Unidos",g:"D",tier:"alerta",forma:"PGPPG",ou:"O 60%",btts:"70%",dato:"11 goles en contra en sus últimos 4 amistosos",al:["united states","usa"]},
+ PAR:{n:"Paraguay",g:"D",tier:"neutro",forma:"GPGGP",ou:"O 56%",btts:"44%",dato:"Arco en cero en 4 de sus últimos 9",al:["paraguay"]},
+ AUS:{n:"Australia",g:"D",tier:"neutro",forma:"PG·PG",ou:"O 50%",btts:"50%",dato:"Goleó 5-1 a Curazao y ganó en Toronto",al:["australia"]},
+ TUR:{n:"Turquía",g:"D",tier:"top",forma:"GGGGE",ou:"O 78%",btts:"56%",dato:"8 triunfos en sus últimos 10; primer Mundial desde 2002",al:["turkey","türkiye","turkiye"]},
+ GER:{n:"Alemania",g:"E",tier:"top",forma:"GGGGG",ou:"O 71%",btts:"29%",dato:"9 victorias consecutivas llegando al debut",al:["germany"]},
+ ECU:{n:"Ecuador",g:"E",tier:"neutro",forma:"GGEE·",ou:"U 71%",btts:"57%",dato:"Invicto en sus últimos 7 confirmados",al:["ecuador"]},
+ CIV:{n:"Costa de Marfil",g:"E",tier:"neutro",forma:"GP···",ou:"s/d",btts:"s/d",dato:"Le ganó 2-1 a Francia a 10 días del Mundial",al:["ivory coast","cote d'ivoire","côte d'ivoire"]},
+ CUW:{n:"Curazao",g:"E",tier:"alerta",forma:"GPPPE",ou:"O 67%",btts:"33%",dato:"3 derrotas seguidas vs rivales de peso: 2 GF, 11 GC",al:["curacao","curaçao"]},
+ NED:{n:"Países Bajos",g:"F",tier:"neutro",forma:"GPE·G",ou:"O 50%",btts:"50%",dato:"Perdió 0-1 con Argelia a 11 días del debut",al:["netherlands"]},
+ JPN:{n:"Japón",g:"F",tier:"top",forma:"G·GGG",ou:"U 57%",btts:"29%",dato:"Le ganó 3-2 a Brasil remontando, primera vez en su historia",al:["japan"]},
+ SWE:{n:"Suecia",g:"F",tier:"alerta",forma:"PGG·P",ou:"O 4/4",btts:"4/4",dato:"Clasificó sin ganar un partido de su grupo (vía Nations League)",al:["sweden"]},
+ TUN:{n:"Túnez",g:"F",tier:"alerta",forma:"PPE·E",ou:"U 75%",btts:"25%",dato:"1 gol a favor en sus últimos 4; 0-5 con Bélgica",al:["tunisia"]},
+ BEL:{n:"Bélgica",g:"G",tier:"top",forma:"GGG·G",ou:"O 63%",btts:"38%",dato:"29 goles a favor en sus últimos 8 (3.6 por partido)",al:["belgium"]},
+ EGY:{n:"Egipto",g:"G",tier:"alerta",forma:"P·GPE",ou:"U 60%",btts:"40%",dato:"1 victoria en sus últimos 5 con marcador conocido",al:["egypt"]},
+ IRN:{n:"Irán",g:"G",tier:"neutro",forma:"··EE·",ou:"U 2/2",btts:"0/2",dato:"Dos 0-0 seguidos; la incógnita del Mundial",al:["iran","ir iran"]},
+ NZL:{n:"Nueva Zelanda",g:"G",tier:"alerta",forma:"PP·P·",ou:"O 33%",btts:"33%",dato:"3 derrotas seguidas verificables y 1 solo gol",al:["new zealand"]},
+ ESP:{n:"España",g:"H",tier:"top",forma:"GE··E",ou:"O 75%",btts:"38%",dato:"No pierde desde marzo de 2024; 31 oficiales invicta",al:["spain"]},
+ URU:{n:"Uruguay",g:"H",tier:"neutro",forma:"EEPEG",ou:"U 63%",btts:"38%",dato:"4 empates en sus últimos 6; under 2.5 en 5 de 8",al:["uruguay"]},
+ KSA:{n:"Arabia Saudita",g:"H",tier:"neutro",forma:"EP···",ou:"U 2/2",btts:"50%",dato:"0-0 con Senegal en el cierre",al:["saudi arabia"]},
+ CPV:{n:"Cabo Verde",g:"H",tier:"neutro",forma:"GGPPE",ou:"O 67%",btts:"33%",dato:"Eliminó a Camerún de su grupo; goleadas a Serbia y Bermudas",al:["cape verde","cabo verde"]},
+ FRA:{n:"Francia",g:"I",tier:"top",forma:"GPGGG",ou:"O 90%",btts:"70%",dato:"Over 2.5 en 9 de sus últimos 10",al:["france"]},
+ SEN:{n:"Senegal",g:"I",tier:"top",forma:"EPGGG",ou:"U 63%",btts:"38%",dato:"Ganó la final africana 1-0 en la cancha; se la quitaron en los escritorios",al:["senegal"]},
+ NOR:{n:"Noruega",g:"I",tier:"top",forma:"EG·GG",ou:"O 83%",btts:"83%",dato:"Eliminatoria perfecta 8/8, con 4-1 a Italia en San Siro",al:["norway"]},
+ IRQ:{n:"Irak",g:"I",tier:"neutro",forma:"PEG··",ou:"s/d",btts:"s/d",dato:"Empató 1-1 con España a 11 días del Mundial",al:["iraq"]},
+ ARG:{n:"Argentina",g:"J",tier:"top",forma:"GGGGG",ou:"O 56%",btts:"11%",dato:"Ganó 8 de 9 y dejó el arco en cero en 7",al:["argentina"]},
+ AUT:{n:"Austria",g:"J",tier:"neutro",forma:"GG··E",ou:"U 56%",btts:"33%",dato:"Vuelve tras 28 años; goleó a Ghana en su último ensayo",al:["austria"]},
+ ALG:{n:"Argelia",g:"J",tier:"neutro",forma:"GE···",ou:"U 2/2",btts:"0/2",dato:"Venció 1-0 a Países Bajos en Ámsterdam",al:["algeria"]},
+ JOR:{n:"Jordania",g:"J",tier:"alerta",forma:"PP···",ou:"O 2/2",btts:"50%",dato:"6 goles en contra en sus 2 últimos ensayos",al:["jordan"]},
+ POR:{n:"Portugal",g:"K",tier:"top",forma:"GGG·G",ou:"O 67%",btts:"56%",dato:"Cerró la eliminatoria con un 9-1 histórico a Armenia",al:["portugal"]},
+ COL:{n:"Colombia",g:"K",tier:"top",forma:"GGPPG",ou:"O 80%",btts:"50%",dato:"Marcó en 9 de sus últimos 10",al:["colombia"]},
+ UZB:{n:"Uzbekistán",g:"K",tier:"alerta",forma:"PPEPG",ou:"U 57%",btts:"43%",dato:"Primer Mundial, pero 3 derrotas en sus últimos 4",al:["uzbekistan"]},
+ COD:{n:"RD Congo",g:"K",tier:"neutro",forma:"PEGEG",ou:"U 75%",btts:"25%",dato:"Eliminó a Camerún, Nigeria y Jamaica; vuelve tras 52 años",al:["congo dr","dr congo","democratic republic of congo","congo"]},
+ ENG:{n:"Inglaterra",g:"L",tier:"top",forma:"GGE·G",ou:"U 56%",btts:"11%",dato:"1 gol en contra en sus últimos 9; eliminatoria sin recibir goles",al:["england"]},
+ CRO:{n:"Croacia",g:"L",tier:"neutro",forma:"GPPGG",ou:"O 63%",btts:"63%",dato:"Invicta en su eliminatoria; cayó con Bélgica y Brasil en 2026",al:["croatia"]},
+ PAN:{n:"Panamá",g:"L",tier:"neutro",forma:"EGPE·",ou:"O 50%",btts:"75%",dato:"Ambos marcan en 6 de sus últimos 8",al:["panama"]},
+ GHA:{n:"Ghana",g:"L",tier:"alerta",forma:"PEP··",ou:"s/d",btts:"s/d",dato:"No clasificó ni a la Copa Africana; sin ganar en 2026",al:["ghana"]}
+};
+const GRUPOS="ABCDEFGHIJKL".split("");
+const SEED=[
+ {id:"seed1",local:"MEX",vis:"RSA",gl:2,gv:0,fase:"Fase de grupos",fecha:"2026-06-11",fuente:"manual"},
+ {id:"seed2",local:"CAN",vis:"BIH",gl:1,gv:1,fase:"Fase de grupos",fecha:"2026-06-12",fuente:"manual"}
+];
+const DEFAULT_TOKEN="9628d8ae51c14a0a88a6d90747b42320";
+const STAGE_ES={GROUP_STAGE:"Fase de grupos",LAST_32:"16avos",LAST_16:"Octavos",QUARTER_FINALS:"Cuartos",SEMI_FINALS:"Semifinal",THIRD_PLACE:"3er puesto",FINAL:"Final"};
+
+/* ============ ESTADO ============ */
+const LS_KEY="wc26_tracker_fd_v1";
+let state=cargar();
+function cargar(){
+  try{const raw=localStorage.getItem(LS_KEY);
+    if(raw){const s=JSON.parse(raw);if(s&&Array.isArray(s.results)){
+      if(!s.token)s.token=DEFAULT_TOKEN;if(!Array.isArray(s.fixtures))s.fixtures=[];
+      if(!s.modo)s.modo="proxy";if(!("proxy"in s))s.proxy="";return s;}}
+  }catch(e){}
+  return {results:[...SEED],fixtures:[],token:DEFAULT_TOKEN,proxy:"",modo:"proxy",lastSync:null,lastFixSync:null,live:[]};
+}
+function guardar(){try{localStorage.setItem(LS_KEY,JSON.stringify(state));}catch(e){}}
+
+/* ============ UTILIDADES ============ */
+const $=s=>document.querySelector(s);
+const norm=s=>(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z ]/g,"").trim();
+function teamByName(name){
+  const n=norm(name);
+  for(const[id,t]of Object.entries(TEAMS)){if(norm(t.n)===n||t.al.some(a=>norm(a)===n))return id;}
+  for(const[id,t]of Object.entries(TEAMS)){if(t.al.some(a=>n.includes(norm(a))||norm(a).includes(n)))return id;}
+  return null;
+}
+function fmtFecha(f){if(!f)return"";const[y,m,d]=f.split("-");return d+"/"+m+"/"+y;}
+function hoyISO(){return new Date().toLocaleDateString("sv");}
+function pct(s,esOU){
+  if(!s||s.includes("s/d"))return null;let v=null;
+  const m=s.match(/(\d+)\s*%/);if(m)v=+m[1];
+  else{const f=s.match(/(\d+)\/(\d+)/);if(f)v=Math.round(100*(+f[1])/(+f[2]));}
+  if(v===null)return null;if(esOU&&/^U/.test(s))v=100-v;return v;
+}
+
+/* ============ STATS DEL TORNEO ============ */
+function statsTorneo(){
+  const st={};
+  Object.keys(TEAMS).forEach(id=>st[id]={pj:0,g:0,e:0,p:0,gf:0,gc:0,pts:0,forma:[],over:0,btts:0});
+  [...state.results].sort((a,b)=>(a.fecha||"").localeCompare(b.fecha||"")).forEach(r=>{
+    const L=st[r.local],V=st[r.vis];if(!L||!V)return;
+    const enGrupo=r.fase==="Fase de grupos";
+    [["gl","gv",L],["gv","gl",V]].forEach(([gm,ge,S])=>{
+      S.pj++;S.gf+=r[gm];S.gc+=r[ge];
+      const res=r[gm]>r[ge]?"G":(r[gm]===r[ge]?"E":"P");S.forma.push(res);
+      if(res==="G"){S.g++;if(enGrupo)S.pts+=3;}else if(res==="E"){S.e++;if(enGrupo)S.pts+=1;}else S.p++;
+      if(r.gl+r.gv>2.5)S.over++;if(r.gl>0&&r.gv>0)S.btts++;
+    });
+  });
+  return st;
+}
+
+/* ============ MODELO DE PREDICCIÓN ============ */
+function rating(id,st){
+  const t=TEAMS[id],s=st[id];
+  let r=t.tier==="top"?78:t.tier==="alerta"?58:68;
+  if(s.pj>0){r+=6*(s.pts/Math.max(1,s.pj));r+=2.5*((s.gf-s.gc)/s.pj);}
+  return r;
+}
+function prediccion(L,V,st){
+  const d=rating(L,st)-rating(V,st);
+  const pw=1/(1+Math.pow(10,-d/16));
+  let pe=Math.max(.12,.30-Math.abs(d)*.006);
+  let pl=(1-pe)*pw;
+  const r=x=>Math.round(x*100);
+  let G=r(pl),E=r(pe),P=100-G-E;
+  const o1=pct(TEAMS[L].ou,true),o2=pct(TEAMS[V].ou,true);
+  const b1=pct(TEAMS[L].btts,false),b2=pct(TEAMS[V].btts,false);
+  const avg=(a,b)=>a===null&&b===null?null:((a??b)+(b??a))/2;
+  const oAvg=avg(o1,o2),bAvg=avg(b1,b2),sugs=[];
+  if(oAvg!==null){if(oAvg>=62)sugs.push(["Over 2.5",1]);else if(oAvg<=40)sugs.push(["Under 2.5",1]);}
+  if(bAvg!==null){if(bAvg>=60)sugs.push(["Ambos marcan: sí",0]);else if(bAvg<=30)sugs.push(["Ambos marcan: no",0]);}
+  if(G>=58)sugs.push(["Gana "+TEAMS[L].n,1]);else if(P>=58)sugs.push(["Gana "+TEAMS[V].n,1]);else if(E>=30)sugs.push(["Empate con valor",0]);
+  return {G,E,P,sugs};
+}
+
+/* ============ RENDER ============ */
+function renderGrupos(){
+  const st=statsTorneo(),cont=$("#grupos");cont.innerHTML="";
+  GRUPOS.forEach(g=>{
+    const ids=Object.keys(TEAMS).filter(id=>TEAMS[id].g===g);
+    ids.sort((a,b)=>st[b].pts-st[a].pts||(st[b].gf-st[b].gc)-(st[a].gf-st[a].gc)||st[b].gf-st[a].gf||TEAMS[a].n.localeCompare(TEAMS[b].n));
+    const filas=ids.map((id,i)=>{const s=st[id];
+      return '<tr class="'+(i<2?"clasif":"")+'"><td class="eq"><span class="pos">'+(i+1)+'</span>'+TEAMS[id].n+'</td><td>'+s.pj+'</td><td>'+s.g+'</td><td>'+s.e+'</td><td>'+s.p+'</td><td>'+s.gf+':'+s.gc+'</td><td class="pts">'+s.pts+'</td></tr>';}).join("");
+    cont.insertAdjacentHTML("beforeend",'<div class="gcard"><h3>Grupo '+g+(g==="G"?' <small>(por descarte)</small>':"")+'</h3><table><thead><tr><th>Equipo</th><th>PJ</th><th>G</th><th>E</th><th>P</th><th>Goles</th><th>Pts</th></tr></thead><tbody>'+filas+'</tbody></table></div>');
+  });
+}
+function renderPartidos(){
+  const cont=$("#listaPartidos");
+  const vivos=(state.live||[]).map(m=>'<div class="match"><span class="t local">'+m.localN+'</span><span class="score">'+m.gl+'–'+m.gv+'</span><span class="t">'+m.visN+'</span><div class="meta"><span class="live">● En vivo'+(m.min?(" · "+m.min+"'"):"")+'</span><span>'+(m.fase||"")+'</span></div></div>').join("");
+  const fin=[...state.results].sort((a,b)=>(b.fecha||"").localeCompare(a.fecha||"")).map(r=>'<div class="match"><span class="t local">'+(TEAMS[r.local]?.n||r.local)+'</span><span class="score">'+r.gl+'–'+r.gv+'</span><span class="t">'+(TEAMS[r.vis]?.n||r.vis)+'</span><div class="meta"><span>'+fmtFecha(r.fecha)+' · '+r.fase+'</span><span>'+(r.fuente==="api"?"API":"manual")+'</span></div><div class="acciones"><button data-del="'+r.id+'" aria-label="Eliminar resultado">eliminar</button></div></div>').join("");
+  cont.innerHTML=vivos+(fin||'<p class="note">Todavía no hay resultados cargados. Sincronizá con la API o cargá uno manual.</p>');
+  cont.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{if(confirm("¿Eliminar este resultado?")){state.results=state.results.filter(r=>r.id!==b.dataset.del);guardar();renderTodo();}});
+}
+function renderHoy(){
+  const fecha=$("#dFecha").value||hoyISO(),st=statsTorneo(),cont=$("#listaHoy");
+  const dia=state.fixtures.filter(f=>f.fecha===fecha).sort((a,b)=>(a.hora||"").localeCompare(b.hora||""));
+  if(!dia.length){
+    cont.innerHTML='<p class="note" style="margin-top:16px">No tengo partidos cargados para el '+fmtFecha(fecha)+". "+(state.fixtures.length?"Probá otra fecha.":"Tocá «Refrescar fixture» para traer el calendario de la API.")+'</p>';return;}
+  cont.innerHTML=dia.map(f=>{
+    const conPred=f.L&&f.V,nL=conPred?TEAMS[f.L].n:f.rawL,nV=conPred?TEAMS[f.V].n:f.rawV;
+    const jugado=["FINISHED","AWARDED"].includes(f.status);
+    const enVivo=["IN_PLAY","PAUSED","EXTRA_TIME","PENALTY_SHOOTOUT"].includes(f.status);
+    const mid=jugado||enVivo?(f.gl??0)+'–'+(f.gv??0):(f.hora||"–");
+    let pred="";
+    if(conPred&&!jugado){
+      const p=prediccion(f.L,f.V,st);
+      pred='<div class="barra" role="img" aria-label="Estimación: gana '+nL+' '+p.G+'%, empate '+p.E+'%, gana '+nV+' '+p.P+'%"><span class="bg" style="flex:'+p.G+'">'+p.G+'%</span><span class="be" style="flex:'+p.E+'">'+p.E+'%</span><span class="bp" style="flex:'+p.P+'">'+p.P+'%</span></div><div class="sug">'+p.sugs.map(s=>'<span class="'+(s[1]?"v":"")+'">'+s[0]+'</span>').join("")+'</div>';
+    }
+    if(conPred&&jugado)pred='<div class="sug"><span>Final: '+nL+' '+f.gl+'–'+f.gv+' '+nV+'</span></div>';
+    return '<div class="pred"><div class="vs"><span class="t l">'+nL+'</span><span class="mid">'+(enVivo?'<span class="live">●</span> ':"")+mid+'</span><span class="t">'+nV+'</span></div><div class="info">'+(f.fase||"")+(enVivo?' · EN VIVO':"")+'</div>'+pred+'</div>';
+  }).join("")+'<p class="note" style="margin-top:14px">Barras = estimación del modelo (previa del 12/06 + rendimiento en el torneo). Verde gana el de la izquierda, amarillo empate, rojo gana el de la derecha. No son cuotas reales.</p>';
+}
+function renderEquipos(){
+  const st=statsTorneo(),fg=$("#filtroGrupo").value,q=norm($("#buscaEq").value),cont=$("#equipos");cont.innerHTML="";
+  Object.entries(TEAMS).filter(([id,t])=>(!fg||t.g===fg)&&(!q||norm(t.n).includes(q)))
+   .sort((a,b)=>a[1].g.localeCompare(b[1].g)||a[1].n.localeCompare(b[1].n))
+   .forEach(([id,t])=>{
+    const s=st[id];
+    const formaT=s.forma.length?s.forma.map(f=>'<span class="f'+f+'">'+f+'</span>').join(" "):'<span class="fX">— sin partidos —</span>';
+    const formaP=t.forma.split("").map(f=>'<span class="f'+("GEP".includes(f)?f:"X")+'">'+f+'</span>').join(" ");
+    const chip=t.tier==="top"?'<span class="chip v">en forma</span>':t.tier==="alerta"?'<span class="chip r">alerta</span>':'<span class="chip a">neutro</span>';
+    cont.insertAdjacentHTML("beforeend",
+     '<div class="tcard '+t.tier+'"><h4>'+t.n+' <small>Grupo '+t.g+' · '+chip+'</small></h4>'+
+     '<div class="fila"><span>En el Mundial</span><b>'+s.pj+' PJ · '+s.g+'G '+s.e+'E '+s.p+'P · '+s.gf+':'+s.gc+' · '+s.pts+' pts</b></div>'+
+     '<div class="fila"><span>Forma torneo</span><b class="forma">'+formaT+'</b></div>'+
+     '<div class="fila"><span>Torneo O2.5 / BTTS</span><b>'+(s.pj?Math.round(100*s.over/s.pj)+"% / "+Math.round(100*s.btts/s.pj)+"%":"—")+'</b></div>'+
+     '<div class="fila" style="border-top:1px dashed var(--linea);padding-top:6px;margin-top:8px"><span>Previa (informe 12/06)</span><b class="forma">'+formaP+'</b></div>'+
+     '<div class="fila"><span>Previa O/U 2.5 · BTTS</span><b>'+t.ou+' · '+t.btts+'</b></div>'+
+     '<div class="dato">🔥 '+t.dato+'</div></div>');
+   });
+}
+function renderTodo(){renderGrupos();renderPartidos();renderEquipos();renderHoy();
+  $("#statusline").innerHTML='Última sincronización: <b>'+(state.lastSync?new Date(state.lastSync).toLocaleString("es"):"nunca")+'</b> · '+state.results.length+' resultados · '+state.fixtures.length+' en fixture';}
+
+/* ============ FOOTBALL-DATA.ORG ============ */
+function buildURL(path){
+  state.modo=$("#modo").value;
+  if(state.modo==="proxy"){
+    const base=($("#proxyurl").value.trim()||state.proxy).replace(/\/$/,"");
+    if(!base)throw new Error("Pegá la URL de tu proxy (Worker) en Ajustes.");
+    return base+path;
+  }
+  return "https://api.football-data.org/v4"+path;
+}
+async function apiCall(path){
+  state.token=($("#apikey").value.trim())||state.token;
+  const headers={};
+  /* en modo directo mandamos el token; con proxy, el Worker lo agrega */
+  if($("#modo").value==="directo"&&state.token)headers["X-Auth-Token"]=state.token;
+  const res=await fetch(buildURL(path),{headers});
+  if(res.status===429)throw new Error("Llegaste al límite de 10 consultas/minuto. Esperá un minuto.");
+  if(res.status===403)throw new Error("403: el plan free no cubre este recurso o falta el token en el Worker.");
+  if(!res.ok)throw new Error("La API respondió "+res.status+".");
+  const q=res.headers.get("X-RequestsAvailable");
+  if(q!==null)$("#quotaInfo").textContent="Consultas restantes este minuto: "+q;
+  return res.json();
+}
+async function sincronizar(btn,silencioso){
+  const msg=$("#msgApi");if(!silencioso)msg.className="msg";
+  if(btn){btn.disabled=true;btn.dataset.t=btn.textContent;btn.textContent="Sincronizando…";}
+  try{
+    const data=await apiCall("/competitions/WC/matches");
+    let nuevos=0;state.live=[];state.fixtures=[];
+    (data.matches||[]).forEach(f=>{
+      const L=teamByName(f.homeTeam?.name),V=teamByName(f.awayTeam?.name);
+      const status=f.status,fase=STAGE_ES[f.stage]||f.stage||"Mundial";
+      const dt=new Date(f.utcDate),fecha=dt.toLocaleDateString("sv");
+      const hora=dt.toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"});
+      const gl=f.score?.fullTime?.home,gv=f.score?.fullTime?.away;
+      state.fixtures.push({id:"fx"+f.id,L,V,rawL:f.homeTeam?.name||"Por definir",rawV:f.awayTeam?.name||"Por definir",fecha,hora,fase,status,gl,gv});
+      if(!L||!V)return;
+      if(["IN_PLAY","PAUSED","EXTRA_TIME","PENALTY_SHOOTOUT"].includes(status)){
+        state.live.push({localN:TEAMS[L].n,visN:TEAMS[V].n,gl:gl??0,gv:gv??0,min:f.minute||"",fase});return;}
+      if(!["FINISHED","AWARDED"].includes(status))return;
+      const id="api"+f.id;if(state.results.some(r=>r.id===id))return;
+      const dup=state.results.find(r=>r.fuente==="manual"&&r.local===L&&r.vis===V&&r.fecha===fecha);
+      if(dup){dup.id=id;dup.fuente="api";dup.gl=gl;dup.gv=gv;return;}
+      state.results.push({id,local:L,vis:V,gl,gv,fase,fecha,fuente:"api"});nuevos++;
+    });
+    state.proxy=$("#proxyurl").value.trim()||state.proxy;state.lastSync=Date.now();state.lastFixSync=Date.now();guardar();renderTodo();
+    if(!silencioso){msg.className="msg ok";msg.textContent="Listo: "+nuevos+" resultado(s) nuevo(s), "+state.live.length+" en vivo, "+state.fixtures.length+" partidos en el fixture.";}
+  }catch(e){
+    if(!silencioso){msg.className="msg err";msg.textContent="No se pudo sincronizar: "+e.message+" Mientras tanto podés cargar resultados a mano en Partidos.";}
+    else{const mh=$("#msgHoy");mh.className="msg err";mh.textContent="No pude refrescar el fixture ("+e.message+"). Cargá tu proxy en Ajustes o usá carga manual.";}
+  }
+  if(btn){btn.disabled=false;btn.textContent=btn.dataset.t;}
+}
+
+/* ============ CÓDIGO DEL WORKER (proxy) ============ */
+const WORKER_CODE=
+"export default {\n"+
+"  async fetch(request) {\n"+
+"    const TOKEN = \""+DEFAULT_TOKEN+"\";            // tu token de Football-Data.org\n"+
+"    const url = new URL(request.url);\n"+
+"    const target = \"https://api.football-data.org/v4\" + url.pathname + url.search;\n"+
+"    const cors = {\n"+
+"      \"Access-Control-Allow-Origin\": \"*\",\n"+
+"      \"Access-Control-Allow-Headers\": \"*\"\n"+
+"    };\n"+
+"    if (request.method === \"OPTIONS\") return new Response(null, { headers: cors });\n"+
+"    // cache 30s para no gastar cuota si varios amigos abren a la vez\n"+
+"    const cache = caches.default;\n"+
+"    let hit = await cache.match(request);\n"+
+"    if (hit) return hit;\n"+
+"    const r = await fetch(target, { headers: { \"X-Auth-Token\": TOKEN } });\n"+
+"    const body = await r.text();\n"+
+"    const res = new Response(body, {\n"+
+"      status: r.status,\n"+
+"      headers: {\n"+
+"        ...cors,\n"+
+"        \"Content-Type\": \"application/json\",\n"+
+"        \"X-RequestsAvailable\": r.headers.get(\"X-RequestsAvailable\") || \"\",\n"+
+"        \"Cache-Control\": \"public, max-age=30\"\n"+
+"      }\n"+
+"    });\n"+
+"    await cache.put(request, res.clone());\n"+
+"    return res;\n"+
+"  }\n"+
+"};";
+
+/* ============ EVENTOS ============ */
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll("nav button").forEach(x=>x.setAttribute("aria-selected","false"));
+  b.setAttribute("aria-selected","true");
+  document.querySelectorAll("section").forEach(s=>s.hidden=true);
+  $("#tab-"+b.dataset.tab).hidden=false;
+});
+function actualizarModo(){
+  const proxy=$("#modo").value==="proxy";
+  $("#campoProxy").style.display=proxy?"":"none";
+  $("#tokenNota").textContent=proxy?"Con el proxy recomendado, el token vive en el Worker y podés dejar este campo vacío.":"En modo directo el token va en este campo (solo funciona abriendo el archivo localmente).";
+}
+$("#modo").onchange=actualizarModo;
+$("#btnSync").onclick=e=>sincronizar(e.target,false);
+$("#btnSync2").onclick=e=>sincronizar(e.target,false);
+$("#dSync").onclick=e=>sincronizar(e.target,false);
+$("#btnTest").onclick=async e=>{
+  const msg=$("#msgApi");msg.className="msg";e.target.disabled=true;
+  try{await apiCall("/competitions/WC");state.proxy=$("#proxyurl").value.trim()||state.proxy;guardar();
+    msg.className="msg ok";msg.textContent="Conexión OK. El Mundial responde correctamente.";
+  }catch(err){msg.className="msg err";msg.textContent=err.message;}
+  e.target.disabled=false;
+};
+$("#btnCopiar").onclick=()=>{navigator.clipboard.writeText(WORKER_CODE).then(()=>{
+  const m=$("#msgCopia");m.className="msg ok";m.textContent="Código copiado. Pegalo en tu Worker de Cloudflare y dale Deploy.";setTimeout(()=>{m.className="msg";},4000);
+});};
+$("#btnManual").onclick=()=>{const f=$("#formManual");f.hidden=!f.hidden;};
+$("#btnGuardarManual").onclick=()=>{
+  const L=$("#mLocal").value,V=$("#mVis").value,msg=$("#msgManual");
+  if(L===V){msg.className="msg err";msg.textContent="Elegí dos equipos distintos.";return;}
+  state.results.push({id:"man"+Date.now(),local:L,vis:V,gl:+$("#mGL").value||0,gv:+$("#mGV").value||0,
+    fase:$("#mFase").value,fecha:$("#mFecha").value||hoyISO(),fuente:"manual"});
+  guardar();renderTodo();msg.className="msg ok";msg.textContent="Resultado guardado y tablas actualizadas.";
+};
+function moverDia(n){const d=new Date($("#dFecha").value+"T12:00:00");d.setDate(d.getDate()+n);$("#dFecha").value=d.toLocaleDateString("sv");renderHoy();}
+$("#dPrev").onclick=()=>moverDia(-1);
+$("#dNext").onclick=()=>moverDia(1);
+$("#dHoy").onclick=()=>{$("#dFecha").value=hoyISO();renderHoy();};
+$("#dFecha").onchange=renderHoy;
+$("#filtroGrupo").onchange=renderEquipos;$("#buscaEq").oninput=renderEquipos;
+$("#btnExport").onclick=()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="mundial2026-datos.json";a.click();};
+$("#btnImport").onclick=()=>$("#fileImport").click();
+$("#fileImport").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();
+  r.onload=()=>{try{const s=JSON.parse(r.result);if(!Array.isArray(s.results))throw 0;
+      state=s;if(!Array.isArray(state.fixtures))state.fixtures=[];guardar();renderTodo();
+      $("#apikey").value=state.token||"";$("#proxyurl").value=state.proxy||"";$("#modo").value=state.modo||"proxy";actualizarModo();
+      $("#msgBackup").className="msg ok";$("#msgBackup").textContent="Datos importados.";
+    }catch{$("#msgBackup").className="msg err";$("#msgBackup").textContent="Ese archivo no parece un respaldo válido.";}};
+  r.readAsText(f);};
+$("#btnReset").onclick=()=>{if(confirm("¿Borrar todos los datos y volver al estado inicial?")){localStorage.removeItem(LS_KEY);
+  state={results:[...SEED],fixtures:[],token:DEFAULT_TOKEN,proxy:"",modo:"proxy",lastSync:null,lastFixSync:null,live:[]};guardar();location.reload();}};
+
+/* ============ INIT ============ */
+(function(){
+  const opciones=Object.entries(TEAMS).sort((a,b)=>a[1].n.localeCompare(b[1].n))
+    .map(([id,t])=>'<option value="'+id+'">'+t.n+' ('+t.g+')</option>').join("");
+  $("#mLocal").innerHTML=opciones;$("#mVis").innerHTML=opciones;
+  $("#filtroGrupo").innerHTML+=GRUPOS.map(g=>'<option>'+g+'</option>').join("");
+  $("#mFecha").value=hoyISO();$("#dFecha").value=hoyISO();
+  $("#apikey").value=state.token||"";$("#proxyurl").value=state.proxy||"";$("#modo").value=state.modo||"proxy";
+  $("#workerCode").textContent=WORKER_CODE;
+  actualizarModo();renderTodo();
+})();
+</script>
+</body>
+</html>
