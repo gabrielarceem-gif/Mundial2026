@@ -708,27 +708,40 @@ async function actualizarCuotas(btn){
   try{
     const hoy=hoyISO();const d2=new Date();d2.setDate(d2.getDate()+9);const to=d2.toLocaleDateString("sv");
     const fx=await call("/op","/fixtures?sportId=10&from="+hoy+"&to="+to,"https://api.oddspapi.io/v4",{});
-    const wc=(Array.isArray(fx)?fx:fx.data||fx.fixtures||[]).filter(f=>(f.tournamentName||"")==="World Cup"&&f.hasOdds);
-    for(const f of wc.slice(0,12)){ /* límite para cuidar cupo */
-      const L=teamByName(f.participant1Name),V=teamByName(f.participant2Name);if(!L||!V)continue;
-      try{const od=await call("/op","/odds?fixtureId="+f.fixtureId+"&bookmakers=pinnacle","https://api.oddspapi.io/v4",{});
-        const books=od.bookmakerOdds||{};const pin=books.pinnacle&&books.pinnacle.markets&&books.pinnacle.markets["101"];
-        if(pin){const o=pin.outcomes;const H=o["101"]?.players?.["0"]?.price,D=o["102"]?.players?.["0"]?.price,A=o["103"]?.players?.["0"]?.price;
+    const arr=Array.isArray(fx)?fx:(fx.data||fx.fixtures||fx.results||[]);
+    const wc=arr.filter(f=>{const tn=(f.tournamentName||f.tournament||"");return /world cup/i.test(tn)&&(f.hasOdds!==false);});
+    if(!wc.length&&arr.length)errs.push("OddsPapi: trajo "+arr.length+" fixtures pero ninguno del Mundial (revisar tournamentName)");
+    for(const f of wc.slice(0,10)){ /* límite para cuidar cupo (250/mes) */
+      const L=teamByName(f.participant1Name||f.homeName),V=teamByName(f.participant2Name||f.awayName);if(!L||!V)continue;
+      const fid=f.fixtureId||f.id;if(!fid)continue;
+      try{const od=await call("/op","/odds?fixtureId="+fid+"&bookmakers=pinnacle,bet365,draftkings","https://api.oddspapi.io/v4",{});
+        const books=od.bookmakerOdds||od.odds||{};
+        /* preferimos Pinnacle; si no, la primera casa con mercado 101 */
+        let src=books.pinnacle;
+        if(!src||!src.markets||!src.markets["101"]){for(const b of Object.values(books)){if(b&&b.markets&&b.markets["101"]){src=b;break;}}}
+        const m=src&&src.markets&&src.markets["101"];
+        if(m&&m.outcomes){const o=m.outcomes;
+          const H=o["101"]?.players?.["0"]?.price,D=o["102"]?.players?.["0"]?.price,A=o["103"]?.players?.["0"]?.price;
           if(H&&D&&A){guardarOdds(L,V,"op",H,D,A);nOP++;}}
-      }catch(e){}
+      }catch(e){/* un partido falla, sigo con los demás */}
     }
   }catch(e){errs.push("OddsPapi: "+e.message);}
-  /* SportsGameOdds: events del Mundial con odds 1X2 (ml home/draw/away) */
+  /* SportsGameOdds: el Mundial está bajo leagueID=INTERNATIONAL_SOCCER (selecciones) */
   try{
-    const ev=await call("/sgo","/events?leagueID=FIFA_WORLD_CUP&oddsAvailable=true&limit=30","https://api.sportsgameodds.com/v2",{"x-api-key":"DIRECT_ONLY"});
+    const ev=await call("/sgo","/events?leagueID=INTERNATIONAL_SOCCER&oddsAvailable=true&limit=40","https://api.sportsgameodds.com/v2",{});
     const lista=ev.data||[];
     for(const e of lista){
-      const L=teamByName(e.teams?.home?.names?.long||e.teams?.home?.name),V=teamByName(e.teams?.away?.names?.long||e.teams?.away?.name);
+      const L=teamByName(e.teams?.home?.names?.long||e.teams?.home?.names?.medium||e.teams?.home?.name),
+            V=teamByName(e.teams?.away?.names?.long||e.teams?.away?.names?.medium||e.teams?.away?.name);
       if(!L||!V||!e.odds)continue;
-      /* busco moneyline 1X2: claves tipo points-home-game-ml-home / ...-draw / ...-away */
-      let H,D,A;for(const[k,v]of Object.entries(e.odds)){
-        const price=v.bookOdds||v.fairOdds||v.odds;if(!price)continue;const dec=amerToDec(price);
-        if(/ml-home$/.test(k))H=dec;else if(/ml-draw$/.test(k)||/-draw-/.test(k))D=dec;else if(/ml-away$/.test(k))A=dec;}
+      /* oddID 1X2: points-all-game-ml-{home|draw|away}. Tomo bookOdds (consenso) o fairOdds, en formato americano */
+      let H,D,A;
+      for(const[k,v]of Object.entries(e.odds)){
+        if(!/-ml-(home|draw|away)$/.test(k))continue;
+        const raw=v.bookOdds??v.fairOdds??v.odds;if(raw==null)continue;
+        const dec=amerToDec(raw);if(!dec)continue;
+        if(k.endsWith("-ml-home"))H=dec;else if(k.endsWith("-ml-draw"))D=dec;else if(k.endsWith("-ml-away"))A=dec;
+      }
       if(H&&D&&A){guardarOdds(L,V,"sgo",H,D,A);nSGO++;}
     }
   }catch(e){errs.push("SportsGameOdds: "+e.message);}
