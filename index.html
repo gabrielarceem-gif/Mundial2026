@@ -21,45 +21,34 @@
 html{scroll-behavior:smooth}
 body{font-family:'IBM Plex Sans',system-ui,sans-serif;color:var(--ink);background:var(--bg);
   min-height:100vh;font-size:15px;line-height:1.5;overflow-x:hidden;position:relative}
-/* fondo animado: grilla + scanline */
 body::before{content:"";position:fixed;inset:0;z-index:-2;
-  background:
-    radial-gradient(ellipse 80% 60% at 50% -10%,rgba(157,78,255,.18),transparent 60%),
+  background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(157,78,255,.18),transparent 60%),
     radial-gradient(ellipse 70% 50% at 100% 100%,rgba(255,46,151,.12),transparent 55%),
     radial-gradient(ellipse 60% 50% at 0% 80%,rgba(0,240,255,.10),transparent 55%),
-    linear-gradient(var(--bg),var(--bg2));}
+    linear-gradient(var(--bg),var(--bg2))}
 body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.5;
   background-image:linear-gradient(rgba(0,240,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(0,240,255,.05) 1px,transparent 1px);
   background-size:44px 44px;mask-image:radial-gradient(ellipse 90% 80% at 50% 30%,#000 40%,transparent 100%)}
 .scan{position:fixed;left:0;right:0;height:2px;z-index:0;pointer-events:none;
-  background:linear-gradient(90deg,transparent,rgba(0,240,255,.55),transparent);
-  animation:scan 7s linear infinite;opacity:.6}
+  background:linear-gradient(90deg,transparent,rgba(0,240,255,.55),transparent);animation:scan 7s linear infinite;opacity:.6}
 @keyframes scan{0%{top:-5%}100%{top:105%}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}.scan{display:none}}
 .wrap{max-width:1120px;margin:0 auto;padding:0 16px 90px;position:relative;z-index:1}
-/* header */
-header{padding:30px 0 16px;margin-bottom:6px;position:relative;
-  border-bottom:1px solid var(--line);
+header{padding:30px 0 16px;margin-bottom:6px;position:relative;border-bottom:1px solid var(--line);
   display:flex;flex-wrap:wrap;align-items:flex-end;gap:10px 20px;justify-content:space-between}
 header::after{content:"";position:absolute;left:0;bottom:-1px;width:200px;height:1px;
   background:linear-gradient(90deg,var(--magenta),var(--cian));box-shadow:0 0 10px var(--cian)}
-h1{font-family:'Orbitron',sans-serif;font-weight:900;font-size:clamp(30px,5.5vw,52px);
-  line-height:.95;text-transform:uppercase;letter-spacing:1px;
-  background:linear-gradient(92deg,var(--cian),var(--magenta) 60%,var(--violeta));
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-  filter:drop-shadow(0 0 14px rgba(255,46,151,.35))}
+h1{font-family:'Orbitron',sans-serif;font-weight:900;font-size:clamp(30px,5.5vw,52px);line-height:.95;
+  text-transform:uppercase;letter-spacing:1px;background:linear-gradient(92deg,var(--cian),var(--magenta) 60%,var(--violeta));
+  -webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 14px rgba(255,46,151,.35))}
 .sub{color:var(--ink-dim);font-size:13px;max-width:440px;margin-top:6px}
 .statusline{font-family:'Rajdhani';font-weight:700;text-transform:uppercase;letter-spacing:1px;font-size:13px;color:var(--ink-dim)}
 .statusline b{color:var(--cian);text-shadow:var(--glow-c)}
-/* nav */
-nav{display:flex;gap:7px;flex-wrap:wrap;position:sticky;top:0;z-index:50;
-  background:linear-gradient(var(--bg) 80%,transparent);padding:12px 0}
-nav button{font-family:'Rajdhani';font-weight:700;text-transform:uppercase;letter-spacing:2px;
-  font-size:14px;color:var(--ink-dim);background:var(--panel);border:1px solid var(--line);
-  padding:9px 16px;cursor:pointer;border-radius:4px;transition:.18s;position:relative;overflow:hidden}
+nav{display:flex;gap:7px;flex-wrap:wrap;position:sticky;top:0;z-index:50;background:linear-gradient(var(--bg) 80%,transparent);padding:12px 0}
+nav button{font-family:'Rajdhani';font-weight:700;text-transform:uppercase;letter-spacing:2px;font-size:14px;
+  color:var(--ink-dim);background:var(--panel);border:1px solid var(--line);padding:9px 16px;cursor:pointer;border-radius:4px;transition:.18s;position:relative;overflow:hidden}
 nav button:hover{color:var(--cian);border-color:var(--cian);box-shadow:var(--glow-c)}
-nav button[aria-selected="true"]{color:var(--bg);background:linear-gradient(92deg,var(--cian),var(--magenta));
-  border-color:transparent;text-shadow:none;box-shadow:0 0 18px rgba(255,46,151,.4)}
+nav button[aria-selected="true"]{color:var(--bg);background:linear-gradient(92deg,var(--cian),var(--magenta));border-color:transparent;text-shadow:none;box-shadow:0 0 18px rgba(255,46,151,.4)}
 nav button:focus-visible{outline:2px solid var(--amar);outline-offset:2px}
 section[hidden]{display:none}
 .h2row{display:flex;align-items:center;gap:12px;margin:28px 0 4px}
@@ -71,10 +60,7 @@ h2 .gl{color:var(--magenta);text-shadow:var(--glow-m)}
 h3.tt{font-family:'Rajdhani';text-transform:uppercase;letter-spacing:2px;margin-top:20px;color:var(--cian);font-size:16px;text-shadow:var(--glow-c)}
 .note{color:var(--ink-dim);font-size:13px;margin:6px 0 14px}
 .note code{background:#000;border:1px solid var(--line);border-radius:3px;padding:1px 5px;font-size:12px;color:var(--lima)}
-/* panel de ayuda desplegable */
-.helpbox{background:linear-gradient(var(--panel),var(--panel2));border:1px solid var(--cian);
-  border-radius:8px;padding:14px 16px;margin:10px 0 4px;font-size:13px;color:var(--ink-dim);
-  box-shadow:inset 0 0 30px rgba(0,240,255,.06),0 0 18px rgba(0,240,255,.12)}
+.helpbox{background:linear-gradient(var(--panel),var(--panel2));border:1px solid var(--cian);border-radius:8px;padding:14px 16px;margin:10px 0 4px;font-size:13px;color:var(--ink-dim);box-shadow:inset 0 0 30px rgba(0,240,255,.06),0 0 18px rgba(0,240,255,.12)}
 .helpbox[hidden]{display:none}
 .helpbox h5{font-family:'Rajdhani';text-transform:uppercase;letter-spacing:1px;color:var(--cian);font-size:14px;margin-bottom:4px}
 .helpbox b{color:var(--ink)}
@@ -82,7 +68,6 @@ h3.tt{font-family:'Rajdhani';text-transform:uppercase;letter-spacing:2px;margin-
 .leyenda{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--ink-dim);margin:10px 0 4px}
 .leyenda span{display:flex;align-items:center;gap:6px}
 .dot{width:11px;height:11px;border-radius:2px;display:inline-block}
-/* grupos */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(335px,1fr));gap:14px;margin-top:14px}
 .gcard{background:linear-gradient(160deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:8px;overflow:hidden;transition:.2s}
 .gcard:hover{border-color:var(--violeta);box-shadow:0 0 22px rgba(157,78,255,.25)}
@@ -98,7 +83,6 @@ td .pos{display:inline-block;width:16px;color:var(--ink-dim);font-weight:400}
 tr.clasif td:first-child{box-shadow:inset 3px 0 0 var(--lima)}
 tr.clasif .pos{color:var(--lima)}
 td.pts{font-family:'Orbitron';font-weight:700;font-size:15px;color:var(--cian)}
-/* matches / resultados */
 .match{background:linear-gradient(160deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:8px;
   display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;padding:13px 16px;margin-top:10px;transition:.2s}
 .match:hover{border-color:var(--cian)}
@@ -106,8 +90,7 @@ td.pts{font-family:'Orbitron';font-weight:700;font-size:15px;color:var(--cian)}
 .match .t{font-weight:600}
 .match .t.local{text-align:right}
 .match .meta{grid-column:1/-1;display:flex;justify-content:space-between;font-size:12px;color:var(--ink-dim);margin-top:4px;flex-wrap:wrap;gap:4px}
-.score{font-family:'Orbitron';font-weight:700;font-size:26px;letter-spacing:2px;
-  background:#000;border:1px solid var(--line);border-radius:4px;padding:3px 14px;font-variant-numeric:tabular-nums;color:var(--ink)}
+.score{font-family:'Orbitron';font-weight:700;font-size:26px;letter-spacing:2px;background:#000;border:1px solid var(--line);border-radius:4px;padding:3px 14px;font-variant-numeric:tabular-nums;color:var(--ink)}
 .fuego .score{color:var(--magenta);border-color:var(--magenta);text-shadow:var(--glow-m)}
 .live{color:var(--magenta);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:1px;animation:par 1.3s infinite}
 @keyframes par{50%{opacity:.35}}
@@ -115,24 +98,20 @@ td.pts{font-family:'Orbitron';font-weight:700;font-size:15px;color:var(--cian)}
 .match .acciones{grid-column:1/-1;text-align:right}
 .match .acciones button{background:none;border:none;color:var(--ink-dim);cursor:pointer;font-size:12px;text-decoration:underline}
 .match .acciones button:hover{color:var(--rojo)}
-/* day nav */
 .daynav{display:flex;gap:8px;align-items:center;margin-top:14px;flex-wrap:wrap}
-.daynav button{font-family:'Orbitron';font-weight:700;font-size:16px;background:var(--panel);
-  border:1px solid var(--line);color:var(--ink);width:42px;height:42px;border-radius:5px;cursor:pointer;transition:.18s}
+.daynav button{font-family:'Orbitron';font-weight:700;font-size:16px;background:var(--panel);border:1px solid var(--line);color:var(--ink);width:42px;height:42px;border-radius:5px;cursor:pointer;transition:.18s}
 .daynav button:hover{border-color:var(--cian);color:var(--cian);box-shadow:var(--glow-c)}
 .daynav input{background:#000;border:1px solid var(--line);color:var(--ink);padding:9px 10px;border-radius:5px;font-family:inherit}
 .daynav .hoybtn{width:auto;padding:0 14px;font-family:'Rajdhani';font-size:14px;letter-spacing:1px;text-transform:uppercase}
-/* predicciones */
 .pred{background:linear-gradient(160deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:8px;padding:14px 16px;margin-top:12px;transition:.2s}
 .pred:hover{border-color:var(--violeta)}
 .pred .vs{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px}
 .pred .vs .t{font-family:'Rajdhani';font-weight:700;font-size:20px;text-transform:uppercase;letter-spacing:.5px}
 .pred .vs .t.l{text-align:right}
-.pred .vs .mid{font-family:'Orbitron';font-weight:700;font-size:18px;color:var(--cian);
-  background:#000;border:1px solid var(--line);border-radius:4px;padding:4px 12px;font-variant-numeric:tabular-nums;text-align:center;min-width:96px}
-.pred .info{font-size:12px;color:var(--ink-dim);text-align:center;margin-top:4px;display:flex;align-items:center;justify-content:center;gap:8px}
-.qbtn{font-family:'Orbitron';font-weight:700;font-size:11px;width:22px;height:22px;border-radius:50%;
-  background:var(--panel);border:1px solid var(--cian);color:var(--cian);cursor:pointer;flex:none}
+.pred .vs .mid{font-family:'Orbitron';font-weight:700;font-size:18px;color:var(--cian);background:#000;border:1px solid var(--line);border-radius:4px;padding:4px 12px;font-variant-numeric:tabular-nums;text-align:center;min-width:96px}
+.pred .info{font-size:12px;color:var(--ink-dim);text-align:center;margin-top:4px;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+.aprox{font-family:'Orbitron';font-size:11px;color:var(--violeta);letter-spacing:1px}
+.qbtn{font-family:'Orbitron';font-weight:700;font-size:11px;width:22px;height:22px;border-radius:50%;background:var(--panel);border:1px solid var(--cian);color:var(--cian);cursor:pointer;flex:none}
 .qbtn:hover{background:var(--cian);color:var(--bg)}
 .barra{display:flex;height:24px;border-radius:5px;overflow:hidden;margin-top:12px;font-size:11.5px;font-weight:700;font-family:'Rajdhani';letter-spacing:.5px}
 .barra span{display:flex;align-items:center;justify-content:center;min-width:30px;position:relative;transition:.2s}
@@ -140,15 +119,25 @@ td.pts{font-family:'Orbitron';font-weight:700;font-size:15px;color:var(--cian)}
 .barra .seg-e{background:linear-gradient(180deg,var(--amar),#d6a200);color:#211a00}
 .barra .seg-p{background:linear-gradient(180deg,var(--rojo),#c2304b);color:#fff}
 .barra .lbl{font-size:9px;opacity:.85;font-weight:600;display:block;line-height:1;margin-top:1px}
+.mkt{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;font-size:12px;font-family:'Rajdhani';font-weight:600}
+.mkt span{background:var(--cian-bg);border:1px solid rgba(0,240,255,.35);color:var(--cian);border-radius:4px;padding:2px 8px;letter-spacing:.5px}
+.mkt span.nodata{background:transparent;border-color:var(--line);color:var(--ink-dim)}
 .sug{margin-top:10px;font-size:12.5px;display:flex;gap:8px;flex-wrap:wrap}
 .sug span{background:var(--amar-bg);border:1px solid rgba(255,210,60,.45);color:var(--amar);border-radius:4px;padding:3px 9px;font-family:'Rajdhani';font-weight:600;letter-spacing:.5px}
 .sug span.v{background:var(--verde-bg);border-color:rgba(157,255,60,.5);color:var(--lima)}
-.why{margin-top:12px;background:#000;border:1px solid var(--cian);border-radius:6px;padding:12px 14px;font-size:12.5px;color:var(--ink-dim);box-shadow:inset 0 0 26px rgba(0,240,255,.06)}
+.why{margin-top:12px;background:#000;border:1px solid var(--cian);border-radius:6px;padding:0;font-size:12.5px;color:var(--ink-dim);box-shadow:inset 0 0 26px rgba(0,240,255,.06);overflow:hidden}
 .why[hidden]{display:none}
-.why h5{font-family:'Rajdhani';text-transform:uppercase;letter-spacing:1px;color:var(--cian);font-size:13px;margin-bottom:5px}
+.why .capa{padding:11px 14px;border-bottom:1px solid var(--line)}
+.why .capa:last-child{border-bottom:none}
+.why .capa.fusion{background:linear-gradient(90deg,rgba(0,240,255,.08),rgba(255,46,151,.08))}
+.why h5{font-family:'Rajdhani';text-transform:uppercase;letter-spacing:1px;font-size:13px;margin-bottom:4px;display:flex;align-items:center;gap:6px}
+.why .ca h5{color:var(--lima)}.why .cb h5{color:var(--cian)}.why .cc h5{color:var(--violeta)}.why .fusion h5{color:var(--magenta)}
 .why b{color:var(--ink)}
-.why .rt{display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px dashed var(--line)}
-/* datos calientes */
+.why .pp{font-family:'Orbitron';font-size:12px;color:var(--ink);letter-spacing:.5px;margin:3px 0}
+.why .det{font-size:11.5px;color:var(--ink-dim);line-height:1.5}
+.badge{display:inline-block;font-size:9px;padding:1px 6px;border-radius:3px;font-family:'Rajdhani';font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.badge.on{background:var(--verde-bg);color:var(--lima);border:1px solid rgba(157,255,60,.4)}
+.badge.off{background:var(--rojo-bg);color:var(--rojo);border:1px solid rgba(255,77,109,.4)}
 .tlist{margin-top:14px;display:grid;grid-template-columns:repeat(auto-fill,minmax(335px,1fr));gap:12px}
 .tcard{background:linear-gradient(160deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:8px;padding:13px 15px;transition:.2s;position:relative}
 .tcard:hover{transform:translateY(-2px)}
@@ -161,15 +150,12 @@ td.pts{font-family:'Orbitron';font-weight:700;font-size:15px;color:var(--cian)}
 .fila b{color:var(--ink);font-variant-numeric:tabular-nums}
 .forma{letter-spacing:3px;font-weight:700;font-family:'Orbitron';font-size:13px}
 .fG{color:var(--lima)}.fE{color:var(--amar)}.fP{color:var(--rojo)}.fX{color:var(--ink-dim)}
-.dato{margin-top:8px;font-size:12.5px;background:var(--mag-bg);border:1px solid rgba(255,46,151,.4);
-  color:#FFB8DC;border-radius:5px;padding:6px 9px}
+.dato{margin-top:8px;font-size:12.5px;background:var(--mag-bg);border:1px solid rgba(255,46,151,.4);color:#FFB8DC;border-radius:5px;padding:6px 9px}
 .chip{display:inline-block;font-size:10px;border-radius:3px;padding:2px 8px;font-weight:700;font-family:'Rajdhani';letter-spacing:1px;text-transform:uppercase}
 .chip.v{background:var(--verde-bg);color:var(--lima);border:1px solid rgba(157,255,60,.4)}
 .chip.a{background:var(--amar-bg);color:var(--amar);border:1px solid rgba(255,210,60,.4)}
 .chip.r{background:var(--rojo-bg);color:var(--rojo);border:1px solid rgba(255,77,109,.4)}
-/* picks */
-.pick{background:linear-gradient(160deg,var(--panel),var(--panel2));border:1px solid var(--line);border-left:3px solid var(--cian);
-  border-radius:8px;padding:13px 16px;margin-top:10px;display:flex;gap:14px;align-items:baseline;transition:.2s}
+.pick{background:linear-gradient(160deg,var(--panel),var(--panel2));border:1px solid var(--line);border-left:3px solid var(--cian);border-radius:8px;padding:13px 16px;margin-top:10px;display:flex;gap:14px;align-items:baseline;transition:.2s}
 .pick:hover{border-left-color:var(--magenta);box-shadow:0 0 18px rgba(255,46,151,.18)}
 .pick .n{font-family:'Orbitron';font-weight:900;font-size:24px;color:var(--cian);min-width:30px;text-shadow:var(--glow-c)}
 .pick p{font-size:13.5px;color:var(--ink-dim)}
@@ -177,21 +163,19 @@ td.pts{font-family:'Orbitron';font-weight:700;font-size:15px;color:var(--cian)}
 .pick.fuego{border-left-color:var(--magenta)}
 .pick.fuego .n{color:var(--magenta);text-shadow:var(--glow-m)}
 .emptynote{color:var(--ink-dim);font-size:13px;margin-top:12px;font-style:italic}
-/* ajustes */
 .box{background:linear-gradient(160deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:8px;padding:16px;margin-top:14px}
 .box ol{margin:8px 0 0 18px;font-size:13px;color:var(--ink-dim);line-height:1.7}
 .box ol b{color:var(--ink)}
 label{display:block;font-family:'Rajdhani';font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--ink-dim);margin:10px 0 4px}
-input,select{width:100%;max-width:460px;background:#000;border:1px solid var(--line);color:var(--ink);
-  padding:9px 10px;border-radius:5px;font-family:inherit;font-size:14px}
+input,select{width:100%;max-width:460px;background:#000;border:1px solid var(--line);color:var(--ink);padding:9px 10px;border-radius:5px;font-family:inherit;font-size:14px}
 input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--cian);outline-offset:1px}
-pre{background:#000;border:1px solid var(--line);border-radius:5px;padding:12px;overflow-x:auto;
-  font-size:11.5px;color:var(--lima);margin-top:8px;line-height:1.5;white-space:pre-wrap;word-break:break-word}
-.btn{font-family:'Rajdhani';font-weight:700;text-transform:uppercase;letter-spacing:1.5px;font-size:15px;
-  background:linear-gradient(92deg,var(--cian),var(--magenta));color:var(--bg);border:none;border-radius:5px;padding:11px 22px;cursor:pointer;margin-top:14px;transition:.18s}
+input[type=range]{padding:0;height:6px;accent-color:var(--magenta)}
+pre{background:#000;border:1px solid var(--line);border-radius:5px;padding:12px;overflow-x:auto;font-size:11.5px;color:var(--lima);margin-top:8px;line-height:1.5;white-space:pre-wrap;word-break:break-word}
+.btn{font-family:'Rajdhani';font-weight:700;text-transform:uppercase;letter-spacing:1.5px;font-size:15px;background:linear-gradient(92deg,var(--cian),var(--magenta));color:var(--bg);border:none;border-radius:5px;padding:11px 22px;cursor:pointer;margin-top:14px;transition:.18s}
 .btn:hover{filter:brightness(1.12);box-shadow:0 0 20px rgba(255,46,151,.4)}
 .btn.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
 .btn.sec:hover{border-color:var(--cian);color:var(--cian);box-shadow:var(--glow-c);filter:none}
+.btn.odds{background:linear-gradient(92deg,var(--violeta),var(--magenta))}
 .btn:disabled{opacity:.5;cursor:wait}
 .msg{margin-top:10px;font-size:13px;padding:8px 10px;border-radius:5px;display:none}
 .msg.ok{display:block;background:var(--verde-bg);color:var(--lima);border:1px solid rgba(157,255,60,.4)}
@@ -200,6 +184,10 @@ pre{background:#000;border:1px solid var(--line);border-radius:5px;padding:12px;
 .inline>div{flex:1;min-width:130px}
 .scorein{display:flex;gap:8px;align-items:center}
 .scorein input{width:64px;text-align:center;font-family:'Orbitron';font-weight:700;font-size:18px}
+.pesos{display:flex;gap:16px;flex-wrap:wrap;margin-top:10px}
+.pesos>div{flex:1;min-width:150px}
+.pesos label{display:flex;justify-content:space-between}
+.pesos b{color:var(--cian)}
 footer{margin-top:50px;border-top:1px solid var(--line);padding-top:14px;font-size:12px;color:var(--ink-dim)}
 @media(max-width:560px){.match{padding:11px}.score{font-size:22px;padding:2px 8px}.pred .vs .t{font-size:15px}}
 </style>
@@ -211,7 +199,7 @@ footer{margin-top:50px;border-top:1px solid var(--line);padding-top:14px;font-si
 <header>
   <div>
     <h1>Mundial 2026<br>Neón Tracker</h1>
-    <p class="sub">Resultados, predicciones, datos calientes y picks de los 48 — en vivo vía Football-Data.org. Solo entretenimiento, no es asesoramiento de apuestas.</p>
+    <p class="sub">Predicciones de 3 capas (forma + cuotas reales de OddsPapi y SportsGameOdds), datos calientes y picks de los 48. Solo entretenimiento, no es asesoramiento de apuestas.</p>
   </div>
   <div class="statusline" id="statusline">Sync: <b>nunca</b></div>
 </header>
@@ -225,27 +213,26 @@ footer{margin-top:50px;border-top:1px solid var(--line);padding-top:14px;font-si
   <button role="tab" aria-selected="false" data-tab="ajustes">Ajustes</button>
 </nav>
 
-<!-- HOY -->
 <section id="tab-hoy">
   <div class="h2row"><h2><span class="gl">//</span> Predicciones del día</h2>
-    <button class="help" data-help="hoy" aria-label="Ayuda sobre predicciones">?</button></div>
+    <button class="help" data-help="hoy" aria-label="Ayuda">?</button></div>
   <div class="helpbox" id="help-hoy" hidden></div>
-  <p class="note">Cruces de la fecha elegida con estimación G/E/P y línea sugerida. Tocá el <b>?</b> de cada partido para ver por qué. <b>Estimaciones del modelo, NO datos oficiales ni consejo de apuestas.</b></p>
+  <p class="note">Cada cruce combina <b>3 capas</b>: tu modelo de forma + cuotas reales de dos casas. Tocá el <b>?</b> de cada partido para ver el desglose capa por capa. <b>Estimaciones, NO consejo de apuestas.</b></p>
   <div class="daynav">
     <button id="dPrev" aria-label="Día anterior">‹</button>
     <input type="date" id="dFecha" aria-label="Elegir fecha">
     <button id="dNext" aria-label="Día siguiente">›</button>
     <button id="dHoy" class="hoybtn">Hoy</button>
-    <button id="dSync" class="hoybtn" style="border-color:var(--magenta);color:var(--magenta)">↻ Refrescar</button>
+    <button id="dSync" class="hoybtn" style="border-color:var(--magenta);color:var(--magenta)">↻ Resultados</button>
+    <button id="dOdds" class="hoybtn" style="border-color:var(--violeta);color:var(--violeta)">💰 Cuotas</button>
   </div>
   <div class="msg" id="msgHoy"></div>
   <div id="listaHoy"></div>
 </section>
 
-<!-- GRUPOS -->
 <section id="tab-grupos" hidden>
   <div class="h2row"><h2><span class="gl">//</span> Fase de grupos</h2>
-    <button class="help" data-help="grupos" aria-label="Ayuda sobre grupos">?</button></div>
+    <button class="help" data-help="grupos" aria-label="Ayuda">?</button></div>
   <div class="helpbox" id="help-grupos" hidden></div>
   <div class="leyenda">
     <span><span class="dot" style="background:var(--lima)"></span>Verde = clasificación / victoria</span>
@@ -255,10 +242,9 @@ footer{margin-top:50px;border-top:1px solid var(--line);padding-top:14px;font-si
   <div class="grid" id="grupos"></div>
 </section>
 
-<!-- RESULTADOS -->
 <section id="tab-partidos" hidden>
   <div class="h2row"><h2><span class="gl">//</span> Resultados</h2>
-    <button class="help" data-help="resultados" aria-label="Ayuda sobre resultados">?</button></div>
+    <button class="help" data-help="resultados" aria-label="Ayuda">?</button></div>
   <div class="helpbox" id="help-resultados" hidden></div>
   <p class="note">Resultados finales (API o manuales). 🔥 marca las sorpresas: cuando gana el equipo al que el modelo daba menos chances.</p>
   <div class="inline">
@@ -281,12 +267,11 @@ footer{margin-top:50px;border-top:1px solid var(--line);padding-top:14px;font-si
   <div id="listaPartidos"></div>
 </section>
 
-<!-- DATOS CALIENTES -->
 <section id="tab-equipos" hidden>
   <div class="h2row"><h2><span class="gl">//</span> Datos Calientes</h2>
-    <button class="help" data-help="equipos" aria-label="Ayuda sobre datos calientes">?</button></div>
+    <button class="help" data-help="equipos" aria-label="Ayuda">?</button></div>
   <div class="helpbox" id="help-equipos" hidden></div>
-  <p class="note">Arriba: lo que el equipo hace EN el Mundial (se actualiza solo). Abajo: la previa del informe (12/06/2026). Borde verde = llegaba en gran forma; amarillo = neutro; rojo = alerta.</p>
+  <p class="note">Arriba: lo que el equipo hace EN el Mundial (se actualiza solo). Abajo: la previa del informe (12/06/2026). Borde verde = gran forma; amarillo = neutro; rojo = alerta.</p>
   <div class="inline">
     <div><label for="filtroGrupo">Filtrar por grupo</label>
       <select id="filtroGrupo"><option value="">Todos</option></select></div>
@@ -295,52 +280,52 @@ footer{margin-top:50px;border-top:1px solid var(--line);padding-top:14px;font-si
   <div class="tlist" id="equipos"></div>
 </section>
 
-<!-- PICKS -->
 <section id="tab-picks" hidden>
   <div class="h2row"><h2><span class="gl">//</span> Picks</h2>
-    <button class="help" data-help="picks" aria-label="Ayuda sobre picks">?</button></div>
+    <button class="help" data-help="picks" aria-label="Ayuda">?</button></div>
   <div class="helpbox" id="help-picks" hidden></div>
-  <p class="note">Cuando haya partidos jugados, este ranking se recalcula con lo que pasa en el Mundial. Mientras tanto, muestra la previa del 12/06. Estimaciones — para reírse en el grupo, no para apostar.</p>
+  <p class="note">Cuando haya partidos jugados, este ranking se recalcula con lo que pasa en el Mundial. Mientras tanto, la previa del 12/06.</p>
   <div id="picksLive"></div>
   <h3 class="tt">Previa · Los 5 en mejor forma (12/06)</h3>
-  <div class="pick"><span class="n">1</span><p><b>Argentina</b> — 8 de 9 ganados, 5 victorias seguidas con 14-1. Gana sin recibir gol.</p></div>
-  <div class="pick"><span class="n">2</span><p><b>Alemania</b> — 9 victorias consecutivas. Gana por 2 o más ante Curazao.</p></div>
-  <div class="pick"><span class="n">3</span><p><b>España</b> — invicta desde marzo de 2024; 31 oficiales sin perder. Over 2.5 (6 de 8).</p></div>
-  <div class="pick"><span class="n">4</span><p><b>México</b> — invicto en 2026 (7V-2E) y 12-1 en sus últimos 5. Pega primero.</p></div>
-  <div class="pick"><span class="n">5</span><p><b>Noruega</b> — eliminatoria 8/8 y 4+ goles por partido. Over 2.5 + Haaland anota.</p></div>
+  <div class="pick"><span class="n">1</span><p><b>Argentina</b> — 8 de 9 ganados, 14-1. Gana sin recibir gol.</p></div>
+  <div class="pick"><span class="n">2</span><p><b>Alemania</b> — 9 victorias consecutivas.</p></div>
+  <div class="pick"><span class="n">3</span><p><b>España</b> — invicta desde marzo 2024; 31 oficiales sin perder.</p></div>
+  <div class="pick"><span class="n">4</span><p><b>México</b> — invicto en 2026 (7V-2E) y 12-1 en sus últimos 5.</p></div>
+  <div class="pick"><span class="n">5</span><p><b>Noruega</b> — eliminatoria 8/8 y 4+ goles por partido.</p></div>
   <h3 class="tt">Previa · Patrones fuertes</h3>
-  <div class="pick"><span class="n">●</span><p><b>Canadá under 2.5</b> — 10 de sus últimos 11.</p></div>
-  <div class="pick"><span class="n">●</span><p><b>Bosnia: ambos marcan / 1-1</b> — BTTS en 6 de 6.</p></div>
+  <div class="pick"><span class="n">●</span><p><b>Canadá under 2.5</b> — 10 de 11.</p></div>
+  <div class="pick"><span class="n">●</span><p><b>Bosnia: ambos marcan</b> — 6 de 6.</p></div>
   <div class="pick"><span class="n">●</span><p><b>Brasil: ambos marcan</b> — 6 seguidos.</p></div>
-  <div class="pick"><span class="n">●</span><p><b>Colombia anota</b> — marcó en 9 de 10.</p></div>
+  <div class="pick"><span class="n">●</span><p><b>Colombia anota</b> — 9 de 10.</p></div>
   <div class="pick"><span class="n">●</span><p><b>Francia over 2.5</b> — 9 de 10.</p></div>
   <h3 class="tt" style="color:var(--rojo)">Previa · Alertas rojas</h3>
   <div class="pick" style="border-left-color:var(--rojo)"><span class="n">⚠</span><p><b>Túnez</b>, <b>Ghana</b>, <b>Nueva Zelanda</b>, <b>Curazao</b> y <b>EE. UU.</b> llegaban en baja forma.</p></div>
 </section>
 
-<!-- AJUSTES -->
 <section id="tab-ajustes" hidden>
   <div class="h2row"><h2><span class="gl">//</span> Ajustes</h2></div>
   <div class="box">
-    <h3 class="tt" style="margin-top:0">Conexión a Football-Data.org</h3>
-    <p class="note">Token precargado. Plan free: <b>10 consultas/minuto</b>, cubre el Mundial (<code>WC</code>). Cada sync gasta 1.</p>
-    <p class="note" style="color:#FFB8DC"><b>Importante:</b> Football-Data.org no se llama directo desde el navegador (CORS + expondría el token). Usá un mini-proxy gratis.</p>
-    <label for="modo">Modo de conexión</label>
+    <h3 class="tt" style="margin-top:0">Pesos del modelo de 3 capas</h3>
+    <p class="note">Cuánto confía la predicción final en cada fuente. El mercado (cuotas) suele ser lo más fiable, por eso pesa más por defecto. Se ajustan solos para sumar 100%.</p>
+    <div class="pesos">
+      <div><label>Capa A · Tu modelo <b id="wA">20%</b></label><input type="range" id="rngA" min="0" max="100" value="20"></div>
+      <div><label>Capa B · OddsPapi <b id="wB">50%</b></label><input type="range" id="rngB" min="0" max="100" value="50"></div>
+      <div><label>Capa C · SportsGameOdds <b id="wC">30%</b></label><input type="range" id="rngC" min="0" max="100" value="30"></div>
+    </div>
+    <p class="note" id="pesosNota" style="margin-top:8px"></p>
+  </div>
+  <div class="box">
+    <h3 class="tt" style="margin-top:0">Conexión (proxy)</h3>
+    <p class="note">El proxy ya viene configurado: <code id="proxyShow"></code>. Todo pasa por ahí (Football-Data + cuotas), con los tokens escondidos. No necesitás tocar nada.</p>
+    <label for="modo">Modo</label>
     <select id="modo">
-      <option value="proxy">Vía mi proxy (recomendado) — pegá la URL de tu Worker</option>
-      <option value="directo">Directo (solo abriendo el archivo localmente)</option>
+      <option value="proxy">Vía proxy (recomendado, ya configurado)</option>
+      <option value="directo">Directo (avanzado, solo local)</option>
     </select>
-    <div id="campoProxy">
-      <label for="proxyurl">URL de tu proxy</label>
-      <input id="proxyurl" placeholder="https://mundial-proxy.TU-USUARIO.workers.dev">
-    </div>
-    <div id="campoToken">
-      <label for="apikey">Token de Football-Data.org</label>
-      <input id="apikey" type="password" autocomplete="off">
-      <p class="note" id="tokenNota">Con el proxy, el token vive en el Worker; este campo puede quedar vacío.</p>
-    </div>
+    <div id="campoProxy"><label for="proxyurl">URL del proxy</label><input id="proxyurl" placeholder="https://...workers.dev"></div>
     <div class="inline">
-      <button class="btn" id="btnSync">Sincronizar resultados y fixture</button>
+      <button class="btn" id="btnSync">Sincronizar resultados</button>
+      <button class="btn odds" id="btnOdds">💰 Actualizar cuotas</button>
       <button class="btn sec" id="btnTest">Probar conexión</button>
     </div>
     <div class="msg" id="msgApi"></div>
@@ -348,14 +333,14 @@ footer{margin-top:50px;border-top:1px solid var(--line);padding-top:14px;font-si
   </div>
   <div class="box">
     <h3 class="tt" style="margin-top:0">Código del Worker (Cloudflare)</h3>
-    <p class="note">Pegalo en tu Worker → Deploy. Ya trae tu token y caché de 30s.</p>
+    <p class="note">Ya lo tenés montado. Si necesitás repegarlo (con las 3 APIs y la restricción de dominio), está acá:</p>
     <pre id="workerCode"></pre>
     <button class="btn sec" id="btnCopiar">Copiar código del Worker</button>
     <div class="msg" id="msgCopia"></div>
   </div>
   <div class="box">
     <h3 class="tt" style="margin-top:0">Respaldo</h3>
-    <p class="note">Tus datos viven en este navegador. Exportá un JSON para no perderlos o pasarlos a tus amigos (ya configurado).</p>
+    <p class="note">Tus datos viven en este navegador. Exportá un JSON para no perderlos o pasarlos a tus amigos.</p>
     <div class="inline">
       <button class="btn sec" id="btnExport">Exportar datos</button>
       <button class="btn sec" id="btnImport">Importar datos</button>
@@ -366,94 +351,98 @@ footer{margin-top:50px;border-top:1px solid var(--line);padding-top:14px;font-si
   </div>
 </section>
 
-<footer>Mundial 2026 Neón Tracker · hecho con Claude · datos vía Football-Data.org · previa verificada el 12/06/2026 · no es asesoramiento de apuestas</footer>
+<footer>Mundial 2026 Neón Tracker · hecho con Claude · datos vía Football-Data.org + OddsPapi + SportsGameOdds · no es asesoramiento de apuestas</footer>
 </div>
 <script>
 "use strict";
-/* ============ 48 EQUIPOS ============ */
+/* ============ 48 EQUIPOS (gf/gc = promedio previa para marcador aprox) ============ */
 const TEAMS = {
- MEX:{n:"México",g:"A",tier:"top",forma:"GGGG·",ou:"O 50%",btts:"25%",dato:"Invicto en 2026 (7V-2E); 12-1 en sus últimos 5",al:["mexico"]},
- RSA:{n:"Sudáfrica",g:"A",tier:"alerta",forma:"PEEE·",ou:"U 67%",btts:"67%",dato:"Terminó el debut con 9; sin ganar en sus últimos 4",al:["south africa"]},
- KOR:{n:"Corea del Sur",g:"A",tier:"neutro",forma:"G·GGP",ou:"U 71%",btts:"14%",dato:"4 de sus últimas 5 victorias con el arco en cero",al:["south korea","korea republic","korea"]},
- CZE:{n:"Chequia",g:"A",tier:"alerta",forma:"PGEEG",ou:"O 67%",btts:"67%",dato:"Perdió 3-1 con Guatemala a una semana del debut",al:["czech republic","czechia"]},
- CAN:{n:"Canadá",g:"B",tier:"top",forma:"EEGEE",ou:"U 91%",btts:"27%",dato:"Under 2.5 en 10 de sus últimos 11",al:["canada"]},
- BIH:{n:"Bosnia",g:"B",tier:"neutro",forma:"EEGEE",ou:"U 80%",btts:"100%",dato:"BTTS en 6 de 6; eliminó a Italia en Zenica",al:["bosnia","bosnia and herzegovina","bosnia-herzegovina"]},
- QAT:{n:"Catar",g:"B",tier:"neutro",forma:"E····",ou:"s/d",btts:"s/d",dato:"Primera clasificación por mérito deportivo",al:["qatar"]},
- SUI:{n:"Suiza",g:"B",tier:"top",forma:"G··EG",ou:"O 57%",btts:"29%",dato:"Invicta en la eliminatoria con 1 gol en contra",al:["switzerland"]},
- BRA:{n:"Brasil",g:"C",tier:"top",forma:"GGGPE",ou:"O 70%",btts:"60%",dato:"Ambos marcan en sus últimos 6 partidos",al:["brazil"]},
- MAR:{n:"Marruecos",g:"C",tier:"neutro",forma:"EGGEP",ou:"U 60%",btts:"60%",dato:"Campeón africano por fallo de la CAF tras perder la final en cancha",al:["morocco"]},
- HAI:{n:"Haití",g:"C",tier:"neutro",forma:"PGEPG",ou:"U 67%",btts:"33%",dato:"Ganó su grupo eliminatorio sin poder jugar en su país",al:["haiti"]},
- SCO:{n:"Escocia",g:"C",tier:"neutro",forma:"GG··G",ou:"O 75%",btts:"63%",dato:"8 goles en sus 2 últimos amistosos (4-1 y 4-0)",al:["scotland"]},
- USA:{n:"Estados Unidos",g:"D",tier:"alerta",forma:"PGPPG",ou:"O 60%",btts:"70%",dato:"11 goles en contra en sus últimos 4 amistosos",al:["united states","usa"]},
- PAR:{n:"Paraguay",g:"D",tier:"neutro",forma:"GPGGP",ou:"O 56%",btts:"44%",dato:"Arco en cero en 4 de sus últimos 9",al:["paraguay"]},
- AUS:{n:"Australia",g:"D",tier:"neutro",forma:"PG·PG",ou:"O 50%",btts:"50%",dato:"Goleó 5-1 a Curazao y ganó en Toronto",al:["australia"]},
- TUR:{n:"Turquía",g:"D",tier:"top",forma:"GGGGE",ou:"O 78%",btts:"56%",dato:"8 triunfos en sus últimos 10; primer Mundial desde 2002",al:["turkey","türkiye","turkiye"]},
- GER:{n:"Alemania",g:"E",tier:"top",forma:"GGGGG",ou:"O 71%",btts:"29%",dato:"9 victorias consecutivas llegando al debut",al:["germany"]},
- ECU:{n:"Ecuador",g:"E",tier:"neutro",forma:"GGEE·",ou:"U 71%",btts:"57%",dato:"Invicto en sus últimos 7 confirmados",al:["ecuador"]},
- CIV:{n:"Costa de Marfil",g:"E",tier:"neutro",forma:"GP···",ou:"s/d",btts:"s/d",dato:"Le ganó 2-1 a Francia a 10 días del Mundial",al:["ivory coast","cote d'ivoire","côte d'ivoire"]},
- CUW:{n:"Curazao",g:"E",tier:"alerta",forma:"GPPPE",ou:"O 67%",btts:"33%",dato:"3 derrotas seguidas vs rivales de peso: 2 GF, 11 GC",al:["curacao","curaçao"]},
- NED:{n:"Países Bajos",g:"F",tier:"neutro",forma:"GPE·G",ou:"O 50%",btts:"50%",dato:"Perdió 0-1 con Argelia a 11 días del debut",al:["netherlands"]},
- JPN:{n:"Japón",g:"F",tier:"top",forma:"G·GGG",ou:"U 57%",btts:"29%",dato:"Le ganó 3-2 a Brasil remontando, primera vez en su historia",al:["japan"]},
- SWE:{n:"Suecia",g:"F",tier:"alerta",forma:"PGG·P",ou:"O 4/4",btts:"4/4",dato:"Clasificó sin ganar un partido de su grupo (vía Nations League)",al:["sweden"]},
- TUN:{n:"Túnez",g:"F",tier:"alerta",forma:"PPE·E",ou:"U 75%",btts:"25%",dato:"1 gol a favor en sus últimos 4; 0-5 con Bélgica",al:["tunisia"]},
- BEL:{n:"Bélgica",g:"G",tier:"top",forma:"GGG·G",ou:"O 63%",btts:"38%",dato:"29 goles a favor en sus últimos 8 (3.6 por partido)",al:["belgium"]},
- EGY:{n:"Egipto",g:"G",tier:"alerta",forma:"P·GPE",ou:"U 60%",btts:"40%",dato:"1 victoria en sus últimos 5 con marcador conocido",al:["egypt"]},
- IRN:{n:"Irán",g:"G",tier:"neutro",forma:"··EE·",ou:"U 2/2",btts:"0/2",dato:"Dos 0-0 seguidos; la incógnita del Mundial",al:["iran","ir iran"]},
- NZL:{n:"Nueva Zelanda",g:"G",tier:"alerta",forma:"PP·P·",ou:"O 33%",btts:"33%",dato:"3 derrotas seguidas verificables y 1 solo gol",al:["new zealand"]},
- ESP:{n:"España",g:"H",tier:"top",forma:"GE··E",ou:"O 75%",btts:"38%",dato:"No pierde desde marzo de 2024; 31 oficiales invicta",al:["spain"]},
- URU:{n:"Uruguay",g:"H",tier:"neutro",forma:"EEPEG",ou:"U 63%",btts:"38%",dato:"4 empates en sus últimos 6; under 2.5 en 5 de 8",al:["uruguay"]},
- KSA:{n:"Arabia Saudita",g:"H",tier:"neutro",forma:"EP···",ou:"U 2/2",btts:"50%",dato:"0-0 con Senegal en el cierre",al:["saudi arabia"]},
- CPV:{n:"Cabo Verde",g:"H",tier:"neutro",forma:"GGPPE",ou:"O 67%",btts:"33%",dato:"Eliminó a Camerún de su grupo; goleadas a Serbia y Bermudas",al:["cape verde","cabo verde"]},
- FRA:{n:"Francia",g:"I",tier:"top",forma:"GPGGG",ou:"O 90%",btts:"70%",dato:"Over 2.5 en 9 de sus últimos 10",al:["france"]},
- SEN:{n:"Senegal",g:"I",tier:"top",forma:"EPGGG",ou:"U 63%",btts:"38%",dato:"Ganó la final africana 1-0 en la cancha; se la quitaron en los escritorios",al:["senegal"]},
- NOR:{n:"Noruega",g:"I",tier:"top",forma:"EG·GG",ou:"O 83%",btts:"83%",dato:"Eliminatoria perfecta 8/8, con 4-1 a Italia en San Siro",al:["norway"]},
- IRQ:{n:"Irak",g:"I",tier:"neutro",forma:"PEG··",ou:"s/d",btts:"s/d",dato:"Empató 1-1 con España a 11 días del Mundial",al:["iraq"]},
- ARG:{n:"Argentina",g:"J",tier:"top",forma:"GGGGG",ou:"O 56%",btts:"11%",dato:"Ganó 8 de 9 y dejó el arco en cero en 7",al:["argentina"]},
- AUT:{n:"Austria",g:"J",tier:"neutro",forma:"GG··E",ou:"U 56%",btts:"33%",dato:"Vuelve tras 28 años; goleó a Ghana en su último ensayo",al:["austria"]},
- ALG:{n:"Argelia",g:"J",tier:"neutro",forma:"GE···",ou:"U 2/2",btts:"0/2",dato:"Venció 1-0 a Países Bajos en Ámsterdam",al:["algeria"]},
- JOR:{n:"Jordania",g:"J",tier:"alerta",forma:"PP···",ou:"O 2/2",btts:"50%",dato:"6 goles en contra en sus 2 últimos ensayos",al:["jordan"]},
- POR:{n:"Portugal",g:"K",tier:"top",forma:"GGG·G",ou:"O 67%",btts:"56%",dato:"Cerró la eliminatoria con un 9-1 histórico a Armenia",al:["portugal"]},
- COL:{n:"Colombia",g:"K",tier:"top",forma:"GGPPG",ou:"O 80%",btts:"50%",dato:"Marcó en 9 de sus últimos 10",al:["colombia"]},
- UZB:{n:"Uzbekistán",g:"K",tier:"alerta",forma:"PPEPG",ou:"U 57%",btts:"43%",dato:"Primer Mundial, pero 3 derrotas en sus últimos 4",al:["uzbekistan"]},
- COD:{n:"RD Congo",g:"K",tier:"neutro",forma:"PEGEG",ou:"U 75%",btts:"25%",dato:"Eliminó a Camerún, Nigeria y Jamaica; vuelve tras 52 años",al:["congo dr","dr congo","democratic republic of congo","congo"]},
- ENG:{n:"Inglaterra",g:"L",tier:"top",forma:"GGE·G",ou:"U 56%",btts:"11%",dato:"1 gol en contra en sus últimos 9; eliminatoria sin recibir goles",al:["england"]},
- CRO:{n:"Croacia",g:"L",tier:"neutro",forma:"GPPGG",ou:"O 63%",btts:"63%",dato:"Invicta en su eliminatoria; cayó con Bélgica y Brasil en 2026",al:["croatia"]},
- PAN:{n:"Panamá",g:"L",tier:"neutro",forma:"EGPE·",ou:"O 50%",btts:"75%",dato:"Ambos marcan en 6 de sus últimos 8",al:["panama"]},
- GHA:{n:"Ghana",g:"L",tier:"alerta",forma:"PEP··",ou:"s/d",btts:"s/d",dato:"No clasificó ni a la Copa Africana; sin ganar en 2026",al:["ghana"]}
+ MEX:{n:"México",g:"A",tier:"top",forma:"GGGG·",ou:"O 50%",btts:"25%",gf:2.5,gc:0.5,dato:"Invicto en 2026 (7V-2E); 12-1 en sus últimos 5",al:["mexico"]},
+ RSA:{n:"Sudáfrica",g:"A",tier:"alerta",forma:"PEEE·",ou:"U 67%",btts:"67%",gf:0.7,gc:1.3,dato:"Terminó el debut con 9; sin ganar en sus últimos 4",al:["south africa"]},
+ KOR:{n:"Corea del Sur",g:"A",tier:"neutro",forma:"G·GGP",ou:"U 71%",btts:"14%",gf:1.4,gc:1.0,dato:"4 de sus últimas 5 victorias con el arco en cero",al:["south korea","korea republic","korea"]},
+ CZE:{n:"Chequia",g:"A",tier:"alerta",forma:"PGEEG",ou:"O 67%",btts:"67%",gf:2.0,gc:1.3,dato:"Perdió 3-1 con Guatemala a una semana del debut",al:["czech republic","czechia"]},
+ CAN:{n:"Canadá",g:"B",tier:"top",forma:"EEGEE",ou:"U 91%",btts:"27%",gf:0.9,gc:0.4,dato:"Under 2.5 en 10 de sus últimos 11",al:["canada"]},
+ BIH:{n:"Bosnia",g:"B",tier:"neutro",forma:"EEGEE",ou:"U 80%",btts:"100%",gf:1.4,gc:1.0,dato:"BTTS en 6 de 6; eliminó a Italia en Zenica",al:["bosnia","bosnia and herzegovina","bosnia-herzegovina"]},
+ QAT:{n:"Catar",g:"B",tier:"neutro",forma:"E····",ou:"s/d",btts:"s/d",gf:1.0,gc:1.2,dato:"Primera clasificación por mérito deportivo",al:["qatar"]},
+ SUI:{n:"Suiza",g:"B",tier:"top",forma:"G··EG",ou:"O 57%",btts:"29%",gf:2.4,gc:0.3,dato:"Invicta en la eliminatoria con 1 gol en contra",al:["switzerland"]},
+ BRA:{n:"Brasil",g:"C",tier:"top",forma:"GGGPE",ou:"O 70%",btts:"60%",gf:2.5,gc:1.1,dato:"Ambos marcan en sus últimos 6 partidos",al:["brazil"]},
+ MAR:{n:"Marruecos",g:"C",tier:"neutro",forma:"EGGEP",ou:"U 60%",btts:"60%",gf:1.6,gc:0.8,dato:"Campeón africano por fallo de la CAF tras perder la final en cancha",al:["morocco"]},
+ HAI:{n:"Haití",g:"C",tier:"neutro",forma:"PGEPG",ou:"U 67%",btts:"33%",gf:1.5,gc:0.7,dato:"Ganó su grupo eliminatorio sin poder jugar en su país",al:["haiti"]},
+ SCO:{n:"Escocia",g:"C",tier:"neutro",forma:"GG··G",ou:"O 75%",btts:"63%",gf:2.6,gc:1.0,dato:"8 goles en sus 2 últimos amistosos (4-1 y 4-0)",al:["scotland"]},
+ USA:{n:"Estados Unidos",g:"D",tier:"alerta",forma:"PGPPG",ou:"O 60%",btts:"70%",gf:1.8,gc:1.7,dato:"11 goles en contra en sus últimos 4 amistosos",al:["united states","usa"]},
+ PAR:{n:"Paraguay",g:"D",tier:"neutro",forma:"GPGGP",ou:"O 56%",btts:"44%",gf:1.3,gc:1.0,dato:"Arco en cero en 4 de sus últimos 9",al:["paraguay"]},
+ AUS:{n:"Australia",g:"D",tier:"neutro",forma:"PG·PG",ou:"O 50%",btts:"50%",gf:1.8,gc:1.0,dato:"Goleó 5-1 a Curazao y ganó en Toronto",al:["australia"]},
+ TUR:{n:"Turquía",g:"D",tier:"top",forma:"GGGGE",ou:"O 78%",btts:"56%",gf:2.7,gc:1.4,dato:"8 triunfos en sus últimos 10; primer Mundial desde 2002",al:["turkey","türkiye","turkiye"]},
+ GER:{n:"Alemania",g:"E",tier:"top",forma:"GGGGG",ou:"O 71%",btts:"29%",gf:3.1,gc:0.3,dato:"9 victorias consecutivas llegando al debut",al:["germany"]},
+ ECU:{n:"Ecuador",g:"E",tier:"neutro",forma:"GGEE·",ou:"U 71%",btts:"57%",gf:1.3,gc:0.6,dato:"Invicto en sus últimos 7 confirmados",al:["ecuador"]},
+ CIV:{n:"Costa de Marfil",g:"E",tier:"neutro",forma:"GP···",ou:"s/d",btts:"s/d",gf:1.5,gc:1.0,dato:"Le ganó 2-1 a Francia a 10 días del Mundial",al:["ivory coast","cote d'ivoire","côte d'ivoire"]},
+ CUW:{n:"Curazao",g:"E",tier:"alerta",forma:"GPPPE",ou:"O 67%",btts:"33%",gf:0.7,gc:2.3,dato:"3 derrotas seguidas vs rivales de peso: 2 GF, 11 GC",al:["curacao","curaçao"]},
+ NED:{n:"Países Bajos",g:"F",tier:"neutro",forma:"GPE·G",ou:"O 50%",btts:"50%",gf:2.4,gc:0.8,dato:"Perdió 0-1 con Argelia a 11 días del debut",al:["netherlands"]},
+ JPN:{n:"Japón",g:"F",tier:"top",forma:"G·GGG",ou:"U 57%",btts:"29%",gf:1.6,gc:0.9,dato:"Le ganó 3-2 a Brasil remontando, primera vez en su historia",al:["japan"]},
+ SWE:{n:"Suecia",g:"F",tier:"alerta",forma:"PGG·P",ou:"O 4/4",btts:"4/4",gf:2.0,gc:2.5,dato:"Clasificó sin ganar un partido de su grupo (vía Nations League)",al:["sweden"]},
+ TUN:{n:"Túnez",g:"F",tier:"alerta",forma:"PPE·E",ou:"U 75%",btts:"25%",gf:0.3,gc:1.8,dato:"1 gol a favor en sus últimos 4; 0-5 con Bélgica",al:["tunisia"]},
+ BEL:{n:"Bélgica",g:"G",tier:"top",forma:"GGG·G",ou:"O 63%",btts:"38%",gf:3.6,gc:0.6,dato:"29 goles a favor en sus últimos 8 (3.6 por partido)",al:["belgium"]},
+ EGY:{n:"Egipto",g:"G",tier:"alerta",forma:"P·GPE",ou:"U 60%",btts:"40%",gf:1.2,gc:1.2,dato:"1 victoria en sus últimos 5 con marcador conocido",al:["egypt"]},
+ IRN:{n:"Irán",g:"G",tier:"neutro",forma:"··EE·",ou:"U 2/2",btts:"0/2",gf:0.5,gc:0.5,dato:"Dos 0-0 seguidos; la incógnita del Mundial",al:["iran","ir iran"]},
+ NZL:{n:"Nueva Zelanda",g:"G",tier:"alerta",forma:"PP·P·",ou:"O 33%",btts:"33%",gf:0.3,gc:2.3,dato:"3 derrotas seguidas verificables y 1 solo gol",al:["new zealand"]},
+ ESP:{n:"España",g:"H",tier:"top",forma:"GE··E",ou:"O 75%",btts:"38%",gf:3.1,gc:0.5,dato:"No pierde desde marzo de 2024; 31 oficiales invicta",al:["spain"]},
+ URU:{n:"Uruguay",g:"H",tier:"neutro",forma:"EEPEG",ou:"U 63%",btts:"38%",gf:1.0,gc:0.9,dato:"4 empates en sus últimos 6; under 2.5 en 5 de 8",al:["uruguay"]},
+ KSA:{n:"Arabia Saudita",g:"H",tier:"neutro",forma:"EP···",ou:"U 2/2",btts:"50%",gf:0.5,gc:1.0,dato:"0-0 con Senegal en el cierre",al:["saudi arabia"]},
+ CPV:{n:"Cabo Verde",g:"H",tier:"neutro",forma:"GGPPE",ou:"O 67%",btts:"33%",gf:1.7,gc:1.1,dato:"Eliminó a Camerún de su grupo; goleadas a Serbia y Bermudas",al:["cape verde","cabo verde"]},
+ FRA:{n:"Francia",g:"I",tier:"top",forma:"GPGGG",ou:"O 90%",btts:"70%",gf:2.5,gc:0.9,dato:"Over 2.5 en 9 de sus últimos 10",al:["france"]},
+ SEN:{n:"Senegal",g:"I",tier:"top",forma:"EPGGG",ou:"U 63%",btts:"38%",gf:1.6,gc:0.6,dato:"Ganó la final africana 1-0 en la cancha; se la quitaron en los escritorios",al:["senegal"]},
+ NOR:{n:"Noruega",g:"I",tier:"top",forma:"EG·GG",ou:"O 83%",btts:"83%",gf:4.1,gc:0.7,dato:"Eliminatoria perfecta 8/8, con 4-1 a Italia en San Siro",al:["norway"]},
+ IRQ:{n:"Irak",g:"I",tier:"neutro",forma:"PEG··",ou:"s/d",btts:"s/d",gf:1.0,gc:1.0,dato:"Empató 1-1 con España a 11 días del Mundial",al:["iraq"]},
+ ARG:{n:"Argentina",g:"J",tier:"top",forma:"GGGGG",ou:"O 56%",btts:"11%",gf:2.7,gc:0.2,dato:"Ganó 8 de 9 y dejó el arco en cero en 7",al:["argentina"]},
+ AUT:{n:"Austria",g:"J",tier:"neutro",forma:"GG··E",ou:"U 56%",btts:"33%",gf:2.6,gc:0.4,dato:"Vuelve tras 28 años; goleó a Ghana en su último ensayo",al:["austria"]},
+ ALG:{n:"Argelia",g:"J",tier:"neutro",forma:"GE···",ou:"U 2/2",btts:"0/2",gf:0.5,gc:0.0,dato:"Venció 1-0 a Países Bajos en Ámsterdam",al:["algeria"]},
+ JOR:{n:"Jordania",g:"J",tier:"alerta",forma:"PP···",ou:"O 2/2",btts:"50%",gf:0.5,gc:3.0,dato:"6 goles en contra en sus 2 últimos ensayos",al:["jordan"]},
+ POR:{n:"Portugal",g:"K",tier:"top",forma:"GGG·G",ou:"O 67%",btts:"56%",gf:2.9,gc:1.0,dato:"Cerró la eliminatoria con un 9-1 histórico a Armenia",al:["portugal"]},
+ COL:{n:"Colombia",g:"K",tier:"top",forma:"GGPPG",ou:"O 80%",btts:"50%",gf:2.4,gc:1.0,dato:"Marcó en 9 de sus últimos 10",al:["colombia"]},
+ UZB:{n:"Uzbekistán",g:"K",tier:"alerta",forma:"PPEPG",ou:"U 57%",btts:"43%",gf:1.0,gc:1.0,dato:"Primer Mundial, pero 3 derrotas en sus últimos 4",al:["uzbekistan"]},
+ COD:{n:"RD Congo",g:"K",tier:"neutro",forma:"PEGEG",ou:"U 75%",btts:"25%",gf:0.8,gc:0.8,dato:"Eliminó a Camerún, Nigeria y Jamaica; vuelve tras 52 años",al:["congo dr","dr congo","democratic republic of congo","congo"]},
+ ENG:{n:"Inglaterra",g:"L",tier:"top",forma:"GGE·G",ou:"U 56%",btts:"11%",gf:2.7,gc:0.1,dato:"1 gol en contra en sus últimos 9; eliminatoria sin recibir goles",al:["england"]},
+ CRO:{n:"Croacia",g:"L",tier:"neutro",forma:"GPPGG",ou:"O 63%",btts:"63%",gf:1.8,gc:1.1,dato:"Invicta en su eliminatoria; cayó con Bélgica y Brasil en 2026",al:["croatia"]},
+ PAN:{n:"Panamá",g:"L",tier:"neutro",forma:"EGPE·",ou:"O 50%",btts:"75%",gf:1.9,gc:1.8,dato:"Ambos marcan en 6 de sus últimos 8",al:["panama"]},
+ GHA:{n:"Ghana",g:"L",tier:"alerta",forma:"PEP··",ou:"s/d",btts:"s/d",gf:0.5,gc:1.5,dato:"No clasificó ni a la Copa Africana; sin ganar en 2026",al:["ghana"]}
 };
 const GRUPOS="ABCDEFGHIJKL".split("");
 const SEED=[
  {id:"seed1",local:"MEX",vis:"RSA",gl:2,gv:0,fase:"Fase de grupos",fecha:"2026-06-11",fuente:"manual"},
  {id:"seed2",local:"CAN",vis:"BIH",gl:1,gv:1,fase:"Fase de grupos",fecha:"2026-06-12",fuente:"manual"}
 ];
-const DEFAULT_TOKEN="9628d8ae51c14a0a88a6d90747b42320";
+const DEFAULT_PROXY="https://mundial-proxy.gabrielarceem.workers.dev";
 const STAGE_ES={GROUP_STAGE:"Fase de grupos",LAST_32:"16avos",LAST_16:"Octavos",QUARTER_FINALS:"Cuartos",SEMI_FINALS:"Semifinal",THIRD_PLACE:"3er puesto",FINAL:"Final"};
 
-/* ============ AYUDAS CONTEXTUALES ============ */
+/* ============ AYUDAS ============ */
 const HELP={
- hoy:'<h5>¿Cómo leo las predicciones?</h5>Cada barra reparte 100% entre tres resultados. <b>El color sigue al resultado, no a la posición:</b> el segmento <b style="color:var(--lima)">verde</b> es el más probable, el <b style="color:var(--amar)">amarillo</b> siempre es el empate, y el <b style="color:var(--rojo)">rojo</b> es el equipo con menos chances de ganar. El número es la probabilidad estimada. Tocá el <b>?</b> de cada partido para ver el cálculo equipo por equipo. Las etiquetas de abajo (Over 2.5, Ambos marcan, Gana X) son líneas sugeridas que salen de combinar la previa de ambos rivales. Todo es un modelo casero, no cuotas reales.',
- grupos:'<h5>¿Cómo se ordena la tabla? (reglamento FIFA)</h5>La app ordena por: <b>1)</b> puntos (3 por victoria, 1 por empate), <b>2)</b> diferencia de goles general, <b>3)</b> goles a favor general. Avanzan a la siguiente ronda <b>los 2 primeros de cada grupo + los 8 mejores terceros</b> (32 clasificados para los 16avos).<br><br>El reglamento oficial de FIFA, si tras esos 3 criterios sigue el empate, continúa con: enfrentamiento directo entre los igualados (puntos, diferencia y goles entre ellos), luego fair-play (menos tarjetas) y por último sorteo. <b>Aviso honesto:</b> esta app automatiza solo los 3 criterios principales; los desempates finos (head-to-head y fair-play) no están calculados porque el plan gratuito de la API no trae tarjetas por partido de forma fiable. La franja verde a la izquierda marca la zona de clasificación directa (top 2).',
- resultados:'<h5>¿Qué es una sorpresa 🔥?</h5>Cuando cargo un resultado (de la API o manual), lo comparo con lo que el modelo había estimado para ese cruce. Si gana el equipo al que el modelo le daba <b>menos del 35%</b> de probabilidad de ganar, lo marco con 🔥 y resalto la tarjeta en magenta. Es la forma de cazar batacazos: el chico que le gana al grande, el favorito que se cae. Los resultados se ordenan del más reciente al más viejo.',
- equipos:'<h5>¿Qué significa cada métrica?</h5><b>En el Mundial</b> = lo que el equipo lleva hecho en el torneo (partidos, victorias, goles, puntos) — se actualiza con cada sync.<br><b>Forma torneo</b> = sus resultados en el Mundial (G/E/P).<br><b>O2.5</b> = % de sus partidos del torneo con más de 2.5 goles. <b>BTTS</b> = % en que ambos equipos marcaron.<br><b>Previa</b> = lo mismo pero de los meses ANTES del Mundial (informe del 12/06), para comparar expectativa vs realidad.<br><b>El borde de color</b> resume cómo llegaba: <b style="color:var(--lima)">verde</b> = gran forma, <b style="color:var(--amar)">amarillo</b> = neutro, <b style="color:var(--rojo)">rojo</b> = alerta. El recuadro 🔥 es el dato más llamativo de cada selección.',
- picks:'<h5>¿Cómo se arman los picks?</h5>Hay dos bloques. <b>En vivo:</b> apenas hay partidos jugados en el Mundial, calculo rankings con datos reales del torneo — mejor diferencia de goles, equipos con más "ambos marcan", y las 🔥 sorpresas ya ocurridas. <b>Previa:</b> el ranking que armamos antes de arrancar (12/06), por si querés comparar. Todo es estimación para picarse entre amigos, nunca consejo de apuestas.'
+ hoy:'<h5>¿Cómo se arma cada predicción? (3 capas)</h5>Cada barra combina tres fuentes: <b style="color:var(--lima)">Capa A</b> = tu modelo de forma (previa + torneo). <b style="color:var(--cian)">Capa B</b> = cuotas reales de OddsPapi (con Pinnacle de referencia). <b style="color:var(--violeta)">Capa C</b> = cuotas de SportsGameOdds. Se fusionan con los pesos que vos elegís en Ajustes (por defecto 20/50/30, el mercado pesa más porque es más fiable). El color sigue al resultado: <b style="color:var(--lima)">verde</b>=más probable, <b style="color:var(--amar)">amarillo</b>=empate, <b style="color:var(--rojo)">rojo</b>=menos probable. El "≈ 2-1" es un marcador estimado por promedios de goles. Tocá el <b>?</b> de cada partido para ver las 3 capas por separado y cómo se fusionan. Si no cargaste cuotas todavía, la predicción usa solo la Capa A.',
+ grupos:'<h5>¿Cómo se ordena la tabla? (reglamento FIFA)</h5>La app ordena por: <b>1)</b> puntos (3 victoria, 1 empate), <b>2)</b> diferencia de goles general, <b>3)</b> goles a favor general. Avanzan <b>los 2 primeros de cada grupo + los 8 mejores terceros</b> (32 a 16avos).<br><br>El reglamento FIFA, si sigue el empate tras esos 3, continúa con enfrentamiento directo (puntos, diferencia y goles entre los igualados), luego fair-play (menos tarjetas) y por último sorteo. <b>Aviso honesto:</b> la app automatiza solo los 3 criterios principales; los desempates finos (head-to-head, fair-play) no están calculados porque el plan gratuito de Football-Data no trae tarjetas por partido de forma fiable. La franja verde marca la zona de clasificación directa (top 2).',
+ resultados:'<h5>¿Qué es una sorpresa 🔥?</h5>Al cargar un resultado, lo comparo con lo que el modelo había estimado para ese cruce (usando solo partidos previos, sin "ver el futuro"). Si gana el equipo al que el modelo daba <b>menos del 35%</b>, lo marco con 🔥 y resalto la tarjeta en magenta. Es la forma de cazar batacazos.',
+ equipos:'<h5>¿Qué significa cada métrica?</h5><b>En el Mundial</b> = lo hecho en el torneo (se actualiza con cada sync). <b>O2.5</b> = % de partidos con +2.5 goles. <b>BTTS</b> = % en que ambos marcaron. <b>Previa</b> = lo mismo de los meses ANTES del Mundial, para comparar expectativa vs realidad. <b>Borde:</b> <b style="color:var(--lima)">verde</b>=gran forma, <b style="color:var(--amar)">amarillo</b>=neutro, <b style="color:var(--rojo)">rojo</b>=alerta. El recuadro 🔥 es el dato más llamativo.',
+ picks:'<h5>¿Cómo se arman los picks?</h5><b>En vivo:</b> apenas hay partidos jugados, calculo rankings con datos reales del torneo (diferencia de goles, líderes de "ambos marcan", y las 🔥 sorpresas ocurridas). <b>Previa:</b> el ranking de antes de arrancar (12/06). Todo estimación para picarse entre amigos, nunca consejo de apuestas.'
 };
 
 /* ============ ESTADO ============ */
-const LS_KEY="wc26_tracker_neon_v1";
+const LS_KEY="wc26_tracker_v3";
 let state=cargar();
 function cargar(){
   try{const raw=localStorage.getItem(LS_KEY);
-    if(raw){const s=JSON.parse(raw);if(s&&Array.isArray(s.results)){
-      if(!s.token)s.token=DEFAULT_TOKEN;if(!Array.isArray(s.fixtures))s.fixtures=[];
-      if(!s.modo)s.modo="proxy";if(!("proxy"in s))s.proxy="";return s;}}
+    if(raw){const s=JSON.parse(raw);if(s&&Array.isArray(s.results)){return normaliza(s);}}
   }catch(e){}
-  /* migración suave desde versiones previas */
-  try{for(const k of["wc26_tracker_fd_v1","wc26_tracker_v2","wc26_tracker_v1"]){
-    const old=localStorage.getItem(k);
-    if(old){const s=JSON.parse(old);if(s&&Array.isArray(s.results)){
-      s.token=s.token||DEFAULT_TOKEN;s.fixtures=Array.isArray(s.fixtures)?s.fixtures:[];s.modo=s.modo||"proxy";s.proxy=s.proxy||"";return s;}}
-  }}catch(e){}
-  return {results:[...SEED],fixtures:[],token:DEFAULT_TOKEN,proxy:"",modo:"proxy",lastSync:null,lastFixSync:null,live:[]};
+  try{for(const k of["wc26_tracker_neon_v1","wc26_tracker_fd_v1"]){
+    const old=localStorage.getItem(k);if(old){const s=JSON.parse(old);if(s&&Array.isArray(s.results))return normaliza(s);}}
+  }catch(e){}
+  return normaliza({results:[...SEED]});
+}
+function normaliza(s){
+  s.fixtures=Array.isArray(s.fixtures)?s.fixtures:[];
+  s.odds=s.odds&&typeof s.odds==="object"?s.odds:{};   /* {fixtureKey:{op:{H,D,A},sgo:{H,D,A},ts}} */
+  s.proxy=s.proxy||DEFAULT_PROXY;s.modo=s.modo||"proxy";
+  s.pesos=s.pesos||{A:20,B:50,C:30};
+  s.lastSync=s.lastSync||null;s.lastOdds=s.lastOdds||null;s.live=s.live||[];
+  if(!Array.isArray(s.results))s.results=[...SEED];
+  return s;
 }
 function guardar(){try{localStorage.setItem(LS_KEY,JSON.stringify(state));}catch(e){}}
 
@@ -468,148 +457,172 @@ function teamByName(name){
 }
 function fmtFecha(f){if(!f)return"";const[y,m,d]=f.split("-");return d+"/"+m+"/"+y;}
 function hoyISO(){return new Date().toLocaleDateString("sv");}
-function pct(s,esOU){
-  if(!s||s.includes("s/d"))return null;let v=null;
-  const m=s.match(/(\d+)\s*%/);if(m)v=+m[1];
-  else{const f=s.match(/(\d+)\/(\d+)/);if(f)v=Math.round(100*(+f[1])/(+f[2]));}
-  if(v===null)return null;if(esOU&&/^U/.test(s))v=100-v;return v;
-}
+function pctPrev(s,esOU){if(!s||s.includes("s/d"))return null;let v=null;const m=s.match(/(\d+)\s*%/);if(m)v=+m[1];else{const f=s.match(/(\d+)\/(\d+)/);if(f)v=Math.round(100*(+f[1])/(+f[2]));}if(v===null)return null;if(esOU&&/^U/.test(s))v=100-v;return v;}
 const esc=s=>(s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const oddsKey=(L,V)=>L<V?L+"_"+V:V+"_"+L;  /* clave estable por par */
 
 /* ============ STATS DEL TORNEO ============ */
 function statsTorneo(){
-  const st={};
-  Object.keys(TEAMS).forEach(id=>st[id]={pj:0,g:0,e:0,p:0,gf:0,gc:0,pts:0,forma:[],over:0,btts:0});
+  const st={};Object.keys(TEAMS).forEach(id=>st[id]={pj:0,g:0,e:0,p:0,gf:0,gc:0,pts:0,forma:[],over:0,btts:0});
   [...state.results].sort((a,b)=>(a.fecha||"").localeCompare(b.fecha||"")).forEach(r=>{
-    const L=st[r.local],V=st[r.vis];if(!L||!V)return;
-    const enGrupo=r.fase==="Fase de grupos";
-    [["gl","gv",L],["gv","gl",V]].forEach(([gm,ge,S])=>{
-      S.pj++;S.gf+=r[gm];S.gc+=r[ge];
+    const L=st[r.local],V=st[r.vis];if(!L||!V)return;const enGrupo=r.fase==="Fase de grupos";
+    [["gl","gv",L],["gv","gl",V]].forEach(([gm,ge,S])=>{S.pj++;S.gf+=r[gm];S.gc+=r[ge];
       const res=r[gm]>r[ge]?"G":(r[gm]===r[ge]?"E":"P");S.forma.push(res);
       if(res==="G"){S.g++;if(enGrupo)S.pts+=3;}else if(res==="E"){S.e++;if(enGrupo)S.pts+=1;}else S.p++;
-      if(r.gl+r.gv>2.5)S.over++;if(r.gl>0&&r.gv>0)S.btts++;
-    });
+      if(r.gl+r.gv>2.5)S.over++;if(r.gl>0&&r.gv>0)S.btts++;});
   });
   return st;
 }
 
-/* ============ MODELO DE PREDICCIÓN ============ */
-function rating(id,st){
-  const t=TEAMS[id],s=st[id];
-  let base=t.tier==="top"?78:t.tier==="alerta"?58:68,bonus=0;
-  if(s.pj>0){bonus=6*(s.pts/Math.max(1,s.pj))+2.5*((s.gf-s.gc)/s.pj);}
-  return {total:base+bonus,base,bonus};
+/* ============ CAPA A: MODELO PROPIO ============ */
+function rating(id,st){const t=TEAMS[id],s=st[id];let base=t.tier==="top"?78:t.tier==="alerta"?58:68,bonus=0;
+  if(s.pj>0)bonus=6*(s.pts/Math.max(1,s.pj))+2.5*((s.gf-s.gc)/s.pj);return{total:base+bonus,base,bonus};}
+function capaA(L,V,st){
+  const rL=rating(L,st),rV=rating(V,st),d=rL.total-rV.total;
+  const pw=1/(1+Math.pow(10,-d/16));let pe=Math.max(.12,.30-Math.abs(d)*.006);let pl=(1-pe)*pw;
+  const r=x=>Math.round(x*100);let G=r(pl),E=r(pe),P=100-G-E;
+  return{G,E,P,rL,rV};
 }
-function prediccion(L,V,st){
-  const rL=rating(L,st),rV=rating(V,st);
-  const d=rL.total-rV.total;
-  const pw=1/(1+Math.pow(10,-d/16));
-  let pe=Math.max(.12,.30-Math.abs(d)*.006);
-  let pl=(1-pe)*pw;
-  const r=x=>Math.round(x*100);
-  let G=r(pl),E=r(pe),P=100-G-E;
-  const o1=pct(TEAMS[L].ou,true),o2=pct(TEAMS[V].ou,true);
-  const b1=pct(TEAMS[L].btts,false),b2=pct(TEAMS[V].btts,false);
+/* ============ CAPAS B/C: DE-VIG DE CUOTAS ============ */
+/* recibe {H,D,A} en cuota decimal → probabilidades sin margen */
+function devig(o){
+  if(!o||!o.H||!o.D||!o.A)return null;
+  const imp=[1/o.H,1/o.D,1/o.A],sum=imp[0]+imp[1]+imp[2];
+  if(!sum)return null;
+  return{G:Math.round(100*imp[0]/sum),E:Math.round(100*imp[1]/sum),P:Math.round(100*imp[2]/sum)};
+}
+/* ============ FUSIÓN DE CAPAS ============ */
+function fusion(L,V,st){
+  const A=capaA(L,V,st);
+  const key=oddsKey(L,V),od=state.odds[key];
+  /* las cuotas se guardan como Home/Draw/Away respecto al par ordenado; reordeno a L/V */
+  function alLV(src){
+    if(!src)return null;
+    /* src.home corresponde al equipo "menor" del par; si L no es ese, invierto G<->P */
+    const menor=L<V?L:V;
+    const dv=devig(src);if(!dv)return null;
+    if(menor===L)return dv;return{G:dv.P,E:dv.E,P:dv.G};
+  }
+  const B=od?alLV(od.op):null, C=od?alLV(od.sgo):null;
+  /* solo cuentan los pesos de las capas que tienen datos; se renormaliza a 100% */
+  let wA=state.pesos.A, wB=B?state.pesos.B:0, wC=C?state.pesos.C:0;
+  let tot=wA+wB+wC;
+  if(tot===0){wA=1;tot=1;}  /* fallback extremo: todo a Capa A */
+  const mix=(k)=>Math.round((A[k]*wA+(B?B[k]:0)*wB+(C?C[k]:0)*wC)/tot);
+  let G=mix("G"),E=mix("E"),P=100-G-E;if(P<0){P=0;}
+  return{G,E,P,A,B,C,od,pesos:{wA:Math.round(100*wA/tot),wB:Math.round(100*wB/tot),wC:Math.round(100*wC/tot)},hayMercado:!!(B||C)};
+}
+/* marcador aproximado por promedios de goles (previa + torneo) */
+function marcadorAprox(L,V,st){
+  const sL=st[L],sV=st[V];
+  const gfL=sL.pj?(TEAMS[L].gf+sL.gf/sL.pj)/2:TEAMS[L].gf;
+  const gcL=sL.pj?(TEAMS[L].gc+sL.gc/sL.pj)/2:TEAMS[L].gc;
+  const gfV=sV.pj?(TEAMS[V].gf+sV.gf/sV.pj)/2:TEAMS[V].gf;
+  const gcV=sV.pj?(TEAMS[V].gc+sV.gc/sV.pj)/2:TEAMS[V].gc;
+  const eL=(gfL+gcV)/2,eV=(gfV+gcL)/2;
+  return Math.round(eL)+"-"+Math.round(eV);
+}
+function lineasSugeridas(L,V){
+  const o1=pctPrev(TEAMS[L].ou,true),o2=pctPrev(TEAMS[V].ou,true);
+  const b1=pctPrev(TEAMS[L].btts,false),b2=pctPrev(TEAMS[V].btts,false);
   const avg=(a,b)=>a===null&&b===null?null:((a??b)+(b??a))/2;
   const oAvg=avg(o1,o2),bAvg=avg(b1,b2),sugs=[];
   if(oAvg!==null){if(oAvg>=62)sugs.push(["Over 2.5",1]);else if(oAvg<=40)sugs.push(["Under 2.5",1]);}
   if(bAvg!==null){if(bAvg>=60)sugs.push(["Ambos marcan: sí",0]);else if(bAvg<=30)sugs.push(["Ambos marcan: no",0]);}
-  if(G>=58)sugs.push(["Gana "+TEAMS[L].n,1]);else if(P>=58)sugs.push(["Gana "+TEAMS[V].n,1]);else if(E>=30)sugs.push(["Empate con valor",0]);
-  return {G,E,P,sugs,rL,rV,oAvg,bAvg};
+  return sugs;
 }
-/* barra con color por SIGNIFICADO: el mayor de G/P es verde, el menor es rojo, empate siempre amarillo */
+
+/* ============ RENDER: BARRA + WHY ============ */
 function barraHTML(L,V,p){
-  const ganaLocalEsMejor=p.G>=p.P;
-  const clsL=ganaLocalEsMejor?"seg-v":"seg-p";
-  const clsP=ganaLocalEsMejor?"seg-p":"seg-v";
-  return '<div class="barra" role="img" aria-label="Estimación: '+TEAMS[L].n+' '+p.G+'%, empate '+p.E+'%, '+TEAMS[V].n+' '+p.P+'%">'+
+  const mejorLocal=p.G>=p.P,clsL=mejorLocal?"seg-v":"seg-p",clsP=mejorLocal?"seg-p":"seg-v";
+  return '<div class="barra" role="img" aria-label="'+esc(TEAMS[L].n)+' '+p.G+'%, empate '+p.E+'%, '+esc(TEAMS[V].n)+' '+p.P+'%">'+
     '<span class="'+clsL+'" style="flex:'+Math.max(p.G,6)+'">'+p.G+'%<span class="lbl">'+esc(TEAMS[L].n)+'</span></span>'+
     '<span class="seg-e" style="flex:'+Math.max(p.E,6)+'">'+p.E+'%<span class="lbl">Empate</span></span>'+
     '<span class="'+clsP+'" style="flex:'+Math.max(p.P,6)+'">'+p.P+'%<span class="lbl">'+esc(TEAMS[V].n)+'</span></span></div>';
 }
-function whyHTML(L,V,p){
-  const f=x=>x.toFixed(1);
-  const oTxt=p.oAvg===null?"sin datos de ambos en la previa":(p.oAvg>=62?"tiende al Over 2.5":p.oAvg<=40?"tiende al Under 2.5":"sin tendencia clara de goles");
-  const bTxt=p.bAvg===null?"":(p.bAvg>=60?"; y a que ambos marquen":p.bAvg<=30?"; y a que NO marquen ambos":"");
-  return '<div class="why" hidden><h5>Por qué esta predicción</h5>'+
-    '<div class="rt"><span>'+esc(TEAMS[L].n)+' · rating</span><b>'+f(p.rL.total)+'</b></div>'+
-    '<div class="rt"><span>'+esc(TEAMS[V].n)+' · rating</span><b>'+f(p.rV.total)+'</b></div>'+
-    '<p style="margin-top:6px">El rating sale de la <b>base por forma previa</b> ('+f(p.rL.base)+' vs '+f(p.rV.base)+', según cómo llegaba cada uno al Mundial) más un <b>ajuste por lo hecho en el torneo</b> ('+(p.rL.bonus>=0?"+":"")+f(p.rL.bonus)+' vs '+(p.rV.bonus>=0?"+":"")+f(p.rV.bonus)+', por puntos y diferencia de goles). '+
-    'La diferencia de rating define el reparto '+p.G+'/'+p.E+'/'+p.P+'.</p>'+
-    '<p style="margin-top:6px">Las líneas sugeridas combinan la previa O/U 2.5 y "ambos marcan" de ambos: el cruce '+oTxt+bTxt+'.</p>'+
-    '<p style="margin-top:6px;color:var(--ink-dim);font-size:11.5px">Modelo casero, no cuota oficial. Cuantos más partidos del Mundial se carguen, más pesa lo real sobre la previa.</p></div>';
+function capaLinea(L,V,prob){return prob?(esc(TEAMS[L].n)+' '+prob.G+'% · Empate '+prob.E+'% · '+esc(TEAMS[V].n)+' '+prob.P+'%'):'<span style="color:var(--ink-dim)">sin datos cargados</span>';}
+function whyHTML(L,V,f,st){
+  const cuotaTxt=(src)=>{if(!src||!src.H)return'<span class="badge off">sin cuotas</span>';
+    const menor=L<V?L:V,oL=menor===L?src.H:src.A,oA=menor===L?src.A:src.H;
+    return esc(TEAMS[L].n)+' '+oL.toFixed(2)+' · X '+src.D.toFixed(2)+' · '+esc(TEAMS[V].n)+' '+oA.toFixed(2);};
+  const od=f.od;
+  return '<div class="why" hidden>'+
+    '<div class="capa ca"><h5>🟢 Capa A · Tu modelo (forma)</h5><div class="pp">'+capaLinea(L,V,f.A)+'</div>'+
+      '<div class="det">Rating '+esc(TEAMS[L].n)+' '+f.A.rL.total.toFixed(1)+' vs '+esc(TEAMS[V].n)+' '+f.A.rV.total.toFixed(1)+' (forma previa + lo hecho en el torneo).</div></div>'+
+    '<div class="capa cb"><h5>🔵 Capa B · OddsPapi <span class="badge '+(f.B?"on":"off")+'">'+(f.B?"activa":"sin datos")+'</span></h5><div class="pp">'+capaLinea(L,V,f.B)+'</div>'+
+      '<div class="det">'+(od&&od.op?'Cuotas: '+cuotaTxt(od.op)+' — convertidas a probabilidad y sin margen (de-vig).':'Tocá «💰 Cuotas» en Ajustes para traer las líneas reales.')+'</div></div>'+
+    '<div class="capa cc"><h5>🟣 Capa C · SportsGameOdds <span class="badge '+(f.C?"on":"off")+'">'+(f.C?"activa":"sin datos")+'</span></h5><div class="pp">'+capaLinea(L,V,f.C)+'</div>'+
+      '<div class="det">'+(od&&od.sgo?'Cuotas: '+cuotaTxt(od.sgo)+' — segunda fuente para contrastar.':'Segunda casa de verificación; se llena al actualizar cuotas.')+'</div></div>'+
+    '<div class="capa fusion"><h5>⚡ Fusión final ('+f.pesos.wA+'/'+f.pesos.wB+'/'+f.pesos.wC+')</h5><div class="pp">'+capaLinea(L,V,{G:f.G,E:f.E,P:f.P})+'</div>'+
+      '<div class="det">Promedio ponderado de las capas disponibles. '+(f.hayMercado?'El mercado pesa más por ser la señal más fiable.':'Solo Capa A: cargá cuotas para sumar el mercado.')+' Marcador aprox: ≈ '+marcadorAprox(L,V,st)+'. Modelo casero, no cuota oficial.</div></div>'+
+    '</div>';
 }
 
-/* ============ DETECCIÓN DE SORPRESAS ============ */
-/* devuelve {sorpresa:bool, txt:string} comparando el resultado contra la predicción usando SOLO partidos previos a ese */
-function evaluarSorpresa(r,idx,ordenados){
-  if(!TEAMS[r.local]||!TEAMS[r.vis])return{sorpresa:false};
-  /* stats acumuladas hasta antes de este partido para no "ver el futuro" */
-  const st={};Object.keys(TEAMS).forEach(id=>st[id]={pj:0,g:0,e:0,p:0,gf:0,gc:0,pts:0,forma:[],over:0,btts:0});
-  for(let i=0;i<idx;i++){const x=ordenados[i];const L=st[x.local],V=st[x.vis];if(!L||!V)continue;const eg=x.fase==="Fase de grupos";
-    [["gl","gv",L],["gv","gl",V]].forEach(([gm,ge,S])=>{S.pj++;S.gf+=x[gm];S.gc+=x[ge];const res=x[gm]>x[ge]?"G":(x[gm]===x[ge]?"E":"P");if(res==="G"){S.g++;if(eg)S.pts+=3;}else if(res==="E"){S.e++;if(eg)S.pts+=1;}else S.p++;});}
-  const p=prediccion(r.local,r.vis,st);
-  if(r.gl>r.gv&&p.G<35)return{sorpresa:true,txt:"¡Batacazo! "+TEAMS[r.local].n+" ganaba con solo "+p.G+"% según el modelo"};
-  if(r.gv>r.gl&&p.P<35)return{sorpresa:true,txt:"¡Batacazo! "+TEAMS[r.vis].n+" ganaba con solo "+p.P+"% según el modelo"};
-  return{sorpresa:false};
-}
-
-/* ============ RENDER ============ */
+/* ============ RENDER PRINCIPALES ============ */
 function renderGrupos(){
   const st=statsTorneo(),cont=$("#grupos");cont.innerHTML="";
   GRUPOS.forEach(g=>{
     const ids=Object.keys(TEAMS).filter(id=>TEAMS[id].g===g);
     ids.sort((a,b)=>st[b].pts-st[a].pts||(st[b].gf-st[b].gc)-(st[a].gf-st[a].gc)||st[b].gf-st[a].gf||TEAMS[a].n.localeCompare(TEAMS[b].n));
-    const filas=ids.map((id,i)=>{const s=st[id];
-      return '<tr class="'+(i<2?"clasif":"")+'"><td class="eq"><span class="pos">'+(i+1)+'</span>'+TEAMS[id].n+'</td><td>'+s.pj+'</td><td>'+s.g+'</td><td>'+s.e+'</td><td>'+s.p+'</td><td>'+s.gf+':'+s.gc+'</td><td class="pts">'+s.pts+'</td></tr>';}).join("");
+    const filas=ids.map((id,i)=>{const s=st[id];return '<tr class="'+(i<2?"clasif":"")+'"><td class="eq"><span class="pos">'+(i+1)+'</span>'+TEAMS[id].n+'</td><td>'+s.pj+'</td><td>'+s.g+'</td><td>'+s.e+'</td><td>'+s.p+'</td><td>'+s.gf+':'+s.gc+'</td><td class="pts">'+s.pts+'</td></tr>';}).join("");
     cont.insertAdjacentHTML("beforeend",'<div class="gcard"><h3>Grupo '+g+(g==="G"?' <small>(por descarte)</small>':"")+'</h3><table><thead><tr><th>Equipo</th><th>PJ</th><th>G</th><th>E</th><th>P</th><th>Goles</th><th>Pts</th></tr></thead><tbody>'+filas+'</tbody></table></div>');
   });
+}
+function evaluarSorpresa(r,idx,ordenados){
+  if(!TEAMS[r.local]||!TEAMS[r.vis])return{sorpresa:false};
+  const st={};Object.keys(TEAMS).forEach(id=>st[id]={pj:0,g:0,e:0,p:0,gf:0,gc:0,pts:0,forma:[],over:0,btts:0});
+  for(let i=0;i<idx;i++){const x=ordenados[i];const L=st[x.local],V=st[x.vis];if(!L||!V)continue;const eg=x.fase==="Fase de grupos";
+    [["gl","gv",L],["gv","gl",V]].forEach(([gm,ge,S])=>{S.pj++;S.gf+=x[gm];S.gc+=x[ge];const res=x[gm]>x[ge]?"G":(x[gm]===x[ge]?"E":"P");if(res==="G"){S.g++;if(eg)S.pts+=3;}else if(res==="E"){S.e++;if(eg)S.pts+=1;}else S.p++;});}
+  const p=capaA(r.local,r.vis,st);
+  if(r.gl>r.gv&&p.G<35)return{sorpresa:true,txt:"¡Batacazo! "+TEAMS[r.local].n+" ganaba con solo "+p.G+"%"};
+  if(r.gv>r.gl&&p.P<35)return{sorpresa:true,txt:"¡Batacazo! "+TEAMS[r.vis].n+" ganaba con solo "+p.P+"%"};
+  return{sorpresa:false};
 }
 function renderPartidos(){
   const cont=$("#listaPartidos");
   const orden=[...state.results].sort((a,b)=>(a.fecha||"").localeCompare(b.fecha||""));
   const surp={};orden.forEach((r,i)=>{surp[r.id]=evaluarSorpresa(r,i,orden);});
   const vivos=(state.live||[]).map(m=>'<div class="match"><span class="t local">'+m.localN+'</span><span class="score">'+m.gl+'–'+m.gv+'</span><span class="t">'+m.visN+'</span><div class="meta"><span class="live">● En vivo'+(m.min?(" · "+m.min+"'"):"")+'</span><span>'+(m.fase||"")+'</span></div></div>').join("");
-  const fin=[...state.results].sort((a,b)=>(b.fecha||"").localeCompare(a.fecha||"")).map(r=>{
-    const sp=surp[r.id]||{sorpresa:false};
-    return '<div class="match'+(sp.sorpresa?" fuego":"")+'"><span class="t local">'+(TEAMS[r.local]?.n||r.local)+'</span><span class="score">'+r.gl+'–'+r.gv+'</span><span class="t">'+(TEAMS[r.vis]?.n||r.vis)+'</span><div class="meta"><span>'+fmtFecha(r.fecha)+' · '+r.fase+(sp.sorpresa?' · <span class="hot">🔥 '+esc(sp.txt)+'</span>':"")+'</span><span>'+(r.fuente==="api"?"API":"manual")+'</span></div><div class="acciones"><button data-del="'+r.id+'" aria-label="Eliminar resultado">eliminar</button></div></div>';}).join("");
-  cont.innerHTML=vivos+(fin||'<p class="emptynote">Todavía no hay resultados cargados. Sincronizá con la API o cargá uno manual.</p>');
+  const fin=[...state.results].sort((a,b)=>(b.fecha||"").localeCompare(a.fecha||"")).map(r=>{const sp=surp[r.id]||{sorpresa:false};
+    return '<div class="match'+(sp.sorpresa?" fuego":"")+'"><span class="t local">'+(TEAMS[r.local]?.n||r.local)+'</span><span class="score">'+r.gl+'–'+r.gv+'</span><span class="t">'+(TEAMS[r.vis]?.n||r.vis)+'</span><div class="meta"><span>'+fmtFecha(r.fecha)+' · '+r.fase+(sp.sorpresa?' · <span class="hot">🔥 '+esc(sp.txt)+'</span>':"")+'</span><span>'+(r.fuente==="api"?"API":"manual")+'</span></div><div class="acciones"><button data-del="'+r.id+'" aria-label="Eliminar">eliminar</button></div></div>';}).join("");
+  cont.innerHTML=vivos+(fin||'<p class="emptynote">Todavía no hay resultados cargados. Sincronizá o cargá uno manual.</p>');
   cont.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{if(confirm("¿Eliminar este resultado?")){state.results=state.results.filter(r=>r.id!==b.dataset.del);guardar();renderTodo();}});
 }
 function renderHoy(){
   const fecha=$("#dFecha").value||hoyISO(),st=statsTorneo(),cont=$("#listaHoy");
   const dia=state.fixtures.filter(f=>f.fecha===fecha).sort((a,b)=>(a.hora||"").localeCompare(b.hora||""));
-  if(!dia.length){
-    cont.innerHTML='<p class="emptynote">No tengo partidos para el '+fmtFecha(fecha)+". "+(state.fixtures.length?"Probá otra fecha.":"Tocá «Refrescar» para traer el calendario de la API.")+'</p>';return;}
+  if(!dia.length){cont.innerHTML='<p class="emptynote">No tengo partidos para el '+fmtFecha(fecha)+". "+(state.fixtures.length?"Probá otra fecha.":"Tocá «↻ Resultados» para traer el calendario.")+'</p>';return;}
   cont.innerHTML=dia.map((f,i)=>{
     const conPred=f.L&&f.V,nL=conPred?TEAMS[f.L].n:f.rawL,nV=conPred?TEAMS[f.V].n:f.rawV;
-    const jugado=["FINISHED","AWARDED"].includes(f.status);
-    const enVivo=["IN_PLAY","PAUSED","EXTRA_TIME","PENALTY_SHOOTOUT"].includes(f.status);
+    const jugado=["FINISHED","AWARDED"].includes(f.status),enVivo=["IN_PLAY","PAUSED","EXTRA_TIME","PENALTY_SHOOTOUT"].includes(f.status);
     const mid=jugado||enVivo?(f.gl??0)+'–'+(f.gv??0):(f.hora||"–");
-    let cuerpo="";
+    let cuerpo="",aprox="",qbtn="";
     if(conPred&&!jugado){
-      const p=prediccion(f.L,f.V,st);
-      cuerpo=barraHTML(f.L,f.V,p)+'<div class="sug">'+p.sugs.map(s=>'<span class="'+(s[1]?"v":"")+'">'+esc(s[0])+'</span>').join("")+'</div>'+whyHTML(f.L,f.V,p);
+      const ff=fusion(f.L,f.V,st);
+      aprox='<span class="aprox">≈ '+marcadorAprox(f.L,f.V,st)+'</span>';
+      const sugs=lineasSugeridas(f.L,f.V);
+      const od=ff.od;
+      let mkt="";
+      if(od&&(od.op||od.sgo)){const src=od.op||od.sgo;const menor=f.L<f.V?f.L:f.V;const oL=menor===f.L?src.H:src.A,oA=menor===f.L?src.A:src.H;
+        mkt='<div class="mkt"><span>📊 '+esc(nL)+' '+oL.toFixed(2)+'</span><span>X '+src.D.toFixed(2)+'</span><span>'+esc(nV)+' '+oA.toFixed(2)+'</span></div>';}
+      else mkt='<div class="mkt"><span class="nodata">Cuotas no cargadas — usando solo tu modelo</span></div>';
+      cuerpo=barraHTML(f.L,f.V,ff)+mkt+'<div class="sug">'+sugs.map(s=>'<span class="'+(s[1]?"v":"")+'">'+esc(s[0])+'</span>').join("")+'</div>'+whyHTML(f.L,f.V,ff,st);
+      qbtn='<button class="qbtn" data-why="'+i+'" aria-label="Por qué">?</button>';
     }
     if(conPred&&jugado)cuerpo='<div class="sug"><span>Final: '+esc(nL)+' '+f.gl+'–'+f.gv+' '+esc(nV)+'</span></div>';
-    const qbtn=(conPred&&!jugado)?'<button class="qbtn" data-why="'+i+'" aria-label="Por qué esta predicción">?</button>':"";
-    return '<div class="pred" data-i="'+i+'"><div class="vs"><span class="t l">'+esc(nL)+'</span><span class="mid">'+(enVivo?'<span class="live">●</span> ':"")+mid+'</span><span class="t">'+esc(nV)+'</span></div><div class="info">'+esc(f.fase||"")+(enVivo?' · EN VIVO':"")+qbtn+'</div>'+cuerpo+'</div>';
+    return '<div class="pred" data-i="'+i+'"><div class="vs"><span class="t l">'+esc(nL)+'</span><span class="mid">'+(enVivo?'<span class="live">●</span> ':"")+mid+'</span><span class="t">'+esc(nV)+'</span></div><div class="info">'+esc(f.fase||"")+(enVivo?' · EN VIVO':"")+' '+aprox+qbtn+'</div>'+cuerpo+'</div>';
   }).join("");
-  cont.querySelectorAll("[data-why]").forEach(b=>b.onclick=()=>{
-    const card=b.closest(".pred"),w=card.querySelector(".why");if(w){w.hidden=!w.hidden;b.textContent=w.hidden?"?":"×";}
-  });
+  cont.querySelectorAll("[data-why]").forEach(b=>b.onclick=()=>{const w=b.closest(".pred").querySelector(".why");if(w){w.hidden=!w.hidden;b.textContent=w.hidden?"?":"×";}});
 }
 function renderEquipos(){
   const st=statsTorneo(),fg=$("#filtroGrupo").value,q=norm($("#buscaEq").value),cont=$("#equipos");cont.innerHTML="";
   Object.entries(TEAMS).filter(([id,t])=>(!fg||t.g===fg)&&(!q||norm(t.n).includes(q)))
-   .sort((a,b)=>a[1].g.localeCompare(b[1].g)||a[1].n.localeCompare(b[1].n))
-   .forEach(([id,t])=>{
+   .sort((a,b)=>a[1].g.localeCompare(b[1].g)||a[1].n.localeCompare(b[1].n)).forEach(([id,t])=>{
     const s=st[id];
     const formaT=s.forma.length?s.forma.map(f=>'<span class="f'+f+'">'+f+'</span>').join(" "):'<span class="fX">— sin partidos —</span>';
     const formaP=t.forma.split("").map(f=>'<span class="f'+("GEP".includes(f)?f:"X")+'">'+f+'</span>').join(" ");
     const chip=t.tier==="top"?'<span class="chip v">en forma</span>':t.tier==="alerta"?'<span class="chip r">alerta</span>':'<span class="chip a">neutro</span>';
-    cont.insertAdjacentHTML("beforeend",
-     '<div class="tcard '+t.tier+'"><h4>'+t.n+' <small>Grupo '+t.g+'<br>'+chip+'</small></h4>'+
+    cont.insertAdjacentHTML("beforeend",'<div class="tcard '+t.tier+'"><h4>'+t.n+' <small>Grupo '+t.g+'<br>'+chip+'</small></h4>'+
      '<div class="fila"><span>En el Mundial</span><b>'+s.pj+' PJ · '+s.g+'G '+s.e+'E '+s.p+'P · '+s.gf+':'+s.gc+' · '+s.pts+' pts</b></div>'+
      '<div class="fila"><span>Forma torneo</span><b class="forma">'+formaT+'</b></div>'+
      '<div class="fila"><span>Torneo O2.5 / BTTS</span><b>'+(s.pj?Math.round(100*s.over/s.pj)+"% / "+Math.round(100*s.btts/s.pj)+"%":"—")+'</b></div>'+
@@ -619,178 +632,201 @@ function renderEquipos(){
    });
 }
 function renderPicksLive(){
-  const cont=$("#picksLive"),st=statsTorneo();
-  const jugados=Object.keys(TEAMS).filter(id=>st[id].pj>0);
+  const cont=$("#picksLive"),st=statsTorneo(),jugados=Object.keys(TEAMS).filter(id=>st[id].pj>0);
   if(jugados.length<2){cont.innerHTML="";return;}
   let html='<h3 class="tt" style="margin-top:6px;color:var(--magenta)">🔴 En vivo · según el torneo</h3>';
-  /* mejor diferencia de goles */
   const porDif=[...jugados].sort((a,b)=>(st[b].gf-st[b].gc)-(st[a].gf-st[a].gc)||st[b].gf-st[a].gf).slice(0,5);
-  porDif.forEach((id,i)=>{const s=st[id];const dif=s.gf-s.gc;
-    html+='<div class="pick'+(i===0?" fuego":"")+'"><span class="n">'+(i+1)+'</span><p><b>'+TEAMS[id].n+'</b> — '+s.g+'V '+s.e+'E '+s.p+'P · diferencia '+(dif>=0?"+":"")+dif+' ('+s.gf+':'+s.gc+') en '+s.pj+' '+(s.pj===1?"partido":"partidos")+'.</p></div>';});
-  /* sorpresas ya ocurridas */
-  const orden=[...state.results].sort((a,b)=>(a.fecha||"").localeCompare(b.fecha||""));
-  const sorpresas=[];orden.forEach((r,i)=>{const e=evaluarSorpresa(r,i,orden);if(e.sorpresa)sorpresas.push({r,txt:e.txt});});
-  if(sorpresas.length){
-    html+='<h3 class="tt" style="color:var(--magenta)">🔥 Sorpresas del torneo</h3>';
-    sorpresas.slice().reverse().forEach(s=>{html+='<div class="pick fuego"><span class="n">🔥</span><p>'+esc(s.txt)+' — <b>'+(TEAMS[s.r.local]?.n)+' '+s.r.gl+'–'+s.r.gv+' '+(TEAMS[s.r.vis]?.n)+'</b> ('+fmtFecha(s.r.fecha)+')</p></div>';});
-  }
-  /* BTTS líderes del torneo */
-  const btts=[...jugados].filter(id=>st[id].pj>=1).sort((a,b)=>(st[b].btts/st[b].pj)-(st[a].btts/st[a].pj)).slice(0,3).filter(id=>st[id].btts>0);
-  if(btts.length){
-    html+='<h3 class="tt" style="color:var(--cian)">⚽ Ambos marcan (torneo)</h3>';
-    btts.forEach(id=>{const s=st[id];html+='<div class="pick"><span class="n">●</span><p><b>'+TEAMS[id].n+'</b> — ambos marcaron en '+s.btts+' de sus '+s.pj+' '+(s.pj===1?"partido":"partidos")+'.</p></div>';});
-  }
+  porDif.forEach((id,i)=>{const s=st[id],dif=s.gf-s.gc;html+='<div class="pick'+(i===0?" fuego":"")+'"><span class="n">'+(i+1)+'</span><p><b>'+TEAMS[id].n+'</b> — '+s.g+'V '+s.e+'E '+s.p+'P · dif '+(dif>=0?"+":"")+dif+' ('+s.gf+':'+s.gc+') en '+s.pj+' '+(s.pj===1?"partido":"partidos")+'.</p></div>';});
+  const orden=[...state.results].sort((a,b)=>(a.fecha||"").localeCompare(b.fecha||"")),sorpresas=[];
+  orden.forEach((r,i)=>{const e=evaluarSorpresa(r,i,orden);if(e.sorpresa)sorpresas.push({r,txt:e.txt});});
+  if(sorpresas.length){html+='<h3 class="tt" style="color:var(--magenta)">🔥 Sorpresas del torneo</h3>';
+    sorpresas.slice().reverse().forEach(s=>{html+='<div class="pick fuego"><span class="n">🔥</span><p>'+esc(s.txt)+' — <b>'+(TEAMS[s.r.local]?.n)+' '+s.r.gl+'–'+s.r.gv+' '+(TEAMS[s.r.vis]?.n)+'</b> ('+fmtFecha(s.r.fecha)+')</p></div>';});}
+  const btts=[...jugados].sort((a,b)=>(st[b].btts/st[b].pj)-(st[a].btts/st[a].pj)).slice(0,3).filter(id=>st[id].btts>0);
+  if(btts.length){html+='<h3 class="tt" style="color:var(--cian)">⚽ Ambos marcan (torneo)</h3>';
+    btts.forEach(id=>{const s=st[id];html+='<div class="pick"><span class="n">●</span><p><b>'+TEAMS[id].n+'</b> — ambos marcaron en '+s.btts+' de '+s.pj+' '+(s.pj===1?"partido":"partidos")+'.</p></div>';});}
   cont.innerHTML=html;
 }
 function renderTodo(){renderGrupos();renderPartidos();renderEquipos();renderHoy();renderPicksLive();
-  $("#statusline").innerHTML='Sync: <b>'+(state.lastSync?new Date(state.lastSync).toLocaleString("es"):"nunca")+'</b> · '+state.results.length+' resultados';}
+  const od=state.lastOdds?", cuotas "+new Date(state.lastOdds).toLocaleTimeString("es"):"";
+  $("#statusline").innerHTML='Sync: <b>'+(state.lastSync?new Date(state.lastSync).toLocaleString("es"):"nunca")+'</b> · '+state.results.length+' resultados'+od;}
 
-/* ============ FOOTBALL-DATA.ORG ============ */
-function buildURL(path){
-  state.modo=$("#modo").value;
-  if(state.modo==="proxy"){
-    const base=($("#proxyurl").value.trim()||state.proxy).replace(/\/$/,"");
-    if(!base)throw new Error("Pegá la URL de tu proxy (Worker) en Ajustes.");
-    return base+path;
-  }
-  return "https://api.football-data.org/v4"+path;
+/* ============ API (vía proxy con prefijos /fd /op /sgo) ============ */
+function base(){state.modo=$("#modo").value;
+  if(state.modo==="proxy"){const b=($("#proxyurl").value.trim()||state.proxy).replace(/\/$/,"");if(!b)throw new Error("Falta la URL del proxy en Ajustes.");return b;}
+  return null; /* directo: cada API arma su host */
 }
-async function apiCall(path){
-  state.token=($("#apikey").value.trim())||state.token;
-  const headers={};
-  if($("#modo").value==="directo"&&state.token)headers["X-Auth-Token"]=state.token;
-  const res=await fetch(buildURL(path),{headers});
-  if(res.status===429)throw new Error("Llegaste al límite de 10 consultas/minuto. Esperá un minuto.");
-  if(res.status===403)throw new Error("403: el plan free no cubre este recurso o falta el token en el Worker.");
+async function call(prefix,path,directHost,directHeaders){
+  const b=base();
+  let url,opts={headers:{}};
+  if(b){url=b+prefix+path;}
+  else{url=directHost+path;opts.headers=directHeaders||{};}
+  const res=await fetch(url,opts);
+  if(res.status===429)throw new Error("Límite de consultas alcanzado. Esperá un poco.");
+  if(res.status===403)throw new Error("403: token inválido o sin acceso a este recurso.");
   if(!res.ok)throw new Error("La API respondió "+res.status+".");
-  const q=res.headers.get("X-RequestsAvailable");
-  if(q!==null)$("#quotaInfo").textContent="Consultas restantes este minuto: "+q;
+  const q=res.headers.get("X-RequestsAvailable")||res.headers.get("X-Requests-Remaining");
+  if(q)$("#quotaInfo").textContent="Consultas restantes (Football-Data): "+q;
   return res.json();
 }
 async function sincronizar(btn,silencioso){
   const msg=$("#msgApi");if(!silencioso)msg.className="msg";
   if(btn){btn.disabled=true;btn.dataset.t=btn.textContent;btn.textContent="Sincronizando…";}
   try{
-    const data=await apiCall("/competitions/WC/matches");
+    const data=await call("/fd","/competitions/WC/matches","https://api.football-data.org/v4",{});
     let nuevos=0;state.live=[];state.fixtures=[];
     (data.matches||[]).forEach(f=>{
-      const L=teamByName(f.homeTeam?.name),V=teamByName(f.awayTeam?.name);
-      const status=f.status,fase=STAGE_ES[f.stage]||f.stage||"Mundial";
-      const dt=new Date(f.utcDate),fecha=dt.toLocaleDateString("sv");
-      const hora=dt.toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"});
+      const L=teamByName(f.homeTeam?.name),V=teamByName(f.awayTeam?.name),status=f.status,fase=STAGE_ES[f.stage]||f.stage||"Mundial";
+      const dt=new Date(f.utcDate),fecha=dt.toLocaleDateString("sv"),hora=dt.toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"});
       const gl=f.score?.fullTime?.home,gv=f.score?.fullTime?.away;
       state.fixtures.push({id:"fx"+f.id,L,V,rawL:f.homeTeam?.name||"Por definir",rawV:f.awayTeam?.name||"Por definir",fecha,hora,fase,status,gl,gv});
       if(!L||!V)return;
-      if(["IN_PLAY","PAUSED","EXTRA_TIME","PENALTY_SHOOTOUT"].includes(status)){
-        state.live.push({localN:TEAMS[L].n,visN:TEAMS[V].n,gl:gl??0,gv:gv??0,min:f.minute||"",fase});return;}
+      if(["IN_PLAY","PAUSED","EXTRA_TIME","PENALTY_SHOOTOUT"].includes(status)){state.live.push({localN:TEAMS[L].n,visN:TEAMS[V].n,gl:gl??0,gv:gv??0,min:f.minute||"",fase});return;}
       if(!["FINISHED","AWARDED"].includes(status))return;
       const id="api"+f.id;if(state.results.some(r=>r.id===id))return;
       const dup=state.results.find(r=>r.fuente==="manual"&&r.local===L&&r.vis===V&&r.fecha===fecha);
       if(dup){dup.id=id;dup.fuente="api";dup.gl=gl;dup.gv=gv;return;}
       state.results.push({id,local:L,vis:V,gl,gv,fase,fecha,fuente:"api"});nuevos++;
     });
-    state.proxy=$("#proxyurl").value.trim()||state.proxy;state.lastSync=Date.now();state.lastFixSync=Date.now();guardar();renderTodo();
-    if(!silencioso){msg.className="msg ok";msg.textContent="Listo: "+nuevos+" resultado(s) nuevo(s), "+state.live.length+" en vivo, "+state.fixtures.length+" partidos en el fixture.";}
-  }catch(e){
-    if(!silencioso){msg.className="msg err";msg.textContent="No se pudo sincronizar: "+e.message+" Mientras tanto podés cargar resultados a mano en Resultados.";}
-    else{const mh=$("#msgHoy");mh.className="msg err";mh.textContent="No pude refrescar el fixture ("+e.message+"). Cargá tu proxy en Ajustes o usá carga manual.";}
-  }
+    state.proxy=$("#proxyurl").value.trim()||state.proxy;state.lastSync=Date.now();guardar();renderTodo();
+    if(!silencioso){msg.className="msg ok";msg.textContent="Listo: "+nuevos+" resultado(s) nuevo(s), "+state.live.length+" en vivo, "+state.fixtures.length+" en fixture.";}
+  }catch(e){if(!silencioso){msg.className="msg err";msg.textContent="No se pudo sincronizar: "+e.message;}else{const mh=$("#msgHoy");mh.className="msg err";mh.textContent="No pude refrescar ("+e.message+").";}}
   if(btn){btn.disabled=false;btn.textContent=btn.dataset.t;}
 }
+/* ---- CUOTAS: OddsPapi + SportsGameOdds ---- */
+function guardarOdds(L,V,fuente,H,D,A){
+  if(!L||!V||!H||!D||!A)return;
+  const key=oddsKey(L,V),menor=L<V?L:V;
+  /* normalizo a Home=equipo menor del par para clave estable */
+  const o=(menor===L)?{H,D,A}:{H:A,D,A:H};
+  state.odds[key]=state.odds[key]||{};
+  state.odds[key][fuente]=o;state.odds[key].ts=Date.now();
+}
+async function actualizarCuotas(btn){
+  const msg=$("#msgApi");msg.className="msg";if(btn){btn.disabled=true;btn.dataset.t=btn.textContent;btn.textContent="Trayendo cuotas…";}
+  let nOP=0,nSGO=0,errs=[];
+  /* OddsPapi: fixtures del Mundial con odds → mercado 101 (1X2) */
+  try{
+    const hoy=hoyISO();const d2=new Date();d2.setDate(d2.getDate()+9);const to=d2.toLocaleDateString("sv");
+    const fx=await call("/op","/fixtures?sportId=10&from="+hoy+"&to="+to,"https://api.oddspapi.io/v4",{});
+    const wc=(Array.isArray(fx)?fx:fx.data||fx.fixtures||[]).filter(f=>(f.tournamentName||"")==="World Cup"&&f.hasOdds);
+    for(const f of wc.slice(0,12)){ /* límite para cuidar cupo */
+      const L=teamByName(f.participant1Name),V=teamByName(f.participant2Name);if(!L||!V)continue;
+      try{const od=await call("/op","/odds?fixtureId="+f.fixtureId+"&bookmakers=pinnacle","https://api.oddspapi.io/v4",{});
+        const books=od.bookmakerOdds||{};const pin=books.pinnacle&&books.pinnacle.markets&&books.pinnacle.markets["101"];
+        if(pin){const o=pin.outcomes;const H=o["101"]?.players?.["0"]?.price,D=o["102"]?.players?.["0"]?.price,A=o["103"]?.players?.["0"]?.price;
+          if(H&&D&&A){guardarOdds(L,V,"op",H,D,A);nOP++;}}
+      }catch(e){}
+    }
+  }catch(e){errs.push("OddsPapi: "+e.message);}
+  /* SportsGameOdds: events del Mundial con odds 1X2 (ml home/draw/away) */
+  try{
+    const ev=await call("/sgo","/events?leagueID=FIFA_WORLD_CUP&oddsAvailable=true&limit=30","https://api.sportsgameodds.com/v2",{"x-api-key":"DIRECT_ONLY"});
+    const lista=ev.data||[];
+    for(const e of lista){
+      const L=teamByName(e.teams?.home?.names?.long||e.teams?.home?.name),V=teamByName(e.teams?.away?.names?.long||e.teams?.away?.name);
+      if(!L||!V||!e.odds)continue;
+      /* busco moneyline 1X2: claves tipo points-home-game-ml-home / ...-draw / ...-away */
+      let H,D,A;for(const[k,v]of Object.entries(e.odds)){
+        const price=v.bookOdds||v.fairOdds||v.odds;if(!price)continue;const dec=amerToDec(price);
+        if(/ml-home$/.test(k))H=dec;else if(/ml-draw$/.test(k)||/-draw-/.test(k))D=dec;else if(/ml-away$/.test(k))A=dec;}
+      if(H&&D&&A){guardarOdds(L,V,"sgo",H,D,A);nSGO++;}
+    }
+  }catch(e){errs.push("SportsGameOdds: "+e.message);}
+  state.lastOdds=Date.now();guardar();renderTodo();
+  msg.className=(nOP+nSGO>0)?"msg ok":"msg err";
+  msg.textContent="Cuotas actualizadas: OddsPapi "+nOP+" partido(s), SportsGameOdds "+nSGO+". "+(errs.length?"Avisos: "+errs.join(" · "):"")+" Abrí el ? de un partido para ver las 3 capas.";
+  if(btn){btn.disabled=false;btn.textContent=btn.dataset.t;}
+}
+function amerToDec(p){p=Number(p);if(!p)return null;if(p>0)return +(p/100+1).toFixed(3);return +(100/Math.abs(p)+1).toFixed(3);}
 
-/* ============ CÓDIGO DEL WORKER ============ */
+/* ============ WORKER CODE (para repegar) ============ */
 const WORKER_CODE=
-"export default {\n"+
-"  async fetch(request) {\n"+
-"    const TOKEN = \""+DEFAULT_TOKEN+"\";            // tu token de Football-Data.org\n"+
-"    const url = new URL(request.url);\n"+
-"    const target = \"https://api.football-data.org/v4\" + url.pathname + url.search;\n"+
-"    const cors = { \"Access-Control-Allow-Origin\": \"*\", \"Access-Control-Allow-Headers\": \"*\" };\n"+
+"export default {\n  async fetch(request) {\n"+
+"    const TOKEN_FD = \"9628d8ae51c14a0a88a6d90747b42320\";\n"+
+"    const KEY_ODDSPAPI = \"8b5baf99-09ed-4d73-ab3a-52ee58e45f37\";\n"+
+"    const KEY_SGO = \"65bb6c74828fcd3af23a4be11869e551\";\n"+
+"    const ALLOWED = [\"https://gabrielarceem.github.io\"];\n"+
+"    const origin = request.headers.get(\"Origin\") || \"\";\n"+
+"    const allowOrigin = ALLOWED.includes(origin) ? origin : ALLOWED[0];\n"+
+"    const cors = { \"Access-Control-Allow-Origin\": allowOrigin, \"Access-Control-Allow-Headers\": \"*\" };\n"+
 "    if (request.method === \"OPTIONS\") return new Response(null, { headers: cors });\n"+
-"    const cache = caches.default;\n"+
-"    let hit = await cache.match(request);\n"+
-"    if (hit) return hit;\n"+
-"    const r = await fetch(target, { headers: { \"X-Auth-Token\": TOKEN } });\n"+
-"    const body = await r.text();\n"+
-"    const res = new Response(body, {\n"+
-"      status: r.status,\n"+
-"      headers: { ...cors, \"Content-Type\": \"application/json\",\n"+
-"        \"X-RequestsAvailable\": r.headers.get(\"X-RequestsAvailable\") || \"\",\n"+
-"        \"Cache-Control\": \"public, max-age=30\" }\n"+
-"    });\n"+
-"    await cache.put(request, res.clone());\n"+
-"    return res;\n"+
-"  }\n"+
-"};";
+"    const url = new URL(request.url); const path = url.pathname; const qs = url.search;\n"+
+"    const cache = caches.default; const hit = await cache.match(request); if (hit) return hit;\n"+
+"    let target, headers = {}, maxAge = 30;\n"+
+"    if (path.startsWith(\"/fd/\")) { target = \"https://api.football-data.org/v4\" + path.slice(3) + qs; headers = { \"X-Auth-Token\": TOKEN_FD }; maxAge = 30; }\n"+
+"    else if (path.startsWith(\"/op/\")) { const sep = qs ? \"&\" : \"?\"; target = \"https://api.oddspapi.io/v4\" + path.slice(3) + qs + sep + \"apiKey=\" + KEY_ODDSPAPI; maxAge = 900; }\n"+
+"    else if (path.startsWith(\"/sgo/\")) { target = \"https://api.sportsgameodds.com/v2\" + path.slice(4) + qs; headers = { \"X-Api-Key\": KEY_SGO }; maxAge = 900; }\n"+
+"    else return new Response(JSON.stringify({ error: \"ruta no reconocida\" }), { status: 404, headers: { ...cors, \"Content-Type\": \"application/json\" } });\n"+
+"    let upstream;\n    try { upstream = await fetch(target, { headers }); }\n"+
+"    catch (e) { return new Response(JSON.stringify({ error: \"upstream: \" + e.message }), { status: 502, headers: { ...cors, \"Content-Type\": \"application/json\" } }); }\n"+
+"    const body = await upstream.text();\n"+
+"    const res = new Response(body, { status: upstream.status, headers: { ...cors, \"Content-Type\": \"application/json\",\n"+
+"      \"X-RequestsAvailable\": upstream.headers.get(\"X-RequestsAvailable\") || \"\",\n"+
+"      \"X-Requests-Remaining\": upstream.headers.get(\"x-requests-remaining\") || \"\",\n"+
+"      \"Cache-Control\": \"public, max-age=\" + maxAge } });\n"+
+"    if (upstream.ok) await cache.put(request, res.clone());\n    return res;\n  }\n};";
 
 /* ============ EVENTOS ============ */
 document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{
   document.querySelectorAll("nav button").forEach(x=>x.setAttribute("aria-selected","false"));
-  b.setAttribute("aria-selected","true");
-  document.querySelectorAll("section").forEach(s=>s.hidden=true);
-  $("#tab-"+b.dataset.tab).hidden=false;
-});
-document.querySelectorAll(".help").forEach(b=>b.onclick=()=>{
-  const box=$("#help-"+b.dataset.help);if(!box)return;
-  if(box.hidden){box.innerHTML=HELP[b.dataset.help];box.hidden=false;b.textContent="×";}
-  else{box.hidden=true;b.textContent="?";}
-});
-function actualizarModo(){
-  const proxy=$("#modo").value==="proxy";
-  $("#campoProxy").style.display=proxy?"":"none";
-  $("#tokenNota").textContent=proxy?"Con el proxy, el token vive en el Worker; este campo puede quedar vacío.":"En modo directo el token va en este campo (solo abriendo el archivo localmente).";
-}
+  b.setAttribute("aria-selected","true");document.querySelectorAll("section").forEach(s=>s.hidden=true);$("#tab-"+b.dataset.tab).hidden=false;});
+document.querySelectorAll(".help").forEach(b=>b.onclick=()=>{const box=$("#help-"+b.dataset.help);if(!box)return;
+  if(box.hidden){box.innerHTML=HELP[b.dataset.help];box.hidden=false;b.textContent="×";}else{box.hidden=true;b.textContent="?";}});
+function actualizarModo(){const proxy=$("#modo").value==="proxy";$("#campoProxy").style.display=proxy?"":"none";}
 $("#modo").onchange=actualizarModo;
 $("#btnSync").onclick=e=>sincronizar(e.target,false);
 $("#btnSync2").onclick=e=>sincronizar(e.target,false);
 $("#dSync").onclick=e=>sincronizar(e.target,false);
-$("#btnTest").onclick=async e=>{
-  const msg=$("#msgApi");msg.className="msg";e.target.disabled=true;
-  try{await apiCall("/competitions/WC");state.proxy=$("#proxyurl").value.trim()||state.proxy;guardar();
-    msg.className="msg ok";msg.textContent="Conexión OK. El Mundial responde correctamente.";
-  }catch(err){msg.className="msg err";msg.textContent=err.message;}
-  e.target.disabled=false;
-};
-$("#btnCopiar").onclick=()=>{navigator.clipboard.writeText(WORKER_CODE).then(()=>{
-  const m=$("#msgCopia");m.className="msg ok";m.textContent="Código copiado. Pegalo en tu Worker y dale Deploy.";setTimeout(()=>{m.className="msg";},4000);
-});};
+$("#btnOdds").onclick=e=>actualizarCuotas(e.target);
+$("#dOdds").onclick=e=>actualizarCuotas(e.target);
+$("#btnTest").onclick=async e=>{const msg=$("#msgApi");msg.className="msg";e.target.disabled=true;
+  try{await call("/fd","/competitions/WC","https://api.football-data.org/v4",{});state.proxy=$("#proxyurl").value.trim()||state.proxy;guardar();
+    msg.className="msg ok";msg.textContent="Conexión OK. El Mundial responde.";}catch(err){msg.className="msg err";msg.textContent=err.message;}e.target.disabled=false;};
+$("#btnCopiar").onclick=()=>{navigator.clipboard.writeText(WORKER_CODE).then(()=>{const m=$("#msgCopia");m.className="msg ok";m.textContent="Código copiado. Pegalo en tu Worker y Deploy.";setTimeout(()=>{m.className="msg";},4000);});};
 $("#btnManual").onclick=()=>{const f=$("#formManual");f.hidden=!f.hidden;};
-$("#btnGuardarManual").onclick=()=>{
-  const L=$("#mLocal").value,V=$("#mVis").value,msg=$("#msgManual");
+$("#btnGuardarManual").onclick=()=>{const L=$("#mLocal").value,V=$("#mVis").value,msg=$("#msgManual");
   if(L===V){msg.className="msg err";msg.textContent="Elegí dos equipos distintos.";return;}
-  state.results.push({id:"man"+Date.now(),local:L,vis:V,gl:+$("#mGL").value||0,gv:+$("#mGV").value||0,
-    fase:$("#mFase").value,fecha:$("#mFecha").value||hoyISO(),fuente:"manual"});
-  guardar();renderTodo();msg.className="msg ok";msg.textContent="Resultado guardado y tablas actualizadas.";
-};
+  state.results.push({id:"man"+Date.now(),local:L,vis:V,gl:+$("#mGL").value||0,gv:+$("#mGV").value||0,fase:$("#mFase").value,fecha:$("#mFecha").value||hoyISO(),fuente:"manual"});
+  guardar();renderTodo();msg.className="msg ok";msg.textContent="Resultado guardado y tablas actualizadas.";};
 function moverDia(n){const d=new Date($("#dFecha").value+"T12:00:00");d.setDate(d.getDate()+n);$("#dFecha").value=d.toLocaleDateString("sv");renderHoy();}
-$("#dPrev").onclick=()=>moverDia(-1);
-$("#dNext").onclick=()=>moverDia(1);
-$("#dHoy").onclick=()=>{$("#dFecha").value=hoyISO();renderHoy();};
-$("#dFecha").onchange=renderHoy;
+$("#dPrev").onclick=()=>moverDia(-1);$("#dNext").onclick=()=>moverDia(1);
+$("#dHoy").onclick=()=>{$("#dFecha").value=hoyISO();renderHoy();};$("#dFecha").onchange=renderHoy;
 $("#filtroGrupo").onchange=renderEquipos;$("#buscaEq").oninput=renderEquipos;
-$("#btnExport").onclick=()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});
-  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="mundial2026-datos.json";a.click();};
+/* pesos */
+function syncPesos(cambiado){
+  let A=+$("#rngA").value,B=+$("#rngB").value,C=+$("#rngC").value,tot=A+B+C;
+  if(tot===0){A=B=C=33;tot=99;}
+  const nA=Math.round(100*A/tot),nB=Math.round(100*B/tot),nC=100-nA-nB;
+  state.pesos={A:nA,B:nB,C:nC};
+  $("#wA").textContent=nA+"%";$("#wB").textContent=nB+"%";$("#wC").textContent=nC+"%";
+  $("#pesosNota").textContent="Suma normalizada a 100%. Actual: forma "+nA+"% · OddsPapi "+nB+"% · SportsGameOdds "+nC+"%.";
+  guardar();renderHoy();
+}
+["rngA","rngB","rngC"].forEach(id=>$("#"+id).oninput=()=>syncPesos(id));
+$("#btnExport").onclick=()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="mundial2026-datos.json";a.click();};
 $("#btnImport").onclick=()=>$("#fileImport").click();
 $("#fileImport").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();
-  r.onload=()=>{try{const s=JSON.parse(r.result);if(!Array.isArray(s.results))throw 0;
-      state=s;if(!Array.isArray(state.fixtures))state.fixtures=[];guardar();renderTodo();
-      $("#apikey").value=state.token||"";$("#proxyurl").value=state.proxy||"";$("#modo").value=state.modo||"proxy";actualizarModo();
-      $("#msgBackup").className="msg ok";$("#msgBackup").textContent="Datos importados.";
-    }catch{$("#msgBackup").className="msg err";$("#msgBackup").textContent="Ese archivo no parece un respaldo válido.";}};
+  r.onload=()=>{try{const s=JSON.parse(r.result);if(!Array.isArray(s.results))throw 0;state=normaliza(s);guardar();aplicarUI();renderTodo();
+      $("#msgBackup").className="msg ok";$("#msgBackup").textContent="Datos importados.";}catch{$("#msgBackup").className="msg err";$("#msgBackup").textContent="Archivo no válido.";}};
   r.readAsText(f);};
-$("#btnReset").onclick=()=>{if(confirm("¿Borrar todos los datos y volver al estado inicial?")){localStorage.removeItem(LS_KEY);
-  state={results:[...SEED],fixtures:[],token:DEFAULT_TOKEN,proxy:"",modo:"proxy",lastSync:null,lastFixSync:null,live:[]};guardar();location.reload();}};
+$("#btnReset").onclick=()=>{if(confirm("¿Borrar todos los datos y volver al inicio?")){localStorage.removeItem(LS_KEY);state=normaliza({results:[...SEED]});guardar();location.reload();}};
 
 /* ============ INIT ============ */
+function aplicarUI(){
+  $("#proxyurl").value=state.proxy||DEFAULT_PROXY;$("#modo").value=state.modo||"proxy";
+  $("#proxyShow").textContent=state.proxy||DEFAULT_PROXY;
+  $("#rngA").value=state.pesos.A;$("#rngB").value=state.pesos.B;$("#rngC").value=state.pesos.C;
+  $("#wA").textContent=state.pesos.A+"%";$("#wB").textContent=state.pesos.B+"%";$("#wC").textContent=state.pesos.C+"%";
+  $("#pesosNota").textContent="Actual: forma "+state.pesos.A+"% · OddsPapi "+state.pesos.B+"% · SportsGameOdds "+state.pesos.C+"%.";
+  actualizarModo();
+}
 (function(){
-  const opciones=Object.entries(TEAMS).sort((a,b)=>a[1].n.localeCompare(b[1].n))
-    .map(([id,t])=>'<option value="'+id+'">'+t.n+' ('+t.g+')</option>').join("");
+  const opciones=Object.entries(TEAMS).sort((a,b)=>a[1].n.localeCompare(b[1].n)).map(([id,t])=>'<option value="'+id+'">'+t.n+' ('+t.g+')</option>').join("");
   $("#mLocal").innerHTML=opciones;$("#mVis").innerHTML=opciones;
   $("#filtroGrupo").innerHTML+=GRUPOS.map(g=>'<option>'+g+'</option>').join("");
   $("#mFecha").value=hoyISO();$("#dFecha").value=hoyISO();
-  $("#apikey").value=state.token||"";$("#proxyurl").value=state.proxy||"";$("#modo").value=state.modo||"proxy";
   $("#workerCode").textContent=WORKER_CODE;
-  actualizarModo();renderTodo();
+  aplicarUI();renderTodo();
 })();
 </script>
 </body>
