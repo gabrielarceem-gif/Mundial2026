@@ -306,11 +306,11 @@ footer{margin-top:50px;border-top:1px solid var(--line);padding-top:14px;font-si
   <div class="h2row"><h2><span class="gl">//</span> Ajustes</h2></div>
   <div class="box">
     <h3 class="tt" style="margin-top:0">Pesos del modelo de 3 capas</h3>
-    <p class="note">Cuánto confía la predicción final en cada fuente. El mercado (cuotas) suele ser lo más fiable, por eso pesa más por defecto. Se ajustan solos para sumar 100%.</p>
+    <p class="note">Cuánto confía la predicción final en cada fuente. El mercado (OddsPapi) es lo más fiable, por eso pesa más. <b>Capa C (SportsGameOdds) está en 0% porque el Mundial requiere su plan pago</b> — si algún día lo activás, subí su slider. Se ajustan solos para sumar 100%.</p>
     <div class="pesos">
-      <div><label>Capa A · Tu modelo <b id="wA">20%</b></label><input type="range" id="rngA" min="0" max="100" value="20"></div>
-      <div><label>Capa B · OddsPapi <b id="wB">50%</b></label><input type="range" id="rngB" min="0" max="100" value="50"></div>
-      <div><label>Capa C · SportsGameOdds <b id="wC">30%</b></label><input type="range" id="rngC" min="0" max="100" value="30"></div>
+      <div><label>Capa A · Tu modelo <b id="wA">30%</b></label><input type="range" id="rngA" min="0" max="100" value="30"></div>
+      <div><label>Capa B · OddsPapi <b id="wB">70%</b></label><input type="range" id="rngB" min="0" max="100" value="70"></div>
+      <div><label>Capa C · SportsGameOdds <b id="wC">0%</b></label><input type="range" id="rngC" min="0" max="100" value="0"></div>
     </div>
     <p class="note" id="pesosNota" style="margin-top:8px"></p>
   </div>
@@ -416,7 +416,7 @@ const STAGE_ES={GROUP_STAGE:"Fase de grupos",LAST_32:"16avos",LAST_16:"Octavos",
 
 /* ============ AYUDAS ============ */
 const HELP={
- hoy:'<h5>¿Cómo se arma cada predicción? (3 capas)</h5>Cada barra combina tres fuentes: <b style="color:var(--lima)">Capa A</b> = tu modelo de forma (previa + torneo). <b style="color:var(--cian)">Capa B</b> = cuotas reales de OddsPapi (con Pinnacle de referencia). <b style="color:var(--violeta)">Capa C</b> = cuotas de SportsGameOdds. Se fusionan con los pesos que vos elegís en Ajustes (por defecto 20/50/30, el mercado pesa más porque es más fiable). El color sigue al resultado: <b style="color:var(--lima)">verde</b>=más probable, <b style="color:var(--amar)">amarillo</b>=empate, <b style="color:var(--rojo)">rojo</b>=menos probable. El "≈ 2-1" es un marcador estimado por promedios de goles. Tocá el <b>?</b> de cada partido para ver las 3 capas por separado y cómo se fusionan. Si no cargaste cuotas todavía, la predicción usa solo la Capa A.',
+ hoy:'<h5>¿Cómo se arma cada predicción? (3 capas)</h5>Cada barra combina tres fuentes: <b style="color:var(--lima)">Capa A</b> = tu modelo de forma (previa + torneo). <b style="color:var(--cian)">Capa B</b> = cuotas reales de OddsPapi (con Pinnacle de referencia). <b style="color:var(--violeta)">Capa C</b> = cuotas de SportsGameOdds (requiere su plan pago; si tu cuenta es free, esta capa queda en 0% y se usa OddsPapi). Se fusionan con los pesos que vos elegís en Ajustes (por defecto 20/50/30, el mercado pesa más porque es más fiable). El color sigue al resultado: <b style="color:var(--lima)">verde</b>=más probable, <b style="color:var(--amar)">amarillo</b>=empate, <b style="color:var(--rojo)">rojo</b>=menos probable. El "≈ 2-1" es un marcador estimado por promedios de goles. Tocá el <b>?</b> de cada partido para ver las 3 capas por separado y cómo se fusionan. Si no cargaste cuotas todavía, la predicción usa solo la Capa A.',
  grupos:'<h5>¿Cómo se ordena la tabla? (reglamento FIFA)</h5>La app ordena por: <b>1)</b> puntos (3 victoria, 1 empate), <b>2)</b> diferencia de goles general, <b>3)</b> goles a favor general. Avanzan <b>los 2 primeros de cada grupo + los 8 mejores terceros</b> (32 a 16avos).<br><br>El reglamento FIFA, si sigue el empate tras esos 3, continúa con enfrentamiento directo (puntos, diferencia y goles entre los igualados), luego fair-play (menos tarjetas) y por último sorteo. <b>Aviso honesto:</b> la app automatiza solo los 3 criterios principales; los desempates finos (head-to-head, fair-play) no están calculados porque el plan gratuito de Football-Data no trae tarjetas por partido de forma fiable. La franja verde marca la zona de clasificación directa (top 2).',
  resultados:'<h5>¿Qué es una sorpresa 🔥?</h5>Al cargar un resultado, lo comparo con lo que el modelo había estimado para ese cruce (usando solo partidos previos, sin "ver el futuro"). Si gana el equipo al que el modelo daba <b>menos del 35%</b>, lo marco con 🔥 y resalto la tarjeta en magenta. Es la forma de cazar batacazos.',
  equipos:'<h5>¿Qué significa cada métrica?</h5><b>En el Mundial</b> = lo hecho en el torneo (se actualiza con cada sync). <b>O2.5</b> = % de partidos con +2.5 goles. <b>BTTS</b> = % en que ambos marcaron. <b>Previa</b> = lo mismo de los meses ANTES del Mundial, para comparar expectativa vs realidad. <b>Borde:</b> <b style="color:var(--lima)">verde</b>=gran forma, <b style="color:var(--amar)">amarillo</b>=neutro, <b style="color:var(--rojo)">rojo</b>=alerta. El recuadro 🔥 es el dato más llamativo.',
@@ -439,7 +439,7 @@ function normaliza(s){
   s.fixtures=Array.isArray(s.fixtures)?s.fixtures:[];
   s.odds=s.odds&&typeof s.odds==="object"?s.odds:{};   /* {fixtureKey:{op:{H,D,A},sgo:{H,D,A},ts}} */
   s.proxy=s.proxy||DEFAULT_PROXY;s.modo=s.modo||"proxy";
-  s.pesos=s.pesos||{A:20,B:50,C:30};
+  s.pesos=s.pesos||{A:30,B:70,C:0};
   s.lastSync=s.lastSync||null;s.lastOdds=s.lastOdds||null;s.live=s.live||[];
   if(!Array.isArray(s.results))s.results=[...SEED];
   return s;
@@ -663,7 +663,11 @@ async function call(prefix,path,directHost,directHeaders){
   const res=await fetch(url,opts);
   if(res.status===429)throw new Error("Límite de consultas alcanzado. Esperá un poco.");
   if(res.status===403)throw new Error("403: token inválido o sin acceso a este recurso.");
-  if(!res.ok)throw new Error("La API respondió "+res.status+".");
+  if(!res.ok){
+    let detalle="";
+    try{const txt=await res.text();try{const j=JSON.parse(txt);detalle=j.error||j.message||j.details||txt.slice(0,160);}catch{detalle=txt.slice(0,160);}}catch{}
+    throw new Error(detalle?detalle:("La API respondió "+res.status+"."));
+  }
   const q=res.headers.get("X-RequestsAvailable")||res.headers.get("X-Requests-Remaining");
   if(q)$("#quotaInfo").textContent="Consultas restantes (Football-Data): "+q;
   return res.json();
@@ -704,33 +708,33 @@ function guardarOdds(L,V,fuente,H,D,A){
 async function actualizarCuotas(btn){
   const msg=$("#msgApi");msg.className="msg";if(btn){btn.disabled=true;btn.dataset.t=btn.textContent;btn.textContent="Trayendo cuotas…";}
   let nOP=0,nSGO=0,errs=[];
-  /* OddsPapi (estrategia oficial de la doc):
-     1) /tournaments?sportId=10 → hallar el tournamentId del Mundial
-     2) /odds-by-tournaments?bookmaker=pinnacle&tournamentIds=...&oddsFormat=decimal → fixtures + cuotas en UNA llamada (cuida el cupo)
-     Estructura 1X2 confirmada: bookmakerOdds.{casa}.markets["101"].outcomes["101"|"102"|"103"].players["0"].price (decimal). 101=local 102=empate 103=visitante. */
+  /* OddsPapi: el Mundial es tournamentId=16 (confirmado: slug "world-cup", International).
+     Estrategia de 2 llamadas para cuidar el cupo (250/mes):
+     1) /fixtures?tournamentId=16 → trae partidos CON nombres (participant1Name/participant2Name) + fixtureId
+     2) /odds-by-tournaments?tournamentIds=16 → trae cuotas por fixtureId (sin nombres)
+     Las cruzo por fixtureId. 1X2 en bookmakerOdds.{casa}.markets["101"].outcomes["101"|"102"|"103"].players["0"].price (decimal). */
   try{
-    const torneos=await call("/op","/tournaments?sportId=10","https://api.oddspapi.io/v4",{});
-    const listaT=Array.isArray(torneos)?torneos:(torneos.data||torneos.tournaments||[]);
-    const mundiales=listaT.filter(t=>/world cup/i.test(t.tournamentName||t.name||"")&&!/women|u-?\d|qualif|club/i.test(t.tournamentName||t.name||""));
-    if(!mundiales.length){
-      errs.push("OddsPapi: no encontré el torneo Mundial en /tournaments (de "+listaT.length+" torneos de fútbol)");
-    }else{
-      const ids=mundiales.map(t=>t.tournamentId).filter(Boolean).join(",");
-      const fx=await call("/op","/odds-by-tournaments?bookmaker=pinnacle&tournamentIds="+ids+"&oddsFormat=decimal","https://api.oddspapi.io/v4",{});
-      const arr=Array.isArray(fx)?fx:(fx.data||fx.fixtures||[]);
-      for(const f of arr){
-        if(!f.bookmakerOdds)continue;
-        const L=teamByName(f.participant1Name||f.participant1?.name),V=teamByName(f.participant2Name||f.participant2?.name);
-        if(!L||!V)continue;
-        /* primera casa con mercado 101 (Pinnacle de referencia) */
-        let src=null;for(const b of Object.values(f.bookmakerOdds)){if(b&&b.markets&&b.markets["101"]){src=b;break;}}
-        const m=src&&src.markets&&src.markets["101"];
-        if(m&&m.outcomes){const o=m.outcomes;
-          const H=o["101"]?.players?.["0"]?.price,D=o["102"]?.players?.["0"]?.price,A=o["103"]?.players?.["0"]?.price;
-          if(H&&D&&A){guardarOdds(L,V,"op",+H,+D,+A);nOP++;}}
-      }
-      if(!nOP&&arr.length)errs.push("OddsPapi: "+arr.length+" fixtures pero sin 1X2 parseable (revisar nombres de equipo)");
+    const WC_TID=16;
+    const fixturesResp=await call("/op","/fixtures?tournamentId="+WC_TID+"&hasOdds=true&bookmakers=pinnacle","https://api.oddspapi.io/v4",{});
+    const fixtures=Array.isArray(fixturesResp)?fixturesResp:(fixturesResp.data||fixturesResp.fixtures||[]);
+    const nombrePorId={};
+    for(const f of fixtures){const fid=f.fixtureId||f.id;if(fid)nombrePorId[fid]={l:f.participant1Name||f.participant1ShortName,v:f.participant2Name||f.participant2ShortName};}
+    const oddsResp=await call("/op","/odds-by-tournaments?tournamentIds="+WC_TID+"&bookmakers=pinnacle&oddsFormat=decimal","https://api.oddspapi.io/v4",{});
+    const conOdds=Array.isArray(oddsResp)?oddsResp:(oddsResp.data||oddsResp.fixtures||[]);
+    for(const f of conOdds){
+      if(!f.bookmakerOdds)continue;
+      const fid=f.fixtureId||f.id;
+      const nom=nombrePorId[fid]||{};
+      const L=teamByName(nom.l||f.participant1Name),V=teamByName(nom.v||f.participant2Name);
+      if(!L||!V)continue;
+      let src=null;for(const b of Object.values(f.bookmakerOdds)){if(b&&b.markets&&b.markets["101"]&&b.markets["101"].outcomes){src=b;break;}}
+      const m=src&&src.markets["101"];
+      if(m&&m.outcomes){const o=m.outcomes;
+        const H=o["101"]?.players?.["0"]?.price,D=o["102"]?.players?.["0"]?.price,A=o["103"]?.players?.["0"]?.price;
+        if(H&&D&&A){guardarOdds(L,V,"op",+H,+D,+A);nOP++;}}
     }
+    if(!nOP&&conOdds.length)errs.push("OddsPapi: "+conOdds.length+" partidos con cuotas pero no pude matchear equipos/1X2");
+    if(!conOdds.length)errs.push("OddsPapi: el Mundial (id 16) aún no tiene cuotas cargadas para Pinnacle");
   }catch(e){errs.push("OddsPapi: "+e.message);}
   /* SportsGameOdds: el Mundial está bajo leagueID=INTERNATIONAL_SOCCER (selecciones).
      oddID 1X2 confirmado en su doc: points-home-game-ml3way-home / points-all-game-ml3way-draw / points-away-game-ml3way-away.
@@ -748,7 +752,12 @@ async function actualizarCuotas(btn){
       const H=precio(oH),D=precio(oD),A=precio(oA);
       if(H&&D&&A){guardarOdds(L,V,"sgo",H,D,A);nSGO++;}
     }
-  }catch(e){errs.push("SportsGameOdds: "+e.message);}
+  }catch(e){
+    const msg=(e.message||"");
+    if(/subscription tier|unavailable|Upgrade to unlock/i.test(msg))
+      errs.push("SportsGameOdds: el Mundial requiere plan pago en tu cuenta (tu plan free no lo incluye). La app sigue con OddsPapi + tu modelo.");
+    else errs.push("SportsGameOdds: "+msg);
+  }
   state.lastOdds=Date.now();guardar();renderTodo();
   msg.className=(nOP+nSGO>0)?"msg ok":"msg err";
   msg.textContent="Cuotas actualizadas: OddsPapi "+nOP+" partido(s), SportsGameOdds "+nSGO+". "+(errs.length?"Avisos: "+errs.join(" · "):"")+" Abrí el ? de un partido para ver las 3 capas.";
