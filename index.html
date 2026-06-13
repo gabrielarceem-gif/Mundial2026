@@ -704,44 +704,48 @@ function guardarOdds(L,V,fuente,H,D,A){
 async function actualizarCuotas(btn){
   const msg=$("#msgApi");msg.className="msg";if(btn){btn.disabled=true;btn.dataset.t=btn.textContent;btn.textContent="Trayendo cuotas…";}
   let nOP=0,nSGO=0,errs=[];
-  /* OddsPapi: fixtures del Mundial con odds → mercado 101 (1X2) */
+  /* OddsPapi (estrategia oficial de la doc):
+     1) /tournaments?sportId=10 → hallar el tournamentId del Mundial
+     2) /odds-by-tournaments?bookmaker=pinnacle&tournamentIds=...&oddsFormat=decimal → fixtures + cuotas en UNA llamada (cuida el cupo)
+     Estructura 1X2 confirmada: bookmakerOdds.{casa}.markets["101"].outcomes["101"|"102"|"103"].players["0"].price (decimal). 101=local 102=empate 103=visitante. */
   try{
-    const hoy=hoyISO();const d2=new Date();d2.setDate(d2.getDate()+9);const to=d2.toLocaleDateString("sv");
-    const fx=await call("/op","/fixtures?sportId=10&from="+hoy+"&to="+to,"https://api.oddspapi.io/v4",{});
-    const arr=Array.isArray(fx)?fx:(fx.data||fx.fixtures||fx.results||[]);
-    const wc=arr.filter(f=>{const tn=(f.tournamentName||f.tournament||"");return /world cup/i.test(tn)&&(f.hasOdds!==false);});
-    if(!wc.length&&arr.length)errs.push("OddsPapi: trajo "+arr.length+" fixtures pero ninguno del Mundial (revisar tournamentName)");
-    for(const f of wc.slice(0,10)){ /* límite para cuidar cupo (250/mes) */
-      const L=teamByName(f.participant1Name||f.homeName),V=teamByName(f.participant2Name||f.awayName);if(!L||!V)continue;
-      const fid=f.fixtureId||f.id;if(!fid)continue;
-      try{const od=await call("/op","/odds?fixtureId="+fid+"&bookmakers=pinnacle,bet365,draftkings","https://api.oddspapi.io/v4",{});
-        const books=od.bookmakerOdds||od.odds||{};
-        /* preferimos Pinnacle; si no, la primera casa con mercado 101 */
-        let src=books.pinnacle;
-        if(!src||!src.markets||!src.markets["101"]){for(const b of Object.values(books)){if(b&&b.markets&&b.markets["101"]){src=b;break;}}}
+    const torneos=await call("/op","/tournaments?sportId=10","https://api.oddspapi.io/v4",{});
+    const listaT=Array.isArray(torneos)?torneos:(torneos.data||torneos.tournaments||[]);
+    const mundiales=listaT.filter(t=>/world cup/i.test(t.tournamentName||t.name||"")&&!/women|u-?\d|qualif|club/i.test(t.tournamentName||t.name||""));
+    if(!mundiales.length){
+      errs.push("OddsPapi: no encontré el torneo Mundial en /tournaments (de "+listaT.length+" torneos de fútbol)");
+    }else{
+      const ids=mundiales.map(t=>t.tournamentId).filter(Boolean).join(",");
+      const fx=await call("/op","/odds-by-tournaments?bookmaker=pinnacle&tournamentIds="+ids+"&oddsFormat=decimal","https://api.oddspapi.io/v4",{});
+      const arr=Array.isArray(fx)?fx:(fx.data||fx.fixtures||[]);
+      for(const f of arr){
+        if(!f.bookmakerOdds)continue;
+        const L=teamByName(f.participant1Name||f.participant1?.name),V=teamByName(f.participant2Name||f.participant2?.name);
+        if(!L||!V)continue;
+        /* primera casa con mercado 101 (Pinnacle de referencia) */
+        let src=null;for(const b of Object.values(f.bookmakerOdds)){if(b&&b.markets&&b.markets["101"]){src=b;break;}}
         const m=src&&src.markets&&src.markets["101"];
         if(m&&m.outcomes){const o=m.outcomes;
           const H=o["101"]?.players?.["0"]?.price,D=o["102"]?.players?.["0"]?.price,A=o["103"]?.players?.["0"]?.price;
-          if(H&&D&&A){guardarOdds(L,V,"op",H,D,A);nOP++;}}
-      }catch(e){/* un partido falla, sigo con los demás */}
+          if(H&&D&&A){guardarOdds(L,V,"op",+H,+D,+A);nOP++;}}
+      }
+      if(!nOP&&arr.length)errs.push("OddsPapi: "+arr.length+" fixtures pero sin 1X2 parseable (revisar nombres de equipo)");
     }
   }catch(e){errs.push("OddsPapi: "+e.message);}
-  /* SportsGameOdds: el Mundial está bajo leagueID=INTERNATIONAL_SOCCER (selecciones) */
+  /* SportsGameOdds: el Mundial está bajo leagueID=INTERNATIONAL_SOCCER (selecciones).
+     oddID 1X2 confirmado en su doc: points-home-game-ml3way-home / points-all-game-ml3way-draw / points-away-game-ml3way-away.
+     Precio en bookOdds (consenso con juice) o fairOdds (sin vig), en formato americano string. */
   try{
-    const ev=await call("/sgo","/events?leagueID=INTERNATIONAL_SOCCER&oddsAvailable=true&limit=40","https://api.sportsgameodds.com/v2",{});
+    const oddIDs="points-home-game-ml3way-home,points-all-game-ml3way-draw,points-away-game-ml3way-away";
+    const ev=await call("/sgo","/events?leagueID=INTERNATIONAL_SOCCER&oddsAvailable=true&oddID="+encodeURIComponent(oddIDs)+"&limit=50","https://api.sportsgameodds.com/v2",{});
     const lista=ev.data||[];
     for(const e of lista){
       const L=teamByName(e.teams?.home?.names?.long||e.teams?.home?.names?.medium||e.teams?.home?.name),
             V=teamByName(e.teams?.away?.names?.long||e.teams?.away?.names?.medium||e.teams?.away?.name);
       if(!L||!V||!e.odds)continue;
-      /* oddID 1X2: points-all-game-ml-{home|draw|away}. Tomo bookOdds (consenso) o fairOdds, en formato americano */
-      let H,D,A;
-      for(const[k,v]of Object.entries(e.odds)){
-        if(!/-ml-(home|draw|away)$/.test(k))continue;
-        const raw=v.bookOdds??v.fairOdds??v.odds;if(raw==null)continue;
-        const dec=amerToDec(raw);if(!dec)continue;
-        if(k.endsWith("-ml-home"))H=dec;else if(k.endsWith("-ml-draw"))D=dec;else if(k.endsWith("-ml-away"))A=dec;
-      }
+      const oH=e.odds["points-home-game-ml3way-home"],oD=e.odds["points-all-game-ml3way-draw"],oA=e.odds["points-away-game-ml3way-away"];
+      const precio=o=>{if(!o)return null;const raw=o.bookOdds??o.fairOdds;return raw!=null?amerToDec(raw):null;};
+      const H=precio(oH),D=precio(oD),A=precio(oA);
       if(H&&D&&A){guardarOdds(L,V,"sgo",H,D,A);nSGO++;}
     }
   }catch(e){errs.push("SportsGameOdds: "+e.message);}
@@ -754,30 +758,64 @@ function amerToDec(p){p=Number(p);if(!p)return null;if(p>0)return +(p/100+1).toF
 
 /* ============ WORKER CODE (para repegar) ============ */
 const WORKER_CODE=
-"export default {\n  async fetch(request) {\n"+
+"export default {\n"+
+"  async fetch(request) {\n"+
 "    const TOKEN_FD = \"9628d8ae51c14a0a88a6d90747b42320\";\n"+
 "    const KEY_ODDSPAPI = \"8b5baf99-09ed-4d73-ab3a-52ee58e45f37\";\n"+
 "    const KEY_SGO = \"65bb6c74828fcd3af23a4be11869e551\";\n"+
-"    const ALLOWED = [\"https://gabrielarceem.github.io\"];\n"+
+"    // OJO: tu dominio de GitHub Pages lleva \"-gif\"\n"+
+"    const ALLOWED = [\"https://gabrielarceem-gif.github.io\"];\n"+
 "    const origin = request.headers.get(\"Origin\") || \"\";\n"+
 "    const allowOrigin = ALLOWED.includes(origin) ? origin : ALLOWED[0];\n"+
 "    const cors = { \"Access-Control-Allow-Origin\": allowOrigin, \"Access-Control-Allow-Headers\": \"*\" };\n"+
 "    if (request.method === \"OPTIONS\") return new Response(null, { headers: cors });\n"+
-"    const url = new URL(request.url); const path = url.pathname; const qs = url.search;\n"+
-"    const cache = caches.default; const hit = await cache.match(request); if (hit) return hit;\n"+
+"    const url = new URL(request.url);\n"+
+"    const path = url.pathname;\n"+
+"    const qs = url.search;\n"+
 "    let target, headers = {}, maxAge = 30;\n"+
-"    if (path.startsWith(\"/fd/\")) { target = \"https://api.football-data.org/v4\" + path.slice(3) + qs; headers = { \"X-Auth-Token\": TOKEN_FD }; maxAge = 30; }\n"+
-"    else if (path.startsWith(\"/op/\")) { const sep = qs ? \"&\" : \"?\"; target = \"https://api.oddspapi.io/v4\" + path.slice(3) + qs + sep + \"apiKey=\" + KEY_ODDSPAPI; maxAge = 900; }\n"+
-"    else if (path.startsWith(\"/sgo/\")) { target = \"https://api.sportsgameodds.com/v2\" + path.slice(4) + qs; headers = { \"X-Api-Key\": KEY_SGO }; maxAge = 900; }\n"+
-"    else return new Response(JSON.stringify({ error: \"ruta no reconocida\" }), { status: 404, headers: { ...cors, \"Content-Type\": \"application/json\" } });\n"+
-"    let upstream;\n    try { upstream = await fetch(target, { headers }); }\n"+
-"    catch (e) { return new Response(JSON.stringify({ error: \"upstream: \" + e.message }), { status: 502, headers: { ...cors, \"Content-Type\": \"application/json\" } }); }\n"+
+"    if (path.startsWith(\"/fd/\")) {\n"+
+"      target = \"https://api.football-data.org/v4\" + path.slice(3) + qs;\n"+
+"      headers = { \"X-Auth-Token\": TOKEN_FD };\n"+
+"      maxAge = 30;\n"+
+"    } else if (path.startsWith(\"/op/\")) {\n"+
+"      const sep = qs ? \"&\" : \"?\";\n"+
+"      target = \"https://api.oddspapi.io/v4\" + path.slice(3) + qs + sep + \"apiKey=\" + KEY_ODDSPAPI;\n"+
+"      maxAge = 600;\n"+
+"    } else if (path.startsWith(\"/sgo/\")) {\n"+
+"      target = \"https://api.sportsgameodds.com/v2\" + path.slice(4) + qs;\n"+
+"      headers = { \"X-Api-Key\": KEY_SGO };\n"+
+"      maxAge = 600;\n"+
+"    } else {\n"+
+"      return new Response(JSON.stringify({ error: \"ruta no reconocida: usa /fd/ /op/ /sgo/\" }), { status: 404, headers: { ...cors, \"Content-Type\": \"application/json\" } });\n"+
+"    }\n"+
+"    // cache solo lo bueno\n"+
+"    const cache = caches.default;\n"+
+"    const cacheKey = new Request(request.url, { method: \"GET\" });\n"+
+"    const hit = await cache.match(cacheKey);\n"+
+"    if (hit) return hit;\n"+
+"    let upstream;\n"+
+"    try {\n"+
+"      upstream = await fetch(target, { headers });\n"+
+"    } catch (e) {\n"+
+"      return new Response(JSON.stringify({ error: \"no pude conectar al origen: \" + e.message, target: target.split(\"?\")[0] }), { status: 502, headers: { ...cors, \"Content-Type\": \"application/json\" } });\n"+
+"    }\n"+
 "    const body = await upstream.text();\n"+
-"    const res = new Response(body, { status: upstream.status, headers: { ...cors, \"Content-Type\": \"application/json\",\n"+
-"      \"X-RequestsAvailable\": upstream.headers.get(\"X-RequestsAvailable\") || \"\",\n"+
-"      \"X-Requests-Remaining\": upstream.headers.get(\"x-requests-remaining\") || \"\",\n"+
-"      \"Cache-Control\": \"public, max-age=\" + maxAge } });\n"+
-"    if (upstream.ok) await cache.put(request, res.clone());\n    return res;\n  }\n};";
+"    const res = new Response(body, {\n"+
+"      status: upstream.status,\n"+
+"      headers: {\n"+
+"        ...cors,\n"+
+"        \"Content-Type\": \"application/json\",\n"+
+"        \"X-RequestsAvailable\": upstream.headers.get(\"X-RequestsAvailable\") || \"\",\n"+
+"        \"X-Requests-Remaining\": upstream.headers.get(\"x-requests-remaining\") || \"\",\n"+
+"        \"Cache-Control\": \"public, max-age=\" + maxAge\n"+
+"      }\n"+
+"    });\n"+
+"    if (upstream.ok) {\n"+
+"      try { await cache.put(cacheKey, res.clone()); } catch (e) {}\n"+
+"    }\n"+
+"    return res;\n"+
+"  }\n"+
+"};";
 
 /* ============ EVENTOS ============ */
 document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{
